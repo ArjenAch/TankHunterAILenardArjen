@@ -44,6 +44,7 @@ namespace TankHunterAiLenardArjen
                     data[i] = Color.White;
 
                 rectTex.SetData(data);
+                var position = v.ToVector2();
                 spriteBatch.Begin();
                 spriteBatch.Draw(rectTex, position, Color.White);
                 spriteBatch.End();
