@@ -11,6 +11,7 @@ namespace TankHunterAiLenardArjen
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        World world;
 
         public Game1()
         {
@@ -27,7 +28,7 @@ namespace TankHunterAiLenardArjen
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+           world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             base.Initialize();
         }
 
@@ -74,6 +75,8 @@ namespace TankHunterAiLenardArjen
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            world.Draw(spriteBatch, graphics.GraphicsDevice);
+            
 
             // TODO: Add your drawing code here
 
