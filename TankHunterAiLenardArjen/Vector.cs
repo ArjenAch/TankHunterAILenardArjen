@@ -39,7 +39,7 @@ namespace TankHunterAiLenardArjen
             return vector;
         }
 
-        internal static Vector Normalize(Vector velocity)
+        internal static Vector Normalize(Vector velocity) //http://www.fundza.com/vectors/normalize/
         {
             float length = velocity.LengthSq();
             velocity.X = velocity.X / length;
@@ -47,7 +47,7 @@ namespace TankHunterAiLenardArjen
             return velocity;
         }
 
-        public Vector Perp()
+        public Vector Perp() //https://gamedev.stackexchange.com/questions/70075/how-can-i-find-the-perpendicular-to-a-2d-vector
         {
             Vector v = new Vector(Y, -X);
             return v;

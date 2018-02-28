@@ -10,9 +10,9 @@ namespace TankHunterAiLenardArjen
     {
         private World gameWorld;
         // private List<SteeringBehaviours> steering;
-        public  Vehicle()
+        public  Vehicle(World world)
         {
-
+            gameWorld = world;
         }
         public override void Render()
         {
@@ -32,7 +32,7 @@ namespace TankHunterAiLenardArjen
                 Heading = Vector.Normalize(Velocity);
                 Side = Heading.Perp();
             }
-
+            
         }
     }
 }
