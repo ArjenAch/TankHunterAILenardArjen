@@ -8,37 +8,14 @@ namespace TankHunterAiLenardArjen
 {
     public abstract class MovingEntity : BaseGameEntity
     {
-        public override abstract void  Update(int timeElapsed);
+        public override abstract void Update(int timeElapsed);
         public override abstract void Render();
-
-        public Vector Velocity()
-        {
-            throw new NotImplementedException();
-        }
-
-        public float Mass()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Vector Heading()
-        {
-            throw new NotImplementedException();
-        }
-
-        public float MaxSpeed()
-        {
-            throw new NotImplementedException();
-        }
-
-        public float MaxForce()
-        {
-            throw new NotImplementedException();
-        }
-
-        public float MaxTurnRate()
-        {
-            throw new NotImplementedException();
-        }
+        protected Vector Velocity { get; set; }
+        protected float Mass { get; }
+        protected Vector Heading { get; set; }
+        protected Vector Side { get; set; }
+        protected float MaxSpeed { get; }
+        protected float MaxForce { get; }
+        protected float MaxTurnRate { get; }
     }
 }

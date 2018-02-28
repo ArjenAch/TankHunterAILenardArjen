@@ -10,22 +10,10 @@ namespace TankHunterAiLenardArjen
     {
         public abstract void Update(int timeElapsed);
         public abstract void Render();
-        public int ID()
-        {
-            throw new NotImplementedException();
-        }
-        public Vector Position()
-        {
-            throw new NotImplementedException();
-        }
-        public float Scale()
-        {
-            throw new NotImplementedException();
-        }
-        public float Bradius()
-        {
-            throw new NotImplementedException();
-        }
+        public int ID { get; }
+        public Vector Position { get; set; }
+        public float Scale { get; }
+        public float Bradius { get; }
 
     }
 }
