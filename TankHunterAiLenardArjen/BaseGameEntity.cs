@@ -15,5 +15,10 @@ namespace TankHunterAiLenardArjen
         public float Scale { get; }
         public float Bradius { get; }
 
+        public BaseGameEntity(Vector position)
+        {
+            Position = position;
+        }
+
     }
 }

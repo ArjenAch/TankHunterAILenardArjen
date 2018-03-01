@@ -18,8 +18,6 @@ namespace TankHunterAiLenardArjen
             Y = y;
         }
 
-        
-
         public  Vector2 ToVector2()
         {
             Vector2 vector = new Vector2(X, Y);
@@ -29,13 +27,6 @@ namespace TankHunterAiLenardArjen
         public Vector ToVector(Vector2 v)
         {
             Vector vector = new Vector(v.X, v.Y);
-            return vector;
-        }
-
-        public static Vector operator/(Vector vector, float f)
-        {
-            vector.X = vector.X / f;
-            vector.Y = vector.Y / f;
             return vector;
         }
 
@@ -72,7 +63,15 @@ namespace TankHunterAiLenardArjen
             }
         }
 
+        #region operator overloaders
         public static Vector operator * (Vector vector, int t)
+        {
+            vector.X = vector.X * t;
+            vector.Y = vector.Y * t;
+            return vector;
+        }
+
+        public static Vector operator *(Vector vector, float t)
         {
             vector.X = vector.X * t;
             vector.Y = vector.Y * t;
@@ -85,6 +84,21 @@ namespace TankHunterAiLenardArjen
             vector.Y = vector.Y + vector2.Y;
             return vector;
         }
+
+        public static Vector operator -(Vector vector, Vector vector2)
+        {
+            vector.X = vector.X - vector2.X;
+            vector.Y = vector.Y - vector2.Y;
+            return vector;
+        }
+
+        public static Vector operator /(Vector vector, float f)
+        {
+            vector.X = vector.X / f;
+            vector.Y = vector.Y / f;
+            return vector;
+        }
+        #endregion
 
 
     }

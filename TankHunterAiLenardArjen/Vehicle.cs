@@ -9,10 +9,12 @@ namespace TankHunterAiLenardArjen
     public class Vehicle : MovingEntity
     {
         private World gameWorld;
-        // private List<SteeringBehaviours> steering;
-        public  Vehicle(World world)
+        public SteeringBehavioursController steering;
+
+        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
         {
-            gameWorld = world;
+            this.gameWorld = gameWorld;
+            this.steering = new SteeringBehavioursController();
         }
         public override void Render()
         {
@@ -21,9 +23,9 @@ namespace TankHunterAiLenardArjen
 
         public override void Update(int timeElapsed)
         {
-            Vector steeringForce = steering.Calulate();
-            Vector acceleratioin = steeringForce / Mass;
-            Velocity += acceleratioin * timeElapsed;
+            Vector steeringForce = steering.Calculate(this);
+            Vector acceleration = steeringForce / Mass;
+            Velocity += acceleration * timeElapsed;
             Velocity.Truncate(MaxSpeed);
             Position += Velocity * timeElapsed;
 
