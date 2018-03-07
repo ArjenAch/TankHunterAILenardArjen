@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankHunterAiLenardArjen
 {
-    public abstract class MovingEntity : BaseGameEntity
+    public abstract class MovingEntity : BaseGameEntity //Chapter 3 pg 89
     {
         protected MovingEntity(float mass,  Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(position)
         {

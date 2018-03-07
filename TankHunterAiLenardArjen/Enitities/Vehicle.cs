@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TankHunterAiLenardArjen
 {
-    public class Vehicle : MovingEntity
+    public class Vehicle : MovingEntity //Chapter 3 pg 89
     {
         private World gameWorld;
         public SteeringBehavioursController steering;
