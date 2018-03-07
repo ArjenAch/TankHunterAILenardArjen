@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,11 @@ namespace TankHunterAiLenardArjen
     {
         private World gameWorld;
         public SteeringBehavioursController steering;
+        public Texture2D Texture;
 
-        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
+        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
         {
+            this.Texture = texture;
             this.gameWorld = gameWorld;
             this.steering = new SteeringBehavioursController();
         }

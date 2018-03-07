@@ -19,6 +19,7 @@ namespace TankHunterAiLenardArjen
             //currentLevel = level;
             GridPoints = new List<Vector>();
             GenerateGrid(levelWidth, levelHeight);
+            AddPlayer();
             AddTank();
         }
 
@@ -35,14 +36,14 @@ namespace TankHunterAiLenardArjen
 
         private void AddTank()
         {
-            Vehicle tank = new Vehicle(this);
-            tank.steering.SetTarget(player.position);
-            tank.steering.Seek = true;
+            //Vehicle tank = new Vehicle(this);
+            //tank.steering.SetTarget(player.position);
+            //tank.steering.Seek = true;
         }
 
         private void AddPlayer()
         {
-            player = new Player();
+            //player = new Player();
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
