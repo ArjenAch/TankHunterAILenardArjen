@@ -9,6 +9,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
     public class CellSpacePartition // Chapter 3 pg 127
     {
         private List<int> neighbors;
+        public List<BaseGameEntity> EntitiesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
         private double worldWidth;
         private double worldHeight;
@@ -24,6 +25,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             this.cellSize = cellSize;
             totalNumberOfCells = numberOfCellsHeight * numberOfCellsWidth;
             neighbors = new List<int>(totalNumberOfCells);
+            EntitiesInRange = new List<BaseGameEntity>();
             GenerateGrid();
         }
 
@@ -126,34 +128,19 @@ namespace TankHunterAiLenardArjen.Worldstructure
                 start++;
             }
             #endregion
+            EntitiesInRange.Clear();
+            Cell oldValue;
+            foreach (int id in neighbors)
+            {
+                Grid.TryGetValue(id, out oldValue);
 
-            //TODO add all members from cell to list if they are within radius...
-
-
-
-            ////Adds entity's cell to list
-
-
-            ////Add al cells within the basic radius
-
-
-            //if (entity.InCell.Position.Y > entity.Position.Y)
-            //{
-
-            //}
-            //else
-            //{
-
-            //}
-
-            //if (entity.InCell.Position.X > entity.Position.X)
-            //{
-
-            //}
-            //else
-            //{
-
-            //}
+                foreach(BaseGameEntity member in oldValue.Members)
+                {
+                    //TODO: Check correctness if statement
+                    if(member.Position.X -  radius <= entity.Position.X  && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
+                        EntitiesInRange.Add(member);
+                }
+            }
         }
     }
 }
