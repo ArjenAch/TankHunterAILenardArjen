@@ -10,7 +10,7 @@ namespace TankHunterAiLenardArjen
 {
     public class Tank : Vehicle
     {
-        private TankState State { get; set; }
+        private ITankState State { get; set; }
 
         private Texture2D tankTop;
         private float angleTankTop;
@@ -24,9 +24,9 @@ namespace TankHunterAiLenardArjen
             this.State = new TankPatrol();
         }
 
-        public override void Render()
+        public override void Render(SpriteBatch spriteBatch)
         {
-            base.Render();
+
         }
 
         public override void Update(int timeElapsed)
@@ -35,7 +35,7 @@ namespace TankHunterAiLenardArjen
             State.Execute(this);
         }
 
-        public void ChangeState(TankState newState)
+        public void ChangeState(ITankState newState)
         {
             State.Exit(this);
             State = newState;

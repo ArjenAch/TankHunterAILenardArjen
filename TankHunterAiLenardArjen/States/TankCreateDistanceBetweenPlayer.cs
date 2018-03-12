@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankHunterAiLenardArjen.States
 {
-    public class TankCreateDistanceBetweenPlayer : TankState
+    public class TankCreateDistanceBetweenPlayer : ITankState
     {
         public void Enter(Tank tank)
         {

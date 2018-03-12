@@ -12,14 +12,12 @@ namespace TankHunterAiLenardArjen
     public class World
     {
         public List<Vector> GridPoints { get; }
-        private Player player;
 
         public World(int levelWidth, int levelHeight)
         {
             //currentLevel = level;
             GridPoints = new List<Vector>();
             GenerateGrid(levelWidth, levelHeight);
-            AddPlayer();
             AddTank();
         }
 
@@ -39,11 +37,6 @@ namespace TankHunterAiLenardArjen
             //Vehicle tank = new Vehicle(this);
             //tank.steering.SetTarget(player.position);
             //tank.steering.Seek = true;
-        }
-
-        private void AddPlayer()
-        {
-            //player = new Player();
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)

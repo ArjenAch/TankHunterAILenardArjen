@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace TankHunterAiLenardArjen
         }
 
         public override abstract void Update(int timeElapsed);
-        public override abstract void Render();
+        public override abstract void Render(SpriteBatch spriteBatch);
         public Vector Velocity { get; set; }
         protected float Mass { get; }
         protected Vector Heading { get; set; }

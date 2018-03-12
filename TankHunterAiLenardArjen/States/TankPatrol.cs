@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankHunterAiLenardArjen.States
 {
-    public class TankPatrol : TankState
+    public class TankPatrol : ITankState
     {
         public void Enter(Tank tank)
         {

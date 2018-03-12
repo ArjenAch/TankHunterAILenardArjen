@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankHunterAiLenardArjen.States
 {
-    public interface TankState
+    public interface ITankState
     {
         // Called directly after a state has changed
         void Enter(Tank tank);
