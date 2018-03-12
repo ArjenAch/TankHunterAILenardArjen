@@ -18,7 +18,6 @@ namespace TankHunterAiLenardArjen
         public World(int levelWidth, int levelHeight)
         {
             GridLogic = new CellSpacePartition(300, 300, 50);
-            AddPlayer();
             AddTank();
         }
 
@@ -27,11 +26,6 @@ namespace TankHunterAiLenardArjen
             //Vehicle tank = new Vehicle(this);
             //tank.steering.SetTarget(player.position);
             //tank.steering.Seek = true;
-        }
-
-        private void AddPlayer()
-        {
-            //player = new Player();
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)

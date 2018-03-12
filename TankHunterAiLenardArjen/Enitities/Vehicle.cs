@@ -19,7 +19,7 @@ namespace TankHunterAiLenardArjen
             this.gameWorld = gameWorld;
             this.steering = new SteeringBehavioursController();
         }
-        public override void Render()
+        public override void Render(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
         }

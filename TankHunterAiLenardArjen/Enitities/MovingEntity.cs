@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace TankHunterAiLenardArjen
 {
@@ -20,7 +23,7 @@ namespace TankHunterAiLenardArjen
         }
 
         public override abstract void Update(int timeElapsed);
-        public override abstract void Render();
+        public override abstract void Render(SpriteBatch spriteBatch);
         public Vector Velocity { get; set; }
         protected float Mass { get; }
         protected Vector Heading { get; set; }
