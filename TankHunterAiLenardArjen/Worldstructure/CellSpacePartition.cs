@@ -8,14 +8,13 @@ namespace TankHunterAiLenardArjen.Worldstructure
 {
     public class CellSpacePartition // Chapter 3 pg 127
     {
-        private List<Cell> neighbors;
+        public List<Cell> Neighbors { get; }
         public List<BaseGameEntity> EntitiesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
         private double worldWidth;
         private double worldHeight;
         private int cellSize;
         private int numberOfCellsHeight;
-        private int numberOfCellsWidth;
         private int totalNumberOfCells;
 
         public CellSpacePartition(double worldWidth, double worldHeight, int cellSize)
@@ -23,8 +22,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
             this.worldWidth = worldWidth;
             this.worldHeight = worldHeight;
             this.cellSize = cellSize;
-            totalNumberOfCells = numberOfCellsHeight * numberOfCellsWidth;
-            neighbors = new List<Cell>(totalNumberOfCells);
+            Grid = new Dictionary<int, Cell>();
+            Neighbors = new List<Cell>();
             EntitiesInRange = new List<BaseGameEntity>();
             GenerateGrid();
             GenerateEdges();
@@ -39,32 +38,32 @@ namespace TankHunterAiLenardArjen.Worldstructure
         private void GenerateGrid()
         {
             int incrementId = 0;
-            for (int i = 0; i < worldWidth; i += cellSize)
+            for (int i = (cellSize / 2); i < worldWidth; i += cellSize)
             {
-                for (int j = 0; j < worldHeight; j += cellSize)
+                for (int j = (cellSize / 2); j < worldHeight; j += cellSize)
                 {
                     Grid.Add(incrementId, new Cell(new Vector(i, j), incrementId));
                     incrementId++;
                 }
 
-                if (i == 0)
+                if (i == (cellSize / 2))
                 {
-                    numberOfCellsHeight = incrementId + 1;
+                    numberOfCellsHeight = incrementId;
                 }
             }
 
-            numberOfCellsWidth = (incrementId + 1) / numberOfCellsHeight;
+            totalNumberOfCells = incrementId + 1;
         }
 
         private void GenerateEdges()
         {
-            for( int i = 0; i < totalNumberOfCells; i++)
+            for (int i = 0; i < totalNumberOfCells - 1; i++)
             {
-                CalculateNeighborCells(Grid[i],cellSize); // calculate direct neighbors
+                CalculateNeighborCells(Grid[i], cellSize); // calculate direct neighbors
 
-                foreach(Cell cell in neighbors)
+                foreach (Cell cell in Neighbors)
                 {
-                    Grid[i].Adjecent.Add(new Edge(Grid[i],cell));
+                    Grid[i].Adjecent.Add(new Edge(Grid[i], cell));
                 }
             }
         }
@@ -81,7 +80,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
         //Calculates cell id based on entity position
         private int CalculateCell(Vector position)
         {
-            int cellValue = (int)((position.X / cellSize) * numberOfCellsHeight + (position.Y / cellSize)); 
+            int cellDiv = (int)position.X / cellSize;
+            int cellValue = (int)((cellDiv * numberOfCellsHeight) + (position.Y / cellSize));
             return cellValue;
         }
 
@@ -104,32 +104,35 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
         public void CalculateNeighborCells(Cell center, int radius)
         {
-            neighbors.Clear();
+            Neighbors.Clear();
             int basicRadius = radius / cellSize;
             int rest = radius % cellSize;
-            if (rest > (cellSize/2)) // slightly larger range than cell(s)
+            if (rest > (cellSize / 2)) // slightly larger range than cell(s)
                 basicRadius++;
 
             Vector currentVector = new Vector(center.Position.X - radius, center.Position.Y - radius);
             Vector finishVector = new Vector(center.Position.X + radius, center.Position.Y + radius);
-            Vector tmp = currentVector;
+            Vector tmp = new Vector(currentVector.X, currentVector.Y);
             int cellValue = -1;
 
 
-            for (float i = currentVector.X; i < finishVector.X; i += cellSize)
+            for (float i = currentVector.X; i <= finishVector.X; i += cellSize)
             {
-                for (float j = currentVector.Y; j < finishVector.Y; j += cellSize)
+                for (float j = currentVector.Y; j <= finishVector.Y; j += cellSize)
                 {
-                   if(j > worldHeight)
+                    if (j > worldHeight)
                     {
                         break;
                     }
                     tmp.X = i;
                     tmp.Y = j;
-                    cellValue = CalculateCell(tmp);
-                    if(!(cellValue < 0 || cellValue > totalNumberOfCells))
+                    if (!(i < 0 || j < 0))
                     {
-                        neighbors.Add(Grid[cellValue]);
+                        cellValue = CalculateCell(tmp);
+                        if (!(cellValue < 0 || cellValue >= totalNumberOfCells - 1))
+                        {
+                            Neighbors.Add(Grid[cellValue]);
+                        }
                     }
                 }
                 if (i > worldWidth)
@@ -176,13 +179,13 @@ namespace TankHunterAiLenardArjen.Worldstructure
             CalculateNeighborCells(entity.InCell, radius);
             EntitiesInRange.Clear();
 
-            foreach (Cell cell in neighbors)
+            foreach (Cell cell in Neighbors)
             {
 
-                foreach(BaseGameEntity member in cell.Members)
+                foreach (BaseGameEntity member in cell.Members)
                 {
                     //TODO: Check correctness if statement
-                    if(member.Position.X -  radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
+                    if (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
                         EntitiesInRange.Add(member);
                 }
             }

@@ -11,14 +11,14 @@ namespace TankHunterAiLenardArjen
     {
         Texture2D playerTexture;
 
-        protected Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
             playerTexture = texture;
         }
 
         public override void Render()
         {
-            throw new NotImplementedException();
+           
         }
 
         public override void Update(int timeElapsed)

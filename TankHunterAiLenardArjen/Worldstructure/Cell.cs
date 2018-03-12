@@ -16,6 +16,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
         public Cell (Vector pos, int id)
         {
+            Adjecent = new List<Edge>();
+            Members = new List<BaseGameEntity>();
             Position = pos;
             ID = id;
         }
