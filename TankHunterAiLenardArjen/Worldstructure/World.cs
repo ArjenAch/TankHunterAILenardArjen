@@ -6,32 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TankHunterAiLenardArjen.Worldstructure;
 
 namespace TankHunterAiLenardArjen
 {
     public class World
     {
-        public List<Vector> GridPoints { get; }
         private Player player;
+        public CellSpacePartition GridLogic { get; }
 
         public World(int levelWidth, int levelHeight)
         {
-            //currentLevel = level;
-            GridPoints = new List<Vector>();
-            GenerateGrid(levelWidth, levelHeight);
+            GridLogic = new CellSpacePartition(300, 300, 50);
             AddPlayer();
             AddTank();
-        }
-
-        private void GenerateGrid(int levelWidth, int levelHeight)
-        {
-            for (int i = 0; i < levelWidth; i += 10)
-            {
-                for (int j = 0; j < levelHeight; j += 10)
-                {
-                    GridPoints.Add(new Vector(i, j));
-                }
-            }
         }
 
         private void AddTank()
@@ -50,21 +38,35 @@ namespace TankHunterAiLenardArjen
         {
             Color[] data;
             Texture2D rectTex;
+            //TODO FIX CORNERS maybe break loop?
+            GridLogic.CalculateNeighborCells(GridLogic.Grid[14], 100);
 
-            foreach (Vector v in GridPoints)
+            foreach (Cell v in GridLogic.Neighbors)
             {
-                data = new Color[2* 2];
-                rectTex = new Texture2D(graphics, 2, 2);
+                data = new Color[50* 50];
+                rectTex = new Texture2D(graphics, 50, 50);
                 for (int i = 0; i < data.Length; ++i)
                     data[i] = Color.White;
 
                 rectTex.SetData(data);
-                var position = v.ToVector2();
+                var position = v.Position.ToVector2();
                 spriteBatch.Begin();
                 spriteBatch.Draw(rectTex, position, Color.White);
+               // spriteBatch.DrawString(null, v.ID.ToString(), v.Position.ToVector2(), Color.Black);
                 spriteBatch.End();
 
             }
+
+            data = new Color[50 * 50];
+            rectTex = new Texture2D(graphics, 50, 50);
+            for (int i = 0; i < data.Length; ++i)
+                data[i] = Color.White;
+
+            rectTex.SetData(data);
+            var pos= (GridLogic.Grid[14].Position.ToVector2());
+            spriteBatch.Begin();
+            spriteBatch.Draw(rectTex, pos, Color.Red);
+            spriteBatch.End();
         }
 
 
