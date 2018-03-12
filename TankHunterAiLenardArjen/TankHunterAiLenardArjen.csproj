@@ -53,6 +53,7 @@
     <Compile Include="Support\Vector.cs" />
     <Compile Include="Worldstructure\Cell.cs" />
     <Compile Include="Worldstructure\CellSpacePartition.cs" />
+    <Compile Include="Worldstructure\Edge.cs" />
     <Compile Include="Worldstructure\World.cs" />
   </ItemGroup>
   <ItemGroup>

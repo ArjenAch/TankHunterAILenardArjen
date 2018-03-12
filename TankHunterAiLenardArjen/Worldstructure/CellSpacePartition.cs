@@ -8,7 +8,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
 {
     public class CellSpacePartition // Chapter 3 pg 127
     {
-        private List<int> neighbors;
+        private List<Cell> neighbors;
         public List<BaseGameEntity> EntitiesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
         private double worldWidth;
@@ -24,9 +24,10 @@ namespace TankHunterAiLenardArjen.Worldstructure
             this.worldHeight = worldHeight;
             this.cellSize = cellSize;
             totalNumberOfCells = numberOfCellsHeight * numberOfCellsWidth;
-            neighbors = new List<int>(totalNumberOfCells);
+            neighbors = new List<Cell>(totalNumberOfCells);
             EntitiesInRange = new List<BaseGameEntity>();
             GenerateGrid();
+            GenerateEdges();
         }
 
         /// <summary>
@@ -55,6 +56,19 @@ namespace TankHunterAiLenardArjen.Worldstructure
             numberOfCellsWidth = (incrementId + 1) / numberOfCellsHeight;
         }
 
+        private void GenerateEdges()
+        {
+            for( int i = 0; i < totalNumberOfCells; i++)
+            {
+                CalculateNeighborCells(Grid[i],cellSize); // calculate direct neighbors
+
+                foreach(Cell cell in neighbors)
+                {
+                    Grid[i].Adjecent.Add(new Edge(Grid[i],cell));
+                }
+            }
+        }
+
         //Add entity to cell based on cell id & add cell to entity
         public void AddEntity(BaseGameEntity entity, int id)
         {
@@ -67,7 +81,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         //Calculates cell id based on entity position
         private int CalculateCell(Vector position)
         {
-            int cellValue = (int)(position.X * numberOfCellsHeight + position.Y);
+            int cellValue = (int)((position.X / cellSize) * numberOfCellsHeight + (position.Y / cellSize)); 
             return cellValue;
         }
 
@@ -86,58 +100,89 @@ namespace TankHunterAiLenardArjen.Worldstructure
             }
         }
 
-        /// <summary>
-        /// NOT THE CASE ANYMORE
-        ///     0_ _ _10-------X axis
-        ///   0 [    T]
-        ///   | [  *  ]  * = center of the cell/position e.g x= 10, y = 10
-        ///   | [     ]  T = entity
-        /// 10 Y axix        To check  which cells are within radius of T the max is calculated first because this can determine
-        ///                  if its nessecary to caculate the the other ends.
-        ///                  Note: Windows forms/monogame start the axis is the top left corner
-        ///     
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="radius"></param>
-        public void CalculateNeighbors(MovingEntity entity, int radius)
+
+
+        public void CalculateNeighborCells(Cell center, int radius)
         {
-            #region add cells to neighbor list
+            neighbors.Clear();
             int basicRadius = radius / cellSize;
             int rest = radius % cellSize;
-            if (rest > 0) // slightly larger range than cell(s)
+            if (rest > (cellSize/2)) // slightly larger range than cell(s)
                 basicRadius++;
-            int tmp = entity.InCell.ID;
-            int start = tmp - ((basicRadius * numberOfCellsHeight) - basicRadius);
-            int finish = tmp + ((basicRadius * numberOfCellsHeight) + basicRadius);
 
-            if (start < 0)
-                start = 0;
-            if (finish > totalNumberOfCells)
-                finish = totalNumberOfCells - 1;
+            Vector currentVector = new Vector(center.Position.X - radius, center.Position.Y - radius);
+            Vector finishVector = new Vector(center.Position.X + radius, center.Position.Y + radius);
+            Vector tmp = currentVector;
+            int cellValue = -1;
 
-            while (start != finish)
+
+            for (float i = currentVector.X; i < finishVector.X; i += cellSize)
             {
-                //if the number is within range e.g radius is 2 
-                //middle cell = 45
-                // every cell within start and finish that 
-                // mod number within radius -2 & + 2 so: 3,4,5,6,7
-                if (start % numberOfCellsHeight <= rest + 2 && start % numberOfCellsHeight >= rest -2) 
+                for (float j = currentVector.Y; j < finishVector.Y; j += cellSize)
                 {
-                    neighbors.Add(start);
+                   if(j > worldHeight)
+                    {
+                        break;
+                    }
+                    tmp.X = i;
+                    tmp.Y = j;
+                    cellValue = CalculateCell(tmp);
+                    if(!(cellValue < 0 || cellValue > totalNumberOfCells))
+                    {
+                        neighbors.Add(Grid[cellValue]);
+                    }
                 }
-                start++;
+                if (i > worldWidth)
+                {
+                    break;
+                }
             }
-            #endregion
-            EntitiesInRange.Clear();
-            Cell oldValue;
-            foreach (int id in neighbors)
-            {
-                Grid.TryGetValue(id, out oldValue);
 
-                foreach(BaseGameEntity member in oldValue.Members)
+
+            #region add cells to neighbor list
+            //int basicRadius = radius / cellSize;
+            //int rest = radius % cellSize;
+            //if (rest > 0) // slightly larger range than cell(s)
+            //    basicRadius++;
+
+            //int tmp = entity.InCell.ID;
+            //int start = tmp - ((basicRadius * numberOfCellsHeight) - basicRadius);
+            //int finish = tmp + ((basicRadius * numberOfCellsHeight) + basicRadius);
+
+            //if (start < 0)
+            //    start = 0;
+            //if (finish > totalNumberOfCells)
+            //    finish = totalNumberOfCells - 1;
+
+            //while (start != finish)
+            //{
+            //    //if the number is within range e.g radius is 2 
+            //    //middle cell = 45
+            //    // every cell within start and finish that 
+            //    // mod number within radius -2 & + 2 so: 3,4,5,6,7
+            //    if (start % numberOfCellsHeight <= rest + 2 && start % numberOfCellsHeight >= rest - 2)
+            //    {
+            //        neighbors.Add(start);
+            //    }
+            //    start++;
+            //}
+            #endregion
+        }
+
+
+
+        public void CalculateNeighborsEntities(MovingEntity entity, int radius)
+        {
+            CalculateNeighborCells(entity.InCell, radius);
+            EntitiesInRange.Clear();
+
+            foreach (Cell cell in neighbors)
+            {
+
+                foreach(BaseGameEntity member in cell.Members)
                 {
                     //TODO: Check correctness if statement
-                    if(member.Position.X -  radius <= entity.Position.X  && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
+                    if(member.Position.X -  radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
                         EntitiesInRange.Add(member);
                 }
             }

@@ -11,6 +11,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public int ID { get; }
         public Vector Position { get; set; } // Middle of the cell
         public List<BaseGameEntity> Members { get; set; }
+        public List<Edge> Adjecent { get; set; }
+        public bool Visited { get; set; }
 
         public Cell (Vector pos, int id)
         {
