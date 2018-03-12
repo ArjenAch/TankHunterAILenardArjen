@@ -10,10 +10,38 @@ namespace TankHunterAiLenardArjen.PlayerInput
     public class InputController
     {
         Player player;
+        Command UpArrowKey;
+        Command DownArrowKey;
+        Command LeftArrowKey;
+        Command RightArrowKey;
 
         public InputController(Player player)
         {
-            
+            this.player = player;
+            LeftArrowKey = new MovePlayerLeftCommand(this.player);
+            RightArrowKey = new MovePlayerRightCommand(this.player);
+            UpArrowKey = new MovePlayerUpCommand(this.player);
+            DownArrowKey = new MovePlayerDownCommand(this.player);
+        }
+
+        public void Update()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                UpArrowKey.Execute();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                DownArrowKey.Execute();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                LeftArrowKey.Execute();
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                RightArrowKey.Execute();
+            }
         }
     }
 }

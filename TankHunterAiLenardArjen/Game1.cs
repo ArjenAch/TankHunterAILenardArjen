@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
+using TankHunterAiLenardArjen.PlayerInput;
 
 namespace TankHunterAiLenardArjen
 {
@@ -14,6 +15,7 @@ namespace TankHunterAiLenardArjen
         SpriteBatch spriteBatch;
         World world;
         Player player;
+        InputController PlayerInputController;
 
         public Game1()
         {
@@ -32,8 +34,8 @@ namespace TankHunterAiLenardArjen
             // TODO: Add your initialization logic here
             player = new Player(1, new Vector(0,0), 5, 2, 2, new Vector(0,0));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            // Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture)
-
+            PlayerInputController = new InputController(player);
+            
             base.Initialize();
         }
 
@@ -70,7 +72,8 @@ namespace TankHunterAiLenardArjen
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // Controlls all the player keyboard input
+            PlayerInputController.Update();
 
             base.Update(gameTime);
         }
@@ -82,7 +85,7 @@ namespace TankHunterAiLenardArjen
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LawnGreen);
-            world.Draw(spriteBatch, graphics.GraphicsDevice);
+            //world.Draw(spriteBatch, graphics.GraphicsDevice);
 
             // Render the player
             player.Render(spriteBatch);

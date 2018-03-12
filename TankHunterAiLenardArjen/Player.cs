@@ -16,6 +16,26 @@ namespace TankHunterAiLenardArjen
         {
         }
 
+        internal void MoveRight()
+        {
+            this.Position.X += 1;
+        }
+
+        internal void MoveLeft()
+        {
+            this.Position.X -= 1;
+        }
+
+        internal void MoveDown()
+        {
+            this.Position.Y += 1;
+        }
+
+        internal void MoveUp()
+        {
+            this.Position.Y -= 1;
+        }
+
         public override void Render(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
