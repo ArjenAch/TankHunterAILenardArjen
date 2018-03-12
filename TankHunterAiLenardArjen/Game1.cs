@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace TankHunterAiLenardArjen
 {
@@ -12,6 +13,7 @@ namespace TankHunterAiLenardArjen
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         World world;
+        Player player;
 
         public Game1()
         {
@@ -28,7 +30,10 @@ namespace TankHunterAiLenardArjen
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-           world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            player = new Player(1, new Vector(0,0), 5, 2, 2, new Vector(0,0));
+            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            // Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture)
+
             base.Initialize();
         }
 
@@ -41,7 +46,9 @@ namespace TankHunterAiLenardArjen
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
+            player.playerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            fileStream.Dispose();
         }
 
         /// <summary>
@@ -74,11 +81,11 @@ namespace TankHunterAiLenardArjen
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.LawnGreen);
             world.Draw(spriteBatch, graphics.GraphicsDevice);
-            
 
-            // TODO: Add your drawing code here
+            // Render the player
+            player.Render(spriteBatch);
 
             base.Draw(gameTime);
         }
