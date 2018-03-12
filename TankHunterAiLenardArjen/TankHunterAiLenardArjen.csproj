@@ -47,6 +47,11 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States\TankAttackPlayer.cs" />
+    <Compile Include="States\TankCreateDistanceBetweenPlayer.cs" />
+    <Compile Include="States\TankPatrol.cs" />
+    <Compile Include="States\TankSearchForPlayer.cs" />
+    <Compile Include="States\TankState.cs" />
     <Compile Include="SteeringBehavioursController.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="Vehicle.cs" />
