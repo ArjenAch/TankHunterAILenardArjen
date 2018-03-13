@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         }
 
         /// <summary>
-        /// Creates a grid like this f.e (important for Calculate cell!)
+        /// Creates a grid like this f.e: (important for Calculate cell!)
         /// [0][3][6]
         /// [1][4][7]
         /// [2][5][8]      
@@ -101,8 +102,6 @@ namespace TankHunterAiLenardArjen.Worldstructure
             }
         }
 
-
-
         public void CalculateNeighborCells(Cell center, int radius)
         {
             Neighbors.Clear();
@@ -141,39 +140,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     break;
                 }
             }
-
-
-            #region add cells to neighbor list
-            //int basicRadius = radius / cellSize;
-            //int rest = radius % cellSize;
-            //if (rest > 0) // slightly larger range than cell(s)
-            //    basicRadius++;
-
-            //int tmp = entity.InCell.ID;
-            //int start = tmp - ((basicRadius * numberOfCellsHeight) - basicRadius);
-            //int finish = tmp + ((basicRadius * numberOfCellsHeight) + basicRadius);
-
-            //if (start < 0)
-            //    start = 0;
-            //if (finish > totalNumberOfCells)
-            //    finish = totalNumberOfCells - 1;
-
-            //while (start != finish)
-            //{
-            //    //if the number is within range e.g radius is 2 
-            //    //middle cell = 45
-            //    // every cell within start and finish that 
-            //    // mod number within radius -2 & + 2 so: 3,4,5,6,7
-            //    if (start % numberOfCellsHeight <= rest + 2 && start % numberOfCellsHeight >= rest - 2)
-            //    {
-            //        neighbors.Add(start);
-            //    }
-            //    start++;
-            //}
-            #endregion
         }
-
-
 
         public void CalculateNeighborsEntities(MovingEntity entity, int radius)
         {
@@ -189,6 +156,15 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     if (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
                         EntitiesInRange.Add(member);
                 }
+            }
+        }
+
+        //Shoud be called only once
+        public void RenderAllCells (Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
+        {
+            for(int i =0; i < totalNumberOfCells -1; i++)
+            {
+                Grid[i].Render(texture,spriteBatch,graphics);
             }
         }
     }

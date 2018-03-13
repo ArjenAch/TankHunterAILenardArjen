@@ -19,8 +19,6 @@ namespace TankHunterAiLenardArjen
         public Texture2D TileDebugNeighborTexture { get; set; }
         public Texture2D TileDebugCenterTexture { get; set; }
 
-
-
         public World(int levelWidth, int levelHeight)
         {
             GridLogic = new CellSpacePartition(300, 300, GlobalVars.cellSize);
@@ -36,7 +34,8 @@ namespace TankHunterAiLenardArjen
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
-            if(GlobalVars.debug == true)
+            GridLogic.RenderAllCells(TileTexture, spriteBatch, graphics);
+            if (GlobalVars.debug == true)
             {
                 GridLogic.CalculateNeighborCells(GridLogic.Grid[50], 40);
 
@@ -44,9 +43,10 @@ namespace TankHunterAiLenardArjen
                 {
                     cell.Render(TileDebugNeighborTexture, spriteBatch, graphics);
                 }
-
                 GridLogic.Grid[50].Render(TileDebugCenterTexture, spriteBatch, graphics);
             }
+
+           
         }
 
 
