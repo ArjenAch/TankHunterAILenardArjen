@@ -49,6 +49,7 @@
     <Compile Include="BehaviourLogic\SteeringBehavioursController.cs" />
     <Compile Include="Enitities\Tank.cs" />
     <Compile Include="Enitities\Vehicle.cs" />
+    <Compile Include="Support\GlobalVars.cs" />
     <Compile Include="Support\Vector.cs" />
     <Compile Include="Worldstructure\Cell.cs" />
     <Compile Include="Worldstructure\CellSpacePartition.cs" />
@@ -70,7 +71,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Sprites\DebugCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\DebugNeighbor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Sprites\Player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\SandTile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

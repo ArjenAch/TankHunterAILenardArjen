@@ -42,7 +42,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
             {
                 for (int j = (cellSize / 2); j < worldHeight; j += cellSize)
                 {
-                    Grid.Add(incrementId, new Cell(new Vector(i, j), incrementId));
+                    Cell cell = new Cell(new Vector(i, j), incrementId);
+                    Grid.Add(incrementId, cell);
                     incrementId++;
                 }
 

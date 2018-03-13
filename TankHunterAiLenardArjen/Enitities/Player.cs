@@ -11,9 +11,8 @@ namespace TankHunterAiLenardArjen
     public class Player : MovingEntity
     {
         public Texture2D playerTexture { get; set; }
-        public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
-            playerTexture = texture;
         }
 
         public override void Render(SpriteBatch spriteBatch)

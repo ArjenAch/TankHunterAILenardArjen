@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TankHunterAiLenardArjen.Support;
 using TankHunterAiLenardArjen.Worldstructure;
 
 namespace TankHunterAiLenardArjen
@@ -14,10 +15,15 @@ namespace TankHunterAiLenardArjen
     {
         private Player player;
         public CellSpacePartition GridLogic { get; }
+        public Texture2D TileTexture { get; set; }
+        public Texture2D TileDebugNeighborTexture { get; set; }
+        public Texture2D TileDebugCenterTexture { get; set; }
+
+
 
         public World(int levelWidth, int levelHeight)
         {
-            GridLogic = new CellSpacePartition(300, 300, 50);
+            GridLogic = new CellSpacePartition(300, 300, GlobalVars.cellSize);
             AddTank();
         }
 
@@ -30,37 +36,17 @@ namespace TankHunterAiLenardArjen
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
-            Color[] data;
-            Texture2D rectTex;
-            //TODO FIX CORNERS maybe break loop?
-            GridLogic.CalculateNeighborCells(GridLogic.Grid[14], 100);
-
-            foreach (Cell v in GridLogic.Neighbors)
+            if(GlobalVars.debug == true)
             {
-                data = new Color[50* 50];
-                rectTex = new Texture2D(graphics, 50, 50);
-                for (int i = 0; i < data.Length; ++i)
-                    data[i] = Color.White;
+                GridLogic.CalculateNeighborCells(GridLogic.Grid[50], 40);
 
-                rectTex.SetData(data);
-                var position = v.Position.ToVector2();
-                spriteBatch.Begin();
-                spriteBatch.Draw(rectTex, position, Color.White);
-               // spriteBatch.DrawString(null, v.ID.ToString(), v.Position.ToVector2(), Color.Black);
-                spriteBatch.End();
+                foreach (Cell cell in GridLogic.Neighbors)
+                {
+                    cell.Render(TileDebugNeighborTexture, spriteBatch, graphics);
+                }
 
+                GridLogic.Grid[50].Render(TileDebugCenterTexture, spriteBatch, graphics);
             }
-
-            data = new Color[50 * 50];
-            rectTex = new Texture2D(graphics, 50, 50);
-            for (int i = 0; i < data.Length; ++i)
-                data[i] = Color.White;
-
-            rectTex.SetData(data);
-            var pos= (GridLogic.Grid[14].Position.ToVector2());
-            spriteBatch.Begin();
-            spriteBatch.Draw(rectTex, pos, Color.Red);
-            spriteBatch.End();
         }
 
 

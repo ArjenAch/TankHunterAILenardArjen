@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen
 {
@@ -12,6 +14,7 @@ namespace TankHunterAiLenardArjen
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         World world;
+        Player player;
 
         public Game1()
         {
@@ -29,6 +32,7 @@ namespace TankHunterAiLenardArjen
         {
             // TODO: Add your initialization logic here
            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            player = new Player(1, new Vector(0, 0), 5, 2, 2, new Vector(0, 0));
             base.Initialize();
         }
 
@@ -40,6 +44,23 @@ namespace TankHunterAiLenardArjen
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
+            player.playerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
+            world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+
+            //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
+            if(GlobalVars.debug ==true)
+            {
+                fileStream = new FileStream("Content/Sprites/DebugNeighbor.png", FileMode.Open);
+                world.TileDebugNeighborTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+                fileStream = new FileStream("Content/Sprites/DebugCenter.png", FileMode.Open);
+                world.TileDebugCenterTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            }
+
+
+            fileStream.Dispose();
 
             // TODO: use this.Content to load your game content here
         }
@@ -75,6 +96,9 @@ namespace TankHunterAiLenardArjen
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //world should only be drawed once with its elements
+            // The entities should update themselfs and draw/render
             world.Draw(spriteBatch, graphics.GraphicsDevice);
             
 
