@@ -24,23 +24,23 @@ namespace TankHunterAiLenardArjen.PlayerInput
             DownArrowKey = new MovePlayerDownCommand(this.player);
         }
 
-        public void Update()
+        public void Update(int timeElapsed)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                UpArrowKey.Execute();
+                UpArrowKey.Execute(timeElapsed);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                DownArrowKey.Execute();
+                DownArrowKey.Execute(timeElapsed);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                LeftArrowKey.Execute();
+                LeftArrowKey.Execute(timeElapsed);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                RightArrowKey.Execute();
+                RightArrowKey.Execute(timeElapsed);
             }
         }
     }

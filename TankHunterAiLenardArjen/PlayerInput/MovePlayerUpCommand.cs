@@ -15,9 +15,9 @@ namespace TankHunterAiLenardArjen.PlayerInput
             this.player = player;
         }
 
-        public void Execute()
+        public void Execute(int timeElapsed)
         {
-            player.MoveUp();
+            player.MoveUp(timeElapsed);
         }
     }
 }

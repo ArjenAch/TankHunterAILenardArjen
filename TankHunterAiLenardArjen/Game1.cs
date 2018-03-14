@@ -15,7 +15,6 @@ namespace TankHunterAiLenardArjen
         SpriteBatch spriteBatch;
         World world;
         Player player;
-        InputController PlayerInputController;
 
         public Game1()
         {
@@ -32,10 +31,8 @@ namespace TankHunterAiLenardArjen
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            player = new Player(1, new Vector(0,0), 5, 2, 2, new Vector(0,0));
+            player = new Player(1, new Vector(0,0), 1.5f, 3, 2, new Vector(0,0));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            PlayerInputController = new InputController(player);
-            
             base.Initialize();
         }
 
@@ -49,7 +46,7 @@ namespace TankHunterAiLenardArjen
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
-            player.playerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            player.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             fileStream.Dispose();
         }
 
@@ -72,8 +69,7 @@ namespace TankHunterAiLenardArjen
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // Controlls all the player keyboard input
-            PlayerInputController.Update();
+            player.Update(gameTime.ElapsedGameTime.Milliseconds);
 
             base.Update(gameTime);
         }
@@ -86,7 +82,7 @@ namespace TankHunterAiLenardArjen
         {
             GraphicsDevice.Clear(Color.LawnGreen);
             //world.Draw(spriteBatch, graphics.GraphicsDevice);
-
+            
             // Render the player
             player.Render(spriteBatch);
 

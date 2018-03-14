@@ -8,6 +8,6 @@ namespace TankHunterAiLenardArjen.PlayerInput
 {
     interface Command
     {
-        void Execute();
+        void Execute(int timeElapsed);
     }
 }
