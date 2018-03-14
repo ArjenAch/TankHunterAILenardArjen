@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen
 {
@@ -11,19 +13,22 @@ namespace TankHunterAiLenardArjen
     {
         private World gameWorld;
         public SteeringBehavioursController steering;
-        public Texture2D Texture;
+        public Texture2D Texture { get; set; }
+        private Rectangle destinationSize;
 
-        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
+        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
         {
-            this.Texture = texture;
             this.gameWorld = gameWorld;
             this.steering = new SteeringBehavioursController();
+            destinationSize = new Rectangle((int)Position.X , (int)Position.Y, GlobalVars.cellSize, GlobalVars.cellSize);
         }
         public override void Render(SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            spriteBatch.Begin();
+            spriteBatch.Draw(Texture, destinationSize,null, Color.White);
+            spriteBatch.End();
         }
-
+    
         public override void Update(int timeElapsed)
         {
             Vector steeringForce = steering.Calculate(this);

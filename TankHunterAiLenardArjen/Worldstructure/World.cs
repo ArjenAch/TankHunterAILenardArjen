@@ -32,7 +32,7 @@ namespace TankHunterAiLenardArjen
             //tank.steering.Seek = true;
         }
 
-        public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void Render(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
             GridLogic.RenderAllCells(TileTexture, spriteBatch, graphics);
             if (GlobalVars.debug == true)
