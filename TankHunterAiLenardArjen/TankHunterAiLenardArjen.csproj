@@ -41,7 +41,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BaseGameEntity.cs" />
+    <Compile Include="Enitities\BaseGameEntity.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="MovingEntity.cs" />
     <Compile Include="Player.cs" />
@@ -52,17 +52,22 @@
     <Compile Include="PlayerInput\MovePlayerRightCommand.cs" />
     <Compile Include="PlayerInput\MovePlayerUpCommand.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="BehaviourLogic\SteeringBehavioursController.cs" />
+    <Compile Include="Enitities\Tank.cs" />
+    <Compile Include="Enitities\Vehicle.cs" />
+    <Compile Include="Support\GlobalVars.cs" />
+    <Compile Include="Support\Vector.cs" />
+    <Compile Include="Worldstructure\Cell.cs" />
+    <Compile Include="Worldstructure\CellSpacePartition.cs" />
+    <Compile Include="Worldstructure\Edge.cs" />
+    <Compile Include="Worldstructure\World.cs" />
+    <Compile Include="PlayerInput\InputController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\TankAttackPlayer.cs" />
     <Compile Include="States\TankCreateDistanceBetweenPlayer.cs" />
     <Compile Include="States\TankPatrol.cs" />
     <Compile Include="States\TankSearchForPlayer.cs" />
     <Compile Include="States\TankState.cs" />
-    <Compile Include="SteeringBehavioursController.cs" />
-    <Compile Include="Tank.cs" />
-    <Compile Include="Vehicle.cs" />
-    <Compile Include="Vector.cs" />
-    <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -72,7 +77,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Sprites\DebugCenter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\DebugNeighbor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Sprites\Player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\SandTile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

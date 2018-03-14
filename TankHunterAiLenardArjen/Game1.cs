@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
-using TankHunterAiLenardArjen.PlayerInput;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen
 {
@@ -30,7 +30,6 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             player = new Player(1, new Vector(0,0), 1.5f, 3, 2, new Vector(0,0));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             base.Initialize();
@@ -46,8 +45,21 @@ namespace TankHunterAiLenardArjen
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
-            player.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            player.playerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
+            world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+
+            //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
+            if(GlobalVars.debug ==true)
+            {
+                fileStream = new FileStream("Content/Sprites/DebugNeighbor.png", FileMode.Open);
+                world.TileDebugNeighborTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+                fileStream = new FileStream("Content/Sprites/DebugCenter.png", FileMode.Open);
+                world.TileDebugCenterTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            }
             fileStream.Dispose();
+
+            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -81,11 +93,13 @@ namespace TankHunterAiLenardArjen
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LawnGreen);
-            //world.Draw(spriteBatch, graphics.GraphicsDevice);
             
             // Render the player
             player.Render(spriteBatch);
 
+            //world should only be drawed once with its elements
+            // The entities should update themselfs and draw/render
+            world.Draw(spriteBatch, graphics.GraphicsDevice);
             base.Draw(gameTime);
         }
     }

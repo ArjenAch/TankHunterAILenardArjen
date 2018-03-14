@@ -1,13 +1,15 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace TankHunterAiLenardArjen
 {
-    public abstract class MovingEntity : BaseGameEntity
+    public abstract class MovingEntity : BaseGameEntity //Chapter 3 pg 89
     {
         protected MovingEntity(float mass,  Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(position)
         {
