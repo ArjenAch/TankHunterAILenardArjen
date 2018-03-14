@@ -11,7 +11,6 @@ namespace TankHunterAiLenardArjen
     public class Player : MovingEntity
     {
         public Texture2D playerTexture { get; set; }
-
         public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
         }

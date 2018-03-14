@@ -92,6 +92,13 @@ namespace TankHunterAiLenardArjen
             return vector;
         }
 
+        public static Vector operator -(Vector vector, int x)
+        {
+            vector.X = vector.X - x;
+            vector.Y = vector.Y - x;
+            return vector;
+        }
+
         public static Vector operator /(Vector vector, float f)
         {
             vector.X = vector.X / f;

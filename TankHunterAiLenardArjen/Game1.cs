@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen
 {
@@ -30,10 +31,8 @@ namespace TankHunterAiLenardArjen
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            player = new Player(1, new Vector(0,0), 5, 2, 2, new Vector(0,0));
-            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            // Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture)
-
+           world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            player = new Player(1, new Vector(0, 0), 5, 2, 2, new Vector(0, 0));
             base.Initialize();
         }
 
@@ -48,7 +47,22 @@ namespace TankHunterAiLenardArjen
 
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
             player.playerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
+            world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+
+            //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
+            if(GlobalVars.debug ==true)
+            {
+                fileStream = new FileStream("Content/Sprites/DebugNeighbor.png", FileMode.Open);
+                world.TileDebugNeighborTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+                fileStream = new FileStream("Content/Sprites/DebugCenter.png", FileMode.Open);
+                world.TileDebugCenterTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            }
+
+
             fileStream.Dispose();
+
+            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -81,11 +95,14 @@ namespace TankHunterAiLenardArjen
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LawnGreen);
-            world.Draw(spriteBatch, graphics.GraphicsDevice);
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // Render the player
-            player.Render(spriteBatch);
+            //world should only be drawed once with its elements
+            // The entities should update themselfs and draw/render
+            world.Draw(spriteBatch, graphics.GraphicsDevice);
+            
+
+            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }

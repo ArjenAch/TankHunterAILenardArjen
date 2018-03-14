@@ -4,35 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.States;
 
 namespace TankHunterAiLenardArjen
 {
     public class Tank : Vehicle
     {
-        private ITankState State { get; set; }
-
         private Texture2D tankTop;
         private float angleTankTop;
+        private ITankState State { get; set; }
+
 
         public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, Texture2D texture, Texture2D top) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position, texture)
         {
             this.tankTop = top;
             this.angleTankTop = 0;
-
             // Tank starts default with patrolling
             this.State = new TankPatrol();
         }
 
         public override void Render(SpriteBatch spriteBatch)
         {
+            base.Render(spriteBatch);
+        }
 
+        public override string ToString()
+        {
+            return base.ToString();
         }
 
         public override void Update(int timeElapsed)
         {
             base.Update(timeElapsed);
-            State.Execute(this);
         }
 
         public void ChangeState(ITankState newState)
@@ -62,11 +66,5 @@ namespace TankHunterAiLenardArjen
         {
             throw new NotImplementedException();
         }
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
-
     }
 }
