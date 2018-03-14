@@ -30,7 +30,7 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
-            player = new Player(1, new Vector(0,0), 1.5f, 3, 2, new Vector(0,0));
+            player = new Player(1, new Vector(0,0), 1.5f, 4, 2, new Vector(0,0));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             base.Initialize();
         }
@@ -45,7 +45,7 @@ namespace TankHunterAiLenardArjen
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
-            player.playerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            player.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
             world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
 

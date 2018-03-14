@@ -5,17 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace TankHunterAiLenardArjen
 {
     public abstract class MovingEntity : BaseGameEntity //Chapter 3 pg 89
     {
-        protected MovingEntity(float mass,  Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(position)
+        protected MovingEntity(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(position)
         {
-            Velocity = new Vector(0,0);
+            Velocity = new Vector(0, 0);
             Mass = mass;
-            Heading = new Vector(0,0);
+            Heading = new Vector(0, 0);
             Side = side;
             MaxSpeed = maxSpeed;
             MaxForce = maxForce;
