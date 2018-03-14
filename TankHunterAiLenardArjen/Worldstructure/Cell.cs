@@ -18,7 +18,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public bool Visited { get; set; }
         private Rectangle destinationSize;
 
-        public Cell (Vector pos, int id)
+        public Cell(Vector pos, int id)
         {
             Adjecent = new List<Edge>();
             Members = new List<BaseGameEntity>();
@@ -29,9 +29,16 @@ namespace TankHunterAiLenardArjen.Worldstructure
         }
 
         public void Render(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
-        {   
+        {
             spriteBatch.Begin();
-            spriteBatch.Draw(texture, destinationSize, null, Color.White);
+            if (Members.Count > 0 && Support.GlobalVars.debug)
+            {
+                spriteBatch.Draw(texture, destinationSize, null, Color.Red);
+            }
+            else
+            {
+                spriteBatch.Draw(texture, destinationSize, null, Color.White);
+            }
             spriteBatch.End();
         }
     }

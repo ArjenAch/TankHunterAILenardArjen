@@ -6,12 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TankHunterAiLenardArjen.PlayerInput;
+using TankHunterAiLenardArjen.Worldstructure;
 
 namespace TankHunterAiLenardArjen
 {
     public class Player : MovingEntity
     {
         private Texture2D _playerTexture;
+        private InputController PlayerInputController;
+        private Vector2 origin;
+        float playerAngle;
 
         public Texture2D PlayerTexture
         {
@@ -23,10 +27,6 @@ namespace TankHunterAiLenardArjen
                 origin.Y = _playerTexture.Height / 2;
             }
         }
-
-        float playerAngle;
-        InputController PlayerInputController;
-        private Vector2 origin;
 
         public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {

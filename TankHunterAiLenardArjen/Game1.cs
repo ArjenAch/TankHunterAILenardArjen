@@ -30,8 +30,8 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
-            player = new Player(1, new Vector(0,0), 1.5f, 4, 2, new Vector(0,0));
-            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25));
+            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, player);
             base.Initialize();
         }
 
@@ -50,7 +50,7 @@ namespace TankHunterAiLenardArjen
             world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
 
             //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
-            if(GlobalVars.debug ==true)
+            if (GlobalVars.debug == true)
             {
                 fileStream = new FileStream("Content/Sprites/DebugNeighbor.png", FileMode.Open);
                 world.TileDebugNeighborTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
@@ -81,7 +81,8 @@ namespace TankHunterAiLenardArjen
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Update(gameTime.ElapsedGameTime.Milliseconds);
+            // Update the world
+            world.Update(gameTime.ElapsedGameTime.Milliseconds);
 
             base.Update(gameTime);
         }
@@ -93,13 +94,11 @@ namespace TankHunterAiLenardArjen
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LawnGreen);
-            
-            // Render the player
-            player.Render(spriteBatch);
 
             //world should only be drawed once with its elements
             // The entities should update themselfs and draw/render
             world.Draw(spriteBatch, graphics.GraphicsDevice);
+
             base.Draw(gameTime);
         }
     }
