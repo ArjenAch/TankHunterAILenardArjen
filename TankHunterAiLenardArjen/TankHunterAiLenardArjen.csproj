@@ -42,9 +42,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enitities\BaseGameEntity.cs" />
+    <Compile Include="Enitities\Player.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Enitities\MovingEntity.cs" />
-    <Compile Include="Enitities\Player.cs" />
+    <Compile Include="PlayerInput\Command.cs" />
+    <Compile Include="PlayerInput\MovePlayerDownCommand.cs" />
+    <Compile Include="PlayerInput\MovePlayerLeftCommand.cs" />
+    <Compile Include="PlayerInput\MovePlayerRightCommand.cs" />
+    <Compile Include="PlayerInput\MovePlayerUpCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="BehaviourLogic\SteeringBehavioursController.cs" />
     <Compile Include="Enitities\Tank.cs" />
