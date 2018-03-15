@@ -32,7 +32,7 @@ namespace TankHunterAiLenardArjen
 
         public static Vector Normalize(Vector velocity) //http://www.fundza.com/vectors/normalize/
         {
-            float length = velocity.LengthSq();
+            float length = (float)velocity.Length();
             velocity.X = velocity.X / length;
             velocity.Y = velocity.Y / length;
             return velocity;
