@@ -19,8 +19,8 @@ namespace TankHunterAiLenardArjen
         public override abstract void Render(SpriteBatch spriteBatch);
         public Vector Velocity { get; set; }
         protected float Mass { get; }
-        protected Vector Heading { get; set; }
-        protected Vector Side { get; set; }
+        public Vector Heading { get; set; }
+        public Vector Side { get; set; }
         public float MaxSpeed { get; set; }
         protected float MaxForce { get; }
         protected float MaxTurnRate { get; }

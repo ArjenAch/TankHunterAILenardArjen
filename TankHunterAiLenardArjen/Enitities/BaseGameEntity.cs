@@ -23,6 +23,7 @@ namespace TankHunterAiLenardArjen
         public BaseGameEntity(Vector position)
         {
             Position = position;
+            InCell = new Cell(new Vector(Position.X, Position.Y), 0);
         }
 
     }

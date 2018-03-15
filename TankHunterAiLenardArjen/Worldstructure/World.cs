@@ -16,39 +16,15 @@ namespace TankHunterAiLenardArjen
         private Player player;
         public CellSpacePartition GridLogic { get; }
         public Texture2D TileTexture { get; set; }
-        public Texture2D TileDebugNeighborTexture { get; set; }
-        public Texture2D TileDebugCenterTexture { get; set; }
 
         public World(int levelWidth, int levelHeight)
         {
-            GridLogic = new CellSpacePartition(300, 300, GlobalVars.cellSize);
-            AddTank();
-        }
-
-        private void AddTank()
-        {
-            //Vehicle tank = new Vehicle(this);
-            //tank.steering.SetTarget(player.position);
-            //tank.steering.Seek = true;
+            GridLogic = new CellSpacePartition(600, 600, GlobalVars.cellSize);
         }
 
         public void Render(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
-            GridLogic.RenderAllCells(TileTexture, spriteBatch, graphics);
-            if (GlobalVars.debug == true)
-            {
-                GridLogic.CalculateNeighborCells(GridLogic.Grid[50], 40);
-
-                foreach (Cell cell in GridLogic.Neighbors)
-                {
-                    cell.Render(TileDebugNeighborTexture, spriteBatch, graphics);
-                }
-                GridLogic.Grid[50].Render(TileDebugCenterTexture, spriteBatch, graphics);
-            }
-
-           
+            GridLogic.RenderAllCells(TileTexture, spriteBatch);         
         }
-
-
     }
 }

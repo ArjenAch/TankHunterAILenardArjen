@@ -30,7 +30,7 @@ namespace TankHunterAiLenardArjen
             return vector;
         }
 
-        internal static Vector Normalize(Vector velocity) //http://www.fundza.com/vectors/normalize/
+        public static Vector Normalize(Vector velocity) //http://www.fundza.com/vectors/normalize/
         {
             float length = velocity.LengthSq();
             velocity.X = velocity.X / length;
@@ -46,7 +46,12 @@ namespace TankHunterAiLenardArjen
 
         public float LengthSq() 
         {
-            float length = (float)Math.Sqrt((X * X) + (Y * Y));
+            return (X * X + Y * Y);
+        }
+
+        public double Length()
+        {
+            double length = Math.Sqrt((X * X) + (Y * Y));
             return length;
         }
 
@@ -75,6 +80,13 @@ namespace TankHunterAiLenardArjen
         {
             vector.X = vector.X * t;
             vector.Y = vector.Y * t;
+            return vector;
+        }
+
+        public static Vector operator *(Vector vector, double t)
+        {
+            vector.X = vector.X * (float)t;
+            vector.Y = vector.Y * (float)t;
             return vector;
         }
 

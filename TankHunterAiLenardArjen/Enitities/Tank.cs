@@ -17,6 +17,7 @@ namespace TankHunterAiLenardArjen
         private float angleTankTurret { get; set; }
         private ITankState State { get; set; }
         private Rectangle destinationSize;
+        Vector steeringForce;
 
         public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
@@ -43,7 +44,28 @@ namespace TankHunterAiLenardArjen
 
         public override void Update(int timeElapsed)
         {
+            steeringForce = Calculate();
+            Vector acceleration = steeringForce / Mass;
+            Velocity += acceleration * timeElapsed;
+            Velocity.Truncate(MaxSpeed);
+            Position += Velocity * timeElapsed;
+
+            if (Velocity.LengthSq() > 0.00000001)
+            {
+                Heading = Vector.Normalize(Velocity);
+                Side = Heading.Perp();
+            }
+
+            destinationSize.X = (int) Position.X;
+            destinationSize.Y = (int) Position.Y;
             base.Update(timeElapsed);
+        }
+
+        public Vector Calculate()
+        {
+            steeringForce = State.Execute(this);
+           
+            return steeringForce;
         }
 
         public void ChangeState(ITankState newState)
@@ -55,23 +77,23 @@ namespace TankHunterAiLenardArjen
 
         public bool PlayerInAttackZone()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         // Player is in the inner danger circle, tank should avoid player till attack circle
         public bool PlayerInDangerZone()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool PlayerNotSeenAtLastLocation()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool PlayerInSearchZone()
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }

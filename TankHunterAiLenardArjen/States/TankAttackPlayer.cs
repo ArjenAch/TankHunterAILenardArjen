@@ -13,8 +13,9 @@ namespace TankHunterAiLenardArjen.States
             // IDEA: tank shows signs of being mad
         }
 
-        public void Execute(Tank tank)
+        public Vector Execute(Tank tank)
         {
+            Vector steeringForce = new Vector(0, 0);
             if (tank.PlayerInSearchZone())
             {
                 tank.ChangeState(new TankSearchForPlayer());
@@ -27,6 +28,8 @@ namespace TankHunterAiLenardArjen.States
             {
                 // tank.AttackPlayer();
             }
+
+            return steeringForce;
         }
 
         public void Exit(Tank tank)

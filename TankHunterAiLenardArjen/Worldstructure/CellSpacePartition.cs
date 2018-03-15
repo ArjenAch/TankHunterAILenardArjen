@@ -91,14 +91,23 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public void UpdateEntity(MovingEntity entity) // basegame entities don't move so no update is needed
         {
             int id = CalculateCell(entity.Position);
-            if (entity.InCell.ID != id)
+
+            //temp fix!
+            if(!(id< 0 || id > totalNumberOfCells))
             {
-                Cell oldValue;
-                Grid.TryGetValue(entity.InCell.ID, out oldValue);
-                oldValue.Members.Remove(entity);
+                if (entity.InCell.ID != id)
+                {
+                    Cell oldValue;
+                    Grid.TryGetValue(entity.InCell.ID, out oldValue);
+                    oldValue.Members.Remove(entity);
 
-                AddEntity(entity, id);
+                    AddEntity(entity, id);
+                }
 
+            }
+            else
+            {
+                entity.Position = new Vector(100, 100);
             }
         }
 
@@ -160,11 +169,11 @@ namespace TankHunterAiLenardArjen.Worldstructure
         }
 
         //Shoud be called only once
-        public void RenderAllCells (Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void RenderAllCells (Texture2D texture, SpriteBatch spriteBatch)
         {
             for(int i =0; i < totalNumberOfCells -1; i++)
             {
-                Grid[i].Render(texture,spriteBatch,graphics);
+                Grid[i].Render(texture,spriteBatch);
             }
         }
     }
