@@ -63,6 +63,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
             {
                 CalculateNeighborCells(Grid[i], cellSize); // calculate direct neighbors
 
+                Neighbors.Remove(Grid[i]);
+
                 foreach (Cell cell in Neighbors)
                 {
                     Grid[i].Adjecent.Add(new Edge(Grid[i], cell));
@@ -108,6 +110,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     entity.Velocity = new Vector(0,0);
                 }
             }
+
         }
 
         public void CalculateNeighborCells(Cell center, int radius)
@@ -168,11 +171,11 @@ namespace TankHunterAiLenardArjen.Worldstructure
         }
 
         //Shoud be called only once
-        public void RenderAllCells (Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void RenderAllCells (Texture2D texture, SpriteBatch spriteBatch)
         {
             for(int i =0; i < totalNumberOfCells -1; i++)
             {
-                Grid[i].Render(texture,spriteBatch,graphics);
+                Grid[i].Render(texture,spriteBatch);
             }
         }
     }

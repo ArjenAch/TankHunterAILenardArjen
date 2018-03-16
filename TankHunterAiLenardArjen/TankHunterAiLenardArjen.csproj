@@ -41,6 +41,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BehaviourLogic\SeekBehaviour.cs" />
+    <Compile Include="BehaviourLogic\WanderBehaviour.cs" />
     <Compile Include="Enitities\BaseGameEntity.cs" />
     <Compile Include="Enitities\Player.cs" />
     <Compile Include="Game1.cs" />
@@ -55,6 +57,8 @@
     <Compile Include="Enitities\Tank.cs" />
     <Compile Include="Enitities\Vehicle.cs" />
     <Compile Include="Support\GlobalVars.cs" />
+    <Compile Include="Support\HelpMethods.cs" />
+    <Compile Include="Support\Matrix.cs" />
     <Compile Include="Support\Vector.cs" />
     <Compile Include="Worldstructure\Cell.cs" />
     <Compile Include="Worldstructure\CellSpacePartition.cs" />
@@ -86,6 +90,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sprites\SandTile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\TankBottom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\TankTop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

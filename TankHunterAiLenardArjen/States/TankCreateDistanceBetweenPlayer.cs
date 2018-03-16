@@ -13,8 +13,9 @@ namespace TankHunterAiLenardArjen.States
             // IDEA: tank shows signs of panic
         }
 
-        public void Execute(Tank tank)
+        public Vector Execute(Tank tank)
         {
+            Vector steeringForce = new Vector(0, 0);
             if (tank.PlayerInAttackZone())
             {
                 tank.ChangeState(new TankAttackPlayer());
@@ -23,6 +24,8 @@ namespace TankHunterAiLenardArjen.States
             {
                 // tank.Flee();
             }
+
+            return steeringForce;
         }
 
         public void Exit(Tank tank)

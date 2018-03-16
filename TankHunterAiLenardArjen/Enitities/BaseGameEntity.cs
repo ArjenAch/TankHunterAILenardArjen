@@ -24,6 +24,7 @@ namespace TankHunterAiLenardArjen
         {
             Position = position;
             InCell = new Cell(position, 0);
+
         }
 
     }

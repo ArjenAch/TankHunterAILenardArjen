@@ -28,8 +28,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
             //destinationSize = new Rectangle((int)Position.X , (int)Position.Y , GlobalVars.cellSize, GlobalVars.cellSize);
         }
 
-        public void Render(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
-        {
+        public void Render(Texture2D texture, SpriteBatch spriteBatch)
+        {   
             spriteBatch.Begin();
             if (Members.Count > 0 && Support.GlobalVars.debug)
             {

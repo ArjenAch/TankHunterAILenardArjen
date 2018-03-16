@@ -13,13 +13,16 @@ namespace TankHunterAiLenardArjen
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont font;
         World world;
         Player player;
+        Tank tank;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -32,6 +35,8 @@ namespace TankHunterAiLenardArjen
         {
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, player);
+            tank = new Tank(world, 1, new Vector(0, 0), .04f, 3, 2, new Vector(100, 100));
+
             base.Initialize();
         }
 
@@ -44,18 +49,29 @@ namespace TankHunterAiLenardArjen
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //Load font
+            font = Content.Load<SpriteFont>("Arial");
+
+            //Load player texture
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
             player.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+
+            //Load sand tile texture
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
             world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            //Load tank
+            fileStream = new FileStream("Content/Sprites/TankBottom.png", FileMode.Open);
+            tank.Texture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            fileStream = new FileStream("Content/Sprites/TankTop.png", FileMode.Open);
+            tank.TankTopTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
 
             //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
-            if (GlobalVars.debug == true)
+            if (GlobalVars.debug ==true)
             {
                 fileStream = new FileStream("Content/Sprites/DebugNeighbor.png", FileMode.Open);
-                world.TileDebugNeighborTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+                tank.TileDebugNeighborTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
                 fileStream = new FileStream("Content/Sprites/DebugCenter.png", FileMode.Open);
-                world.TileDebugCenterTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+                tank.TileDebugCenterTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             }
             fileStream.Dispose();
 
@@ -80,9 +96,10 @@ namespace TankHunterAiLenardArjen
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            // Update the world
+            // TODO: Add your update logic here
+            tank.Update(gameTime.ElapsedGameTime.Milliseconds);
             world.Update(gameTime.ElapsedGameTime.Milliseconds);
+
 
             base.Update(gameTime);
         }
@@ -97,7 +114,17 @@ namespace TankHunterAiLenardArjen
 
             //world should only be drawed once with its elements
             // The entities should update themselfs and draw/render
-            world.Draw(spriteBatch, graphics.GraphicsDevice);
+            world.Render(spriteBatch, graphics.GraphicsDevice);
+            tank.Render(spriteBatch);
+
+            spriteBatch.Begin();
+
+            spriteBatch.DrawString(font, "Tankpos x:" + tank.Position.X + " \n Tankpos y:" + tank.Position.Y, new Vector2(0, 30), Color.Black);
+
+            spriteBatch.End();
+
+            // TODO: Add your drawing code here
+          //  world.Draw(spriteBatch, graphics.GraphicsDevice); safdgzhk
 
             base.Draw(gameTime);
         }

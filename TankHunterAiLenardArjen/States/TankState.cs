@@ -12,7 +12,7 @@ namespace TankHunterAiLenardArjen.States
         void Enter(Tank tank);
 
         // Called in the update function
-        void Execute(Tank tank);
+        Vector Execute(Tank tank);
 
         // Called before ChangeState is called
         void Exit(Tank tank);
