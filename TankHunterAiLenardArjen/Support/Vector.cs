@@ -18,7 +18,7 @@ namespace TankHunterAiLenardArjen
             Y = y;
         }
 
-        public  Vector2 ToVector2()
+        public Vector2 ToVector2()
         {
             Vector2 vector = new Vector2(X, Y);
             return vector;
@@ -38,13 +38,18 @@ namespace TankHunterAiLenardArjen
             return velocity;
         }
 
+        //public static Vector operator *()
+        //{
+
+        //}
+
         public Vector Perp() //https://gamedev.stackexchange.com/questions/70075/how-can-i-find-the-perpendicular-to-a-2d-vector
         {
             Vector v = new Vector(Y, -X);
             return v;
         }
 
-        public float LengthSq() 
+        public float LengthSq()
         {
             return (X * X + Y * Y);
         }
@@ -55,21 +60,34 @@ namespace TankHunterAiLenardArjen
             return length;
         }
 
+        public float Dot(Vector v2)
+        {
+            return X * v2.X + Y * v2.Y;
+        }
+
         public void Truncate(float maxSpeed)
         {
-            if(X > maxSpeed)
+            if (X > maxSpeed)
             {
                 X = maxSpeed;
             }
+            else if (X < -maxSpeed)
+            {
+                X = -maxSpeed;
+            }
 
-            if(Y > maxSpeed)
+            if (Y > maxSpeed)
             {
                 Y = maxSpeed;
+            }
+            else if (Y < -maxSpeed)
+            {
+                Y = -maxSpeed;
             }
         }
 
         #region operator overloaders
-        public static Vector operator * (Vector vector, int t)
+        public static Vector operator *(Vector vector, int t)
         {
             vector.X = vector.X * t;
             vector.Y = vector.Y * t;

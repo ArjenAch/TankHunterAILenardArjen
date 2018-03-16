@@ -17,14 +17,22 @@ namespace TankHunterAiLenardArjen
         public CellSpacePartition GridLogic { get; }
         public Texture2D TileTexture { get; set; }
 
-        public World(int levelWidth, int levelHeight)
+        public World(int levelWidth, int levelHeight, Player player)
         {
             GridLogic = new CellSpacePartition(600, 600, GlobalVars.cellSize);
+            this.player = player;
         }
 
         public void Render(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
-            GridLogic.RenderAllCells(TileTexture, spriteBatch);         
+            GridLogic.RenderAllCells(TileTexture, spriteBatch);
+            player.Render(spriteBatch);
+        }
+
+        public void Update(int timeElapsed)
+        {
+            player.Update(timeElapsed);
+            GridLogic.UpdateEntity(player);
         }
     }
 }

@@ -33,11 +33,9 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25));
+            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, player);
             tank = new Tank(world, 1, new Vector(0, 0), .04f, 3, 2, new Vector(100, 100));
-            player = new Player(1, new Vector(0, 0), 5, 2, 2, new Vector(0, 0));
-            
 
             base.Initialize();
         }
@@ -56,7 +54,8 @@ namespace TankHunterAiLenardArjen
 
             //Load player texture
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
-            player.playerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            player.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+
             //Load sand tile texture
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
             world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
@@ -74,8 +73,6 @@ namespace TankHunterAiLenardArjen
                 fileStream = new FileStream("Content/Sprites/DebugCenter.png", FileMode.Open);
                 tank.TileDebugCenterTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             }
-
-
             fileStream.Dispose();
 
             // TODO: use this.Content to load your game content here
@@ -99,9 +96,11 @@ namespace TankHunterAiLenardArjen
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             // TODO: Add your update logic here
             tank.Update(gameTime.ElapsedGameTime.Milliseconds);
+            world.Update(gameTime.ElapsedGameTime.Milliseconds);
+
+
             base.Update(gameTime);
         }
 
@@ -111,7 +110,7 @@ namespace TankHunterAiLenardArjen
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.LawnGreen);
 
             //world should only be drawed once with its elements
             // The entities should update themselfs and draw/render
@@ -125,6 +124,7 @@ namespace TankHunterAiLenardArjen
             spriteBatch.End();
 
             // TODO: Add your drawing code here
+          //  world.Draw(spriteBatch, graphics.GraphicsDevice); safdgzhk
 
             base.Draw(gameTime);
         }

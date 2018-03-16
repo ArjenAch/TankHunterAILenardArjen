@@ -74,9 +74,11 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public void AddEntity(BaseGameEntity entity, int id)
         {
             Cell value;
-            Grid.TryGetValue(id, out value);
-            value.Members.Add(entity);
-            entity.InCell = value;
+            if(Grid.TryGetValue(id, out value))
+            {
+                value.Members.Add(entity);
+                entity.InCell = value;
+            }
         }
 
         //Calculates cell id based on entity position
@@ -91,24 +93,22 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public void UpdateEntity(MovingEntity entity) // basegame entities don't move so no update is needed
         {
             int id = CalculateCell(entity.Position);
-
-            //temp fix!
-            if(!(id< 0 || id > totalNumberOfCells))
+            if (entity.InCell.ID != id )
             {
-                if (entity.InCell.ID != id)
+                Cell oldValue;
+                
+                // TODO: grid count does only work for the right wall
+                if(Grid.TryGetValue(entity.InCell.ID, out oldValue) && id <= Grid.Count)
                 {
-                    Cell oldValue;
-                    Grid.TryGetValue(entity.InCell.ID, out oldValue);
                     oldValue.Members.Remove(entity);
-
                     AddEntity(entity, id);
+                } else
+                {
+                    // TODO: ugly solution for stopping the player 
+                    entity.Velocity = new Vector(0,0);
                 }
+            }
 
-            }
-            else
-            {
-                entity.Position = new Vector(100, 100);
-            }
         }
 
         public void CalculateNeighborCells(Cell center, int radius)
