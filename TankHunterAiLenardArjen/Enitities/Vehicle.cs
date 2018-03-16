@@ -13,7 +13,6 @@ namespace TankHunterAiLenardArjen
     public class Vehicle : MovingEntity //Chapter 3 pg 89
     {
         private World gameWorld;
-        public SteeringBehavioursController steering;
         public Texture2D Texture { get; set; }
         public Texture2D TileDebugNeighborTexture { get; set; }
         public Texture2D TileDebugCenterTexture { get; set; }
@@ -23,7 +22,6 @@ namespace TankHunterAiLenardArjen
         public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
         {
             this.gameWorld = gameWorld;
-            this.steering = new SteeringBehavioursController();
             destinationSize = new Rectangle((int)Position.X , (int)Position.Y, GlobalVars.cellSize, GlobalVars.cellSize);
 
             Target = new Vector(Position.X +1, Position.Y + 1);

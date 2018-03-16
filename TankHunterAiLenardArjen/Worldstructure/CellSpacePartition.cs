@@ -63,6 +63,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
             {
                 CalculateNeighborCells(Grid[i], cellSize); // calculate direct neighbors
 
+                Neighbors.Remove(Grid[i]);
+
                 foreach (Cell cell in Neighbors)
                 {
                     Grid[i].Adjecent.Add(new Edge(Grid[i], cell));
