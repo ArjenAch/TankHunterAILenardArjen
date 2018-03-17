@@ -12,6 +12,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public List<Cell> Neighbors { get; }
         public List<BaseGameEntity> EntitiesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
+        public Texture2D DefaultTileTexture { get; set; }
         private double worldWidth;
         private double worldHeight;
         private int cellSize;
@@ -63,6 +64,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             {
                 CalculateNeighborCells(Grid[i], cellSize); // calculate direct neighbors
 
+                Neighbors.Remove(Grid[i]);
                 foreach (Cell cell in Neighbors)
                 {
                     Grid[i].Adjecent.Add(new Edge(Grid[i], cell));
@@ -74,7 +76,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public void AddEntity(BaseGameEntity entity, int id)
         {
             Cell value;
-            if(Grid.TryGetValue(id, out value))
+            if (Grid.TryGetValue(id, out value))
             {
                 value.Members.Add(entity);
                 entity.InCell = value;
@@ -82,32 +84,37 @@ namespace TankHunterAiLenardArjen.Worldstructure
         }
 
         //Calculates cell id based on entity position
-        private int CalculateCell(Vector position)
+        public int CalculateCell(Vector position)
         {
-            int cellDiv = (int)position.X / cellSize;
-            int cellValue = (int)((cellDiv * numberOfCellsHeight) + (position.Y / cellSize));
-            return cellValue;
+            if (EntityIsOutOfWorld(position))
+            {
+                int cellDiv = (int)position.X / cellSize;
+                int cellValue = (int)((cellDiv * numberOfCellsHeight) + (position.Y / cellSize));
+                return cellValue;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("Vector position is out of the playing field");
+            }
         }
+
+        private bool EntityIsOutOfWorld(Vector position) => !(position.X < 0 || position.X > worldWidth || position.Y < 0 || position.Y > worldHeight);
 
         //Updates Entity cell if needed
         public void UpdateEntity(MovingEntity entity) // basegame entities don't move so no update is needed
         {
-            int id = CalculateCell(entity.Position);
-            if (entity.InCell.ID != id )
+            try
             {
-                Cell oldValue;
-                
-                // TODO: grid count does only work for the right wall
-                if(Grid.TryGetValue(entity.InCell.ID, out oldValue) && id <= Grid.Count)
+                int id = CalculateCell(entity.Position);
+
+                if (entity.InCell.ID != id)
                 {
+                    Cell oldValue;
+                    Grid.TryGetValue(entity.InCell.ID, out oldValue);
                     oldValue.Members.Remove(entity);
                     AddEntity(entity, id);
-                } else
-                {
-                    // TODO: ugly solution for stopping the player 
-                    entity.Velocity = new Vector(0,0);
                 }
-            }
+            } catch (ArgumentOutOfRangeException) {}
         }
 
         public void CalculateNeighborCells(Cell center, int radius)
@@ -136,11 +143,16 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     tmp.Y = j;
                     if (!(i < 0 || j < 0))
                     {
-                        cellValue = CalculateCell(tmp);
-                        if (!(cellValue < 0 || cellValue >= totalNumberOfCells - 1))
+                        try
                         {
-                            Neighbors.Add(Grid[cellValue]);
+                            // CalculateCell throws exception when a position is out side the game World
+                            cellValue = CalculateCell(tmp);
+                            if (!(cellValue < 0 || cellValue >= totalNumberOfCells - 1))
+                            {
+                                Neighbors.Add(Grid[cellValue]);
+                            }
                         }
+                        catch (ArgumentOutOfRangeException) { }
                     }
                 }
                 if (i > worldWidth)
@@ -168,11 +180,11 @@ namespace TankHunterAiLenardArjen.Worldstructure
         }
 
         //Shoud be called only once
-        public void RenderAllCells (Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void RenderAllCells(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
-            for(int i =0; i < totalNumberOfCells -1; i++)
+            for (int i = 0; i < totalNumberOfCells - 1; i++)
             {
-                Grid[i].Render(texture,spriteBatch,graphics);
+                Grid[i].Render(texture, spriteBatch, graphics);
             }
         }
     }

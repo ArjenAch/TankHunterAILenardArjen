@@ -30,8 +30,10 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
-            player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25));
-            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, player);
+            Support.GlobalVars.worldWidth = GraphicsDevice.Viewport.Width;
+            Support.GlobalVars.worldHeight = GraphicsDevice.Viewport.Height;
+            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25), world);
             base.Initialize();
         }
 
@@ -45,9 +47,12 @@ namespace TankHunterAiLenardArjen
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
-            player.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            Support.GlobalVars.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            player.PlayerTexture = Support.GlobalVars.PlayerTexture;
+
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
-            world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            Support.GlobalVars.DefaultTileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            world.TileTexture = Support.GlobalVars.DefaultTileTexture;
 
             //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
             if (GlobalVars.debug == true)
@@ -83,7 +88,7 @@ namespace TankHunterAiLenardArjen
 
             // Update the world
             world.Update(gameTime.ElapsedGameTime.Milliseconds);
-
+            player.Update(gameTime.ElapsedGameTime.Milliseconds);
             base.Update(gameTime);
         }
 
@@ -98,7 +103,7 @@ namespace TankHunterAiLenardArjen
             //world should only be drawed once with its elements
             // The entities should update themselfs and draw/render
             world.Draw(spriteBatch, graphics.GraphicsDevice);
-
+            player.Render(spriteBatch);
             base.Draw(gameTime);
         }
     }

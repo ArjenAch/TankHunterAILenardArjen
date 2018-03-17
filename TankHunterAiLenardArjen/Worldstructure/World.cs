@@ -13,16 +13,14 @@ namespace TankHunterAiLenardArjen
 {
     public class World
     {
-        private Player player;
         public CellSpacePartition GridLogic { get; }
         public Texture2D TileTexture { get; set; }
         public Texture2D TileDebugNeighborTexture { get; set; }
         public Texture2D TileDebugCenterTexture { get; set; }
 
-        public World(int levelWidth, int levelHeight, Player player)
+        public World(int levelWidth, int levelHeight)
         {
             GridLogic = new CellSpacePartition(400, 400, GlobalVars.cellSize);
-            this.player = player;
             AddTank();
         }
 
@@ -35,24 +33,22 @@ namespace TankHunterAiLenardArjen
 
         public void Update(int timeElapsed)
         {
-            player.Update(timeElapsed);
-            GridLogic.UpdateEntity(player);
+            
         }
 
         public void Draw(SpriteBatch spriteBatch, GraphicsDevice graphics)
         {
             GridLogic.RenderAllCells(TileTexture, spriteBatch, graphics);
-            if (GlobalVars.debug == true)
-            {
-                GridLogic.CalculateNeighborCells(GridLogic.Grid[50], 40);
+            //if (GlobalVars.debug == true)
+            //{
+            //    GridLogic.CalculateNeighborCells(GridLogic.Grid[40], 40);
 
-                foreach (Cell cell in GridLogic.Neighbors)
-                {
-                    cell.Render(TileDebugNeighborTexture, spriteBatch, graphics);
-                }
-                GridLogic.Grid[50].Render(TileDebugCenterTexture, spriteBatch, graphics);
-            }
-            player.Render(spriteBatch);
+            //    foreach (Cell cell in GridLogic.Neighbors)
+            //    {
+            //        cell.Render(TileDebugNeighborTexture, spriteBatch, graphics);
+            //    }
+            //    GridLogic.Grid[40].Render(TileDebugCenterTexture, spriteBatch, graphics);
+            //}
         }
     }
 }
