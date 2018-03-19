@@ -31,16 +31,16 @@ namespace TankHunterAiLenardArjen.Worldstructure
             //destinationSize = new Rectangle((int)Position.X , (int)Position.Y , GlobalVars.cellSize, GlobalVars.cellSize);
         }
 
-        public void Render(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics, Color color)
+        public void Render(Texture2D texture, SpriteBatch spriteBatch, Color color)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(texture, destinationSize, null, color);
             spriteBatch.End();
         }
 
-        public void Render(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void Render(Texture2D texture, SpriteBatch spriteBatch)
         {
-            Render(texture, spriteBatch, graphics, TileColor);
+            Render(texture, spriteBatch, TileColor);
         }
 
         public void Render(SpriteBatch spriteBatch)

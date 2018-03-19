@@ -8,13 +8,19 @@ namespace TankHunterAiLenardArjen.States
 {
     public class TankAttackPlayer : ITankState
     {
-        public void Enter(Tank tank)
+        public void Enter(Vehicle tank)
         {
             // IDEA: tank shows signs of being mad
         }
 
-        public void Execute(Tank tank)
+        public Vector Execute(Vehicle vehicle)
         {
+            return Execute((Tank)vehicle);
+        }
+
+        public Vector Execute(Tank tank)
+        {
+            Vector steeringForce = new Vector(0, 0);
             if (tank.PlayerInSearchZone())
             {
                 tank.ChangeState(new TankSearchForPlayer());
@@ -27,9 +33,11 @@ namespace TankHunterAiLenardArjen.States
             {
                 // tank.AttackPlayer();
             }
+
+            return steeringForce;
         }
 
-        public void Exit(Tank tank)
+        public void Exit(Vehicle tank)
         {
             
         }

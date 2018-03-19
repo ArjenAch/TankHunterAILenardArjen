@@ -10,7 +10,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
     public class CellSpacePartition // Chapter 3 pg 127
     {
         public List<Cell> Neighbors { get; }
-        public List<BaseGameEntity> EntitiesInRange { get; }
+        public List<MovingEntity> EntitiesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
         public Texture2D DefaultTileTexture { get; set; }
         private double worldWidth;
@@ -26,7 +26,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             this.cellSize = cellSize;
             Grid = new Dictionary<int, Cell>();
             Neighbors = new List<Cell>();
-            EntitiesInRange = new List<BaseGameEntity>();
+            EntitiesInRange = new List<MovingEntity>();
             GenerateGrid();
             GenerateEdges();
         }
@@ -114,7 +114,9 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     oldValue.Members.Remove(entity);
                     AddEntity(entity, id);
                 }
+
             } catch (ArgumentOutOfRangeException) {}
+
         }
 
         public void CalculateNeighborCells(Cell center, int radius)
@@ -169,8 +171,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
             foreach (Cell cell in Neighbors)
             {
-
-                foreach (BaseGameEntity member in cell.Members)
+                foreach (MovingEntity member in cell.Members)
                 {
                     //TODO: Check correctness if statement
                     if (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
@@ -180,11 +181,12 @@ namespace TankHunterAiLenardArjen.Worldstructure
         }
 
         //Shoud be called only once
-        public void RenderAllCells(Texture2D texture, SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void RenderAllCells(Texture2D texture, SpriteBatch spriteBatch)
+
         {
             for (int i = 0; i < totalNumberOfCells - 1; i++)
             {
-                Grid[i].Render(texture, spriteBatch, graphics);
+                Grid[i].Render(texture, spriteBatch);
             }
         }
     }

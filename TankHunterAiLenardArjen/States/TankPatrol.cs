@@ -3,17 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TankHunterAiLenardArjen.BehaviourLogic;
 
 namespace TankHunterAiLenardArjen.States
 {
     public class TankPatrol : ITankState
     {
-        public void Enter(Tank tank)
+        private WanderBehaviour wanderBehaviour;
+        private SeekBehaviour seekBehaviour;
+        private Vector steeringForce;
+
+        public TankPatrol()
         {
-            // IDEA: Tank is in a good mood
+            wanderBehaviour = new WanderBehaviour(300,0,50);
+            seekBehaviour = new SeekBehaviour();
+            steeringForce = new Vector(0, 0);
         }
 
-        public void Execute(Tank tank)
+        public void Enter(Vehicle tank)
+        {
+            // IDEA: Tank is in a good mood
+           
+        }
+
+        public Vector Execute(Vehicle vehicle)
+        {
+            return Execute((Tank)vehicle);
+        }
+
+        public Vector Execute(Tank tank)
         {
             if (tank.PlayerInAttackZone())
             {
@@ -25,11 +43,13 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-                // tank.patrol();
+                steeringForce = seekBehaviour.Execute(tank, wanderBehaviour.Execute(tank));
             }
+
+            return steeringForce;
         }
 
-        public void Exit(Tank tank)
+        public void Exit(Vehicle tank)
         {
 
         }

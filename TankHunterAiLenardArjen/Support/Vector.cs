@@ -18,6 +18,12 @@ namespace TankHunterAiLenardArjen
             Y = y;
         }
 
+        public Vector(Vector vector)
+        {
+            X = vector.X;
+            Y = vector.Y;
+        }
+
         public Vector2 ToVector2()
         {
             Vector2 vector = new Vector2(X, Y);
@@ -30,18 +36,13 @@ namespace TankHunterAiLenardArjen
             return vector;
         }
 
-        internal static Vector Normalize(Vector velocity) //http://www.fundza.com/vectors/normalize/
+        public Vector Normalize() //http://www.fundza.com/vectors/normalize/
         {
-            float length = velocity.LengthSq();
-            velocity.X = velocity.X / length;
-            velocity.Y = velocity.Y / length;
-            return velocity;
+            float length = Length();
+            X = X / length;
+            Y = Y / length;
+            return this;
         }
-
-        //public static Vector operator *()
-        //{
-
-        //}
 
         public Vector Perp() //https://gamedev.stackexchange.com/questions/70075/how-can-i-find-the-perpendicular-to-a-2d-vector
         {
@@ -51,7 +52,12 @@ namespace TankHunterAiLenardArjen
 
         public float LengthSq()
         {
-            float length = (float)Math.Sqrt((X * X) + (Y * Y));
+            return (X * X + Y * Y);
+        }
+
+        public float Length()
+        {
+            float length = (float)Math.Sqrt((Double)(X * X) + (Y * Y));
             return length;
         }
 
@@ -81,7 +87,7 @@ namespace TankHunterAiLenardArjen
             }
         }
 
-        #region operator overloaders
+        #region operator overloaders TODO revisit
         public static Vector operator *(Vector vector, int t)
         {
             vector.X = vector.X * t;
@@ -93,6 +99,13 @@ namespace TankHunterAiLenardArjen
         {
             vector.X = vector.X * t;
             vector.Y = vector.Y * t;
+            return vector;
+        }
+
+        public static Vector operator *(Vector vector, double t)
+        {
+            vector.X = vector.X * (float)t;
+            vector.Y = vector.Y * (float)t;
             return vector;
         }
 
@@ -110,19 +123,24 @@ namespace TankHunterAiLenardArjen
             return vector;
         }
 
-        public static Vector operator -(Vector vector, int x)
+        public static Vector operator -(Vector vector, int t)
         {
-            vector.X = vector.X - x;
-            vector.Y = vector.Y - x;
+            vector.X = vector.X - t;
+            vector.Y = vector.Y - t;
             return vector;
         }
 
-        public static Vector operator /(Vector vector, float f)
+        public static Vector operator /(Vector vector, float t)
         {
-            vector.X = vector.X / f;
-            vector.Y = vector.Y / f;
+            if(t != 0)
+            {
+                vector.X = vector.X / t;
+                vector.Y = vector.Y / t;
+            }
             return vector;
         }
+
+
         #endregion
 
 

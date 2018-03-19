@@ -8,13 +8,19 @@ namespace TankHunterAiLenardArjen.States
 {
     public class TankSearchForPlayer : ITankState
     {
-        public void Enter(Tank tank)
+        public void Enter(Vehicle tank)
         {
             // IDEA: show question mark on tank
         }
 
-        public void Execute(Tank tank)
+        public Vector Execute(Vehicle vehicle)
         {
+            return Execute((Tank)vehicle);
+        }
+
+        public Vector Execute(Tank tank)
+        {
+            Vector steeringForce = new Vector(0, 0);
             if (tank.PlayerInAttackZone())
             {
                 tank.ChangeState(new TankAttackPlayer());
@@ -27,9 +33,11 @@ namespace TankHunterAiLenardArjen.States
             {
                 // tank.A* to last seen location
             }
+
+            return steeringForce;
         }
 
-        public void Exit(Tank tank)
+        public void Exit(Vehicle tank)
         {
             // IDEA: show something that player is found or not on tank
         }
