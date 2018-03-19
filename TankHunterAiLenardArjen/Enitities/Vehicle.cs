@@ -17,15 +17,13 @@ namespace TankHunterAiLenardArjen
         public Texture2D TileDebugNeighborTexture { get; set; }
         public Texture2D TileDebugCenterTexture { get; set; }
         private Rectangle destinationSize;
-        public Vector Target { get; set; }
         public int Radius { get; }
 
         public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
         {
             this.gameWorld = gameWorld;
             destinationSize = new Rectangle((int)Position.X , (int)Position.Y, GlobalVars.cellSize, GlobalVars.cellSize);
-            Radius = 40; //TODO 
-            Target = new Vector(Position.X +1, Position.Y + 1);
+            Radius = 80; //TODO 
         }
         public override void Render(SpriteBatch spriteBatch)
         {

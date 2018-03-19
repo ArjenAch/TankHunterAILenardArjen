@@ -18,6 +18,12 @@ namespace TankHunterAiLenardArjen
             Y = y;
         }
 
+        public Vector(Vector vector)
+        {
+            X = vector.X;
+            Y = vector.Y;
+        }
+
         public Vector2 ToVector2()
         {
             Vector2 vector = new Vector2(X, Y);

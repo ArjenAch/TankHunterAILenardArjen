@@ -31,7 +31,7 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
         public Vector Execute(Vehicle vehicle)
         {
             WanderTarget += new Vector((float)(RandomClamped() * wanderJitter), (float)(RandomClamped() * wanderJitter));
-            WanderTarget = WanderTarget.Normalize();
+            WanderTarget.Normalize();
             WanderTarget = WanderTarget * wanderRadius;
 
             Vector targetLocal = WanderTarget + new Vector((float)wanderDistance, 0);

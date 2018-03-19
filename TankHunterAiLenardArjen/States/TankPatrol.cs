@@ -15,7 +15,7 @@ namespace TankHunterAiLenardArjen.States
 
         public TankPatrol()
         {
-            wanderBehaviour = new WanderBehaviour(500,50,50);
+            wanderBehaviour = new WanderBehaviour(300,0,50);
             seekBehaviour = new SeekBehaviour();
             steeringForce = new Vector(0, 0);
         }

@@ -5,16 +5,12 @@ namespace TankHunterAiLenardArjen.Enitities
 {
     public class SeparationBehaviour
     {
-        Vector steeringForce;
+        
         private List<MovingEntity> vehicles;
-
-        public SeparationBehaviour()
-        {
-            steeringForce = new Vector(0, 0);
-        }
 
         public Vector Execute(Vehicle vehicle)
         {
+            Vector steeringForce = new Vector(0, 0);
             vehicle.gameWorld.GridLogic.CalculateNeighborsEntities(vehicle, vehicle.Radius);
             vehicles = vehicle.gameWorld.GridLogic.EntitiesInRange;
 
@@ -25,7 +21,7 @@ namespace TankHunterAiLenardArjen.Enitities
                 //the agent being examined is close enough
                 if (vehicles[i] != vehicle && vehicles[i].GetType().Equals(vehicle.GetType()))
                 {
-                    Vector ToAgent = vehicle.Position - vehicles[i].Position;
+                    Vector ToAgent = new Vector(vehicle.Position) - vehicles[i].Position;
 
                     //scale the force inversely proportional to the agents distance  
                     //from its neighbor.

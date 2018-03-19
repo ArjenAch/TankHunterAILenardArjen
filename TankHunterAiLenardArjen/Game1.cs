@@ -47,6 +47,12 @@ namespace TankHunterAiLenardArjen
                 planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(200 + i * 5, 200 + i * 5)));
             }
 
+            for (int i = 0; i < 10; i++)
+            {
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(30 + i * 5, 200 + i * 5)));
+            }
+
+
             base.Initialize();
         }
 

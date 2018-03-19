@@ -6,16 +6,11 @@ namespace TankHunterAiLenardArjen.Enitities
     public class AlignmentBehaviour
     {
         //This will record the average heading of the neighbors
-        Vector AverageHeading;
         private List<MovingEntity> vehicles;
-
-        public AlignmentBehaviour()
-        {
-            AverageHeading = new Vector(0, 0);
-        }
 
         public Vector Execute(Vehicle vehicle)
         {
+            Vector AverageHeading = new Vector(0, 0);
             //This count the number of vehicles in the neighborhood
             int NeighborCount = 0;
 
