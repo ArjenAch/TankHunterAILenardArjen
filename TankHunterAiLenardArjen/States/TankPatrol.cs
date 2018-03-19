@@ -15,15 +15,16 @@ namespace TankHunterAiLenardArjen.States
 
         public TankPatrol()
         {
-            wanderBehaviour = new WanderBehaviour(300,0,50);
+            wanderBehaviour = new WanderBehaviour(40,0,10);
             seekBehaviour = new SeekBehaviour();
-            steeringForce = new Vector(0, 0);
+            
         }
 
         public void Enter(Vehicle tank)
         {
             // IDEA: Tank is in a good mood
-           
+            steeringForce = new Vector(tank.Position);
+
         }
 
         public Vector Execute(Vehicle vehicle)
@@ -43,7 +44,7 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-                steeringForce = seekBehaviour.Execute(tank, wanderBehaviour.Execute(tank));
+                steeringForce = wanderBehaviour.Execute(tank); //seekBehaviour.Execute(
             }
 
             return steeringForce;

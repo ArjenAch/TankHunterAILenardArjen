@@ -39,17 +39,17 @@ namespace TankHunterAiLenardArjen
         {
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, player);
-            tank = new Tank(world, 1, new Vector(0, 0), 1500f, 4, 2, new Vector(100, 100));
+            tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 2, new Vector(100, 100));
             planes = new List<Airplane>();
 
             for(int i = 0; i < 10; i++)
             {
-                planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(200 + i * 5, 200 + i * 5)));
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 2, 2, new Vector(200 + i * 5, 200 + i * 5)));
             }
 
             for (int i = 0; i < 10; i++)
             {
-                planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(30 + i * 5, 200 + i * 5)));
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 2, 2, new Vector(30 + i * 5, 200 + i * 5)));
             }
 
 
@@ -81,6 +81,8 @@ namespace TankHunterAiLenardArjen
             tank.Texture = Texture2D.FromStream(GraphicsDevice, fileStream);
             fileStream = new FileStream("Content/Sprites/TankTop.png", FileMode.Open);
             tank.TankTopTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            fileStream = new FileStream("Content/Sprites/DebugTarget.png", FileMode.Open);
+            tank.TargetTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
 
             //Load Planes
             fileStream = new FileStream("Content/Sprites/Airplane.png", FileMode.Open);

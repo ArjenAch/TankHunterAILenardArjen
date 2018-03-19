@@ -35,9 +35,9 @@ namespace TankHunterAiLenardArjen.Enitities
             base.Update(timeElapsed);
             steeringForce = Calculate();
             Vector acceleration = steeringForce / Mass;
-            Velocity += acceleration * timeElapsed / 1000;
+            Velocity += acceleration * (timeElapsed / 10); 
             Velocity.Truncate(MaxSpeed);
-            Position += Velocity * timeElapsed /1000;
+            Position += Velocity * (timeElapsed / 10); 
 
 
             if (Velocity.LengthSq() > 0.00000001)

@@ -45,8 +45,8 @@ namespace TankHunterAiLenardArjen
     
         public override void Update(int timeElapsed)
         {
-            destinationSize.X = (int)Position.X;
-            destinationSize.Y = (int)Position.Y;
+            destinationSize.X = (int)Position.X - GlobalVars.cellSize /2;
+            destinationSize.Y = (int)Position.Y - GlobalVars.cellSize / 2;
             gameWorld.GridLogic.UpdateEntity(this);
 
             

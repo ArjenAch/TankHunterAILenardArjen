@@ -13,10 +13,12 @@ namespace TankHunterAiLenardArjen
     public class Tank : Vehicle
     {
         public Texture2D TankTopTexture { get; set; }
+        public Texture2D TargetTexture { get; set; }
         public float MaxTurnRateTurret { get; set; }
         private float angleTankTurret { get; set; }
         private ITankState State { get; set; }
         private Rectangle destinationSize;
+        private Rectangle destinationSizeTarget;
         Vector steeringForce;
 
         public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
@@ -24,7 +26,8 @@ namespace TankHunterAiLenardArjen
             this.angleTankTurret = 0;
             // Tank starts default with patrolling
             this.State = new TankPatrol();
-            destinationSize = new Rectangle((int)Position.X, (int)Position.Y, GlobalVars.cellSize, GlobalVars.cellSize);
+            destinationSize = new Rectangle((int)Position.X - GlobalVars.cellSize / 2, (int)Position.Y - GlobalVars.cellSize / 2, GlobalVars.cellSize, GlobalVars.cellSize);
+            destinationSizeTarget = new Rectangle (0, 0, GlobalVars.cellSize/2, GlobalVars.cellSize/2);
         }
 
         public override void Render(SpriteBatch spriteBatch)
@@ -34,6 +37,8 @@ namespace TankHunterAiLenardArjen
             //The bottom is rendered in vehicle
             spriteBatch.Begin();
             spriteBatch.Draw(TankTopTexture, destinationSize,null, Color.White);
+            if(GlobalVars.debug == true)
+                spriteBatch.Draw(TargetTexture, destinationSizeTarget, null, Color.DarkBlue);
             spriteBatch.End();
         }
 
@@ -46,9 +51,9 @@ namespace TankHunterAiLenardArjen
         {
             steeringForce = Calculate();
             Vector acceleration = steeringForce / Mass;
-            Velocity += acceleration * timeElapsed / 1000;
+            Velocity += acceleration * (timeElapsed / 10);
             Velocity.Truncate(MaxSpeed);
-            Position += Velocity * timeElapsed /1000;
+            Position += Velocity * (timeElapsed /10);
 
             if (Velocity.LengthSq() > 0.00000001)
             {
@@ -56,8 +61,10 @@ namespace TankHunterAiLenardArjen
                 Side = Heading.Perp();
             }
 
-            destinationSize.X = (int) Position.X;
-            destinationSize.Y = (int) Position.Y;
+            destinationSize.X = (int) Position.X - GlobalVars.cellSize / 2;
+            destinationSize.Y = (int) Position.Y - GlobalVars.cellSize / 2;
+            destinationSizeTarget.X = (int)steeringForce.X;
+            destinationSizeTarget.Y = (int)steeringForce.Y ;
             base.Update(timeElapsed);
         }
 
