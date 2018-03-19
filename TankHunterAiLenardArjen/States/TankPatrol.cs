@@ -11,21 +11,28 @@ namespace TankHunterAiLenardArjen.States
     {
         private WanderBehaviour wanderBehaviour;
         private SeekBehaviour seekBehaviour;
+        private Vector steeringForce;
 
         public TankPatrol()
         {
-            wanderBehaviour = new WanderBehaviour(20,10,5);
+            wanderBehaviour = new WanderBehaviour(500,50,50);
             seekBehaviour = new SeekBehaviour();
+            steeringForce = new Vector(0, 0);
         }
 
-        public void Enter(Tank tank)
+        public void Enter(Vehicle tank)
         {
             // IDEA: Tank is in a good mood
+           
+        }
+
+        public Vector Execute(Vehicle vehicle)
+        {
+            return Execute((Tank)vehicle);
         }
 
         public Vector Execute(Tank tank)
         {
-            Vector steeringForce = new Vector(0, 0);
             if (tank.PlayerInAttackZone())
             {
                 tank.ChangeState(new TankAttackPlayer());
@@ -42,7 +49,7 @@ namespace TankHunterAiLenardArjen.States
             return steeringForce;
         }
 
-        public void Exit(Tank tank)
+        public void Exit(Vehicle tank)
         {
 
         }

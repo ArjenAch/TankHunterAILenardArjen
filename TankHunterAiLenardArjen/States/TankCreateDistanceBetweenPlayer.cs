@@ -8,9 +8,14 @@ namespace TankHunterAiLenardArjen.States
 {
     public class TankCreateDistanceBetweenPlayer : ITankState
     {
-        public void Enter(Tank tank)
+        public void Enter(Vehicle tank)
         {
             // IDEA: tank shows signs of panic
+        }
+
+        public Vector Execute(Vehicle vehicle)
+        {
+            return Execute((Tank)vehicle);
         }
 
         public Vector Execute(Tank tank)
@@ -28,7 +33,7 @@ namespace TankHunterAiLenardArjen.States
             return steeringForce;
         }
 
-        public void Exit(Tank tank)
+        public void Exit(Vehicle tank)
         {
 
         }

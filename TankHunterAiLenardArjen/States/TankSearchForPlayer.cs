@@ -8,9 +8,14 @@ namespace TankHunterAiLenardArjen.States
 {
     public class TankSearchForPlayer : ITankState
     {
-        public void Enter(Tank tank)
+        public void Enter(Vehicle tank)
         {
             // IDEA: show question mark on tank
+        }
+
+        public Vector Execute(Vehicle vehicle)
+        {
+            return Execute((Tank)vehicle);
         }
 
         public Vector Execute(Tank tank)
@@ -32,7 +37,7 @@ namespace TankHunterAiLenardArjen.States
             return steeringForce;
         }
 
-        public void Exit(Tank tank)
+        public void Exit(Vehicle tank)
         {
             // IDEA: show something that player is found or not on tank
         }

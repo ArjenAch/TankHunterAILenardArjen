@@ -10,7 +10,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
     public class CellSpacePartition // Chapter 3 pg 127
     {
         public List<Cell> Neighbors { get; }
-        public List<BaseGameEntity> EntitiesInRange { get; }
+        public List<MovingEntity> EntitiesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
         private double worldWidth;
         private double worldHeight;
@@ -25,7 +25,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             this.cellSize = cellSize;
             Grid = new Dictionary<int, Cell>();
             Neighbors = new List<Cell>();
-            EntitiesInRange = new List<BaseGameEntity>();
+            EntitiesInRange = new List<MovingEntity>();
             GenerateGrid();
             GenerateEdges();
         }
@@ -160,8 +160,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
             foreach (Cell cell in Neighbors)
             {
-
-                foreach (BaseGameEntity member in cell.Members)
+                foreach (MovingEntity member in cell.Members)
                 {
                     //TODO: Check correctness if statement
                     if (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)

@@ -31,7 +31,7 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
         public Vector Execute(Vehicle vehicle)
         {
             WanderTarget += new Vector((float)(RandomClamped() * wanderJitter), (float)(RandomClamped() * wanderJitter));
-            WanderTarget = Vector.Normalize(WanderTarget);
+            WanderTarget = WanderTarget.Normalize();
             WanderTarget = WanderTarget * wanderRadius;
 
             Vector targetLocal = WanderTarget + new Vector((float)wanderDistance, 0);
@@ -45,7 +45,8 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
         private float RandomClamped()
         {
             //should return value between -1 and 1
-            float x = (float)random.NextDouble();
+            float x = (float)random.NextDouble() - (float)random.NextDouble();
+
             return x;
         }
     }

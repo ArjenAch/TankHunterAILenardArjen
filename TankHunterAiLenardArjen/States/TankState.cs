@@ -9,12 +9,12 @@ namespace TankHunterAiLenardArjen.States
     public interface ITankState
     {
         // Called directly after a state has changed
-        void Enter(Tank tank);
+        void Enter(Vehicle tank);
 
         // Called in the update function
-        Vector Execute(Tank tank);
+        Vector Execute(Vehicle tank);
 
         // Called before ChangeState is called
-        void Exit(Tank tank);
+        void Exit(Vehicle tank);
     }
 }

@@ -44,6 +44,10 @@
     <Compile Include="BehaviourLogic\SeekBehaviour.cs" />
     <Compile Include="BehaviourLogic\WanderBehaviour.cs" />
     <Compile Include="Enitities\BaseGameEntity.cs" />
+    <Compile Include="BehaviourLogic\AlignmentBehaviour.cs" />
+    <Compile Include="BehaviourLogic\CohesionBehaviour.cs" />
+    <Compile Include="States\FlockingState.cs" />
+    <Compile Include="Enitities\Airplane.cs" />
     <Compile Include="Enitities\Player.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Enitities\MovingEntity.cs" />
@@ -53,9 +57,9 @@
     <Compile Include="PlayerInput\MovePlayerRightCommand.cs" />
     <Compile Include="PlayerInput\MovePlayerUpCommand.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="BehaviourLogic\SteeringBehavioursController.cs" />
     <Compile Include="Enitities\Tank.cs" />
     <Compile Include="Enitities\Vehicle.cs" />
+    <Compile Include="BehaviourLogic\SeparationBehaviour.cs" />
     <Compile Include="Support\GlobalVars.cs" />
     <Compile Include="Support\HelpMethods.cs" />
     <Compile Include="Support\Matrix.cs" />
@@ -96,6 +100,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sprites\TankTop.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\Airplane.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

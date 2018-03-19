@@ -10,7 +10,7 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
     {
         public Vector Execute(Vehicle vehicle, Vector target)
         {
-            Vector desiredVelocity = Vector.Normalize((target - vehicle.Position) * vehicle.MaxSpeed);
+            Vector desiredVelocity = (target - vehicle.Position).Normalize() * vehicle.MaxSpeed;
 
             return (desiredVelocity - vehicle.Velocity);
         }

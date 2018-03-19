@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.IO;
+using TankHunterAiLenardArjen.Enitities;
 using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen
@@ -17,11 +19,13 @@ namespace TankHunterAiLenardArjen
         World world;
         Player player;
         Tank tank;
+        List<Airplane> planes;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
             
         }
 
@@ -35,7 +39,13 @@ namespace TankHunterAiLenardArjen
         {
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, player);
-            tank = new Tank(world, 1, new Vector(0, 0), .04f, 3, 2, new Vector(100, 100));
+            tank = new Tank(world, 1, new Vector(0, 0), 1500f, 4, 2, new Vector(100, 100));
+            planes = new List<Airplane>();
+
+            for(int i = 0; i < 10; i++)
+            {
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(200 + i * 5, 200 + i * 5)));
+            }
 
             base.Initialize();
         }
@@ -59,11 +69,20 @@ namespace TankHunterAiLenardArjen
             //Load sand tile texture
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
             world.TileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+
             //Load tank
             fileStream = new FileStream("Content/Sprites/TankBottom.png", FileMode.Open);
             tank.Texture = Texture2D.FromStream(GraphicsDevice, fileStream);
             fileStream = new FileStream("Content/Sprites/TankTop.png", FileMode.Open);
             tank.TankTopTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+
+            //Load Planes
+            fileStream = new FileStream("Content/Sprites/Airplane.png", FileMode.Open);
+           
+            foreach (Airplane plane in planes)
+            {
+                plane.PlaneTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            }
 
             //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
             if (GlobalVars.debug ==true)
@@ -99,7 +118,10 @@ namespace TankHunterAiLenardArjen
             // TODO: Add your update logic here
             tank.Update(gameTime.ElapsedGameTime.Milliseconds);
             world.Update(gameTime.ElapsedGameTime.Milliseconds);
-
+            foreach(Airplane plane in planes)
+            {
+                plane.Update(gameTime.ElapsedGameTime.Milliseconds);
+            }
 
             base.Update(gameTime);
         }
@@ -116,6 +138,10 @@ namespace TankHunterAiLenardArjen
             // The entities should update themselfs and draw/render
             world.Render(spriteBatch, graphics.GraphicsDevice);
             tank.Render(spriteBatch);
+            foreach (Airplane plane in planes)
+            {
+                plane.Render(spriteBatch);
+            }
 
             spriteBatch.Begin();
 

@@ -46,13 +46,13 @@ namespace TankHunterAiLenardArjen
         {
             steeringForce = Calculate();
             Vector acceleration = steeringForce / Mass;
-            Velocity += acceleration * timeElapsed;
+            Velocity += acceleration * timeElapsed / 1000;
             Velocity.Truncate(MaxSpeed);
-            Position += Velocity * timeElapsed;
+            Position += Velocity * timeElapsed /1000;
 
             if (Velocity.LengthSq() > 0.00000001)
             {
-                Heading = Vector.Normalize(Velocity);
+                Heading = Velocity.Normalize();
                 Side = Heading.Perp();
             }
 
