@@ -16,7 +16,7 @@ namespace TankHunterAiLenardArjen.Enitities
             cohesionBehaviour = new CohesionBehaviour();
             separationBehaviour = new SeparationBehaviour();
             alignmentBehaviour = new AlignmentBehaviour();
-            wanderBehaviour = new WanderBehaviour(500, 500, 50);
+            wanderBehaviour = new WanderBehaviour(1.2, 2, 10);
         }
 
         public void Enter(Vehicle plane)
@@ -26,9 +26,12 @@ namespace TankHunterAiLenardArjen.Enitities
 
         public Vector Execute(Vehicle plane)
         {
-            
-            steeringForce = separationBehaviour.Execute(plane)  + alignmentBehaviour.Execute(plane) + cohesionBehaviour.Execute(plane) + wanderBehaviour.Execute(plane);
-             
+
+            steeringForce = separationBehaviour.Execute(plane);
+            steeringForce += alignmentBehaviour.Execute(plane);
+            steeringForce += cohesionBehaviour.Execute(plane);
+            //steeringForce += wanderBehaviour.Execute(plane);
+
             return steeringForce;
 
         }

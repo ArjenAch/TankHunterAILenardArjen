@@ -17,7 +17,7 @@ namespace TankHunterAiLenardArjen.Enitities
         public Texture2D PlaneTexture { get; set; }
         private ITankState State { get; set; }
 
-        public Airplane(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Airplane(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ,double rotation) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position,rotation)
         {
             State = new FlockingState();
             destinationSize = new Rectangle((int)Position.X, (int)Position.Y, GlobalVars.cellSize/2, GlobalVars.cellSize/2);

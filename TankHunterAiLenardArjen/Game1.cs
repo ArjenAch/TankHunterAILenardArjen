@@ -20,13 +20,16 @@ namespace TankHunterAiLenardArjen
         Player player;
         Tank tank;
         List<Airplane> planes;
+       
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
-            
+            GlobalVars.TimeElapsed = 0;
+
+
+
         }
 
         /// <summary>
@@ -39,18 +42,18 @@ namespace TankHunterAiLenardArjen
         {
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25));
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, player);
-            tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 2, new Vector(100, 100));
+            tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 2, new Vector(400, 400),10);
             planes = new List<Airplane>();
 
-            for(int i = 0; i < 10; i++)
-            {
-                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 2, 2, new Vector(200 + i * 5, 200 + i * 5)));
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 1f, 2, 2, new Vector(200 + i * 5, 200 + i * 5),i));
+            //}
 
-            for (int i = 0; i < 10; i++)
-            {
-                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 2, 2, new Vector(30 + i * 5, 200 + i * 5)));
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 1f, 2, 2, new Vector(30 + i * 5, 200 + i * 5),i));
+            //}
 
 
             base.Initialize();
@@ -121,6 +124,8 @@ namespace TankHunterAiLenardArjen
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            GlobalVars.TimeElapsed += gameTime.ElapsedGameTime.TotalMilliseconds;
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
@@ -132,6 +137,7 @@ namespace TankHunterAiLenardArjen
             }
 
             base.Update(gameTime);
+
         }
 
         /// <summary>

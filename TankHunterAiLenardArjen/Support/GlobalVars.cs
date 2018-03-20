@@ -8,7 +8,8 @@ namespace TankHunterAiLenardArjen.Support
 {
     public static class GlobalVars
     {
-        public static int cellSize = 20;
+        public static int cellSize = 40;
         public static bool debug = true;
+        public static double TimeElapsed { get; set; }
     }
 }

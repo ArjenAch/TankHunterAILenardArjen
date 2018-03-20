@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TankHunterAiLenardArjen.BehaviourLogic;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.States
 {
@@ -13,11 +14,18 @@ namespace TankHunterAiLenardArjen.States
         private SeekBehaviour seekBehaviour;
         private Vector steeringForce;
 
-        public TankPatrol()
+        public TankPatrol(double wanderRad, double wanderDist, double wanderJitter)
         {
-            wanderBehaviour = new WanderBehaviour(40,0,10);
+            wanderBehaviour = new WanderBehaviour(wanderRad,wanderDist,wanderJitter);
             seekBehaviour = new SeekBehaviour();
             
+        }
+
+        public TankPatrol()
+        {
+            wanderBehaviour = new WanderBehaviour(40,20,2);
+            seekBehaviour = new SeekBehaviour();
+
         }
 
         public void Enter(Vehicle tank)
@@ -44,10 +52,14 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-                steeringForce = wanderBehaviour.Execute(tank); //seekBehaviour.Execute(
+                if(GlobalVars.TimeElapsed >=1000)
+                {
+                    steeringForce = wanderBehaviour.Execute(tank); //seekBehaviour.Execute(
+                    GlobalVars.TimeElapsed = 0;
+                }
+               
             }
-
-            return steeringForce;
+            return steeringForce ;
         }
 
         public void Exit(Vehicle tank)

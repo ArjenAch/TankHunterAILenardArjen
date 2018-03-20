@@ -78,9 +78,9 @@ namespace TankHunterAiLenardArjen.Support
 
         public static Vector TransformVector(Matrix m, Vector vector)
         {
-            float tempX = (m.matrix[0,0] * vector.X) + (m.matrix[1,0] * vector.Y) + (m.matrix[2,0]);
+            float tempX = (m.matrix[0,0] * vector.X) + (m.matrix[0,1] * vector.Y) + (m.matrix[0,2]);
 
-            float tempY = (m.matrix[0, 1] * vector.X) + (m.matrix[1, 1] * vector.Y) + (m.matrix[2, 1]);
+            float tempY = (m.matrix[1, 0] * vector.X) + (m.matrix[1, 1] * vector.Y) + (m.matrix[1, 2]);
 
             vector.X = tempX;
             vector.Y = tempY;

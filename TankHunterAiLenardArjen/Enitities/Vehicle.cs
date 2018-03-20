@@ -13,22 +13,40 @@ namespace TankHunterAiLenardArjen
     public class Vehicle : MovingEntity //Chapter 3 pg 89
     {
         public World gameWorld { get; }
-        public Texture2D Texture { get; set; }
+        private Texture2D _texture;
         public Texture2D TileDebugNeighborTexture { get; set; }
         public Texture2D TileDebugCenterTexture { get; set; }
         private Rectangle destinationSize;
         public int Radius { get; }
+        public int TimeElapsed { get; set; }
+        protected double rotation;
+       // private Vector2 origin;
 
-        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
+        public Texture2D Texture
+        {
+            get { return _texture; }
+            set
+            {
+                _texture = value;
+                //origin.X = _texture.Width / 4;
+                //origin.Y = _texture.Height / 2;
+            }
+        }
+
+        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, double rotation ) : base (mass,side,maxSpeed,maxForce,maxTurnRate,position)
         {
             this.gameWorld = gameWorld;
+            this.rotation = rotation;
             destinationSize = new Rectangle((int)Position.X , (int)Position.Y, GlobalVars.cellSize, GlobalVars.cellSize);
-            Radius = 80; //TODO 
+            Radius = 100; //TODO 
+            TimeElapsed = 0;
+            Heading = new Vector((float)Math.Sin(rotation), -(float)Math.Cos(rotation));
         }
         public override void Render(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            spriteBatch.Draw(Texture, destinationSize,null, Color.White);
+            spriteBatch.Draw(_texture, destinationSize, null, Color.White, (float)rotation, Vector2.Zero, SpriteEffects.None, 0);
+           // spriteBatch.Draw(Texture, destinationSize,null ,Color.White);
             spriteBatch.End();
             if (GlobalVars.debug == true)
             {
@@ -47,6 +65,7 @@ namespace TankHunterAiLenardArjen
         {
             destinationSize.X = (int)Position.X - GlobalVars.cellSize /2;
             destinationSize.Y = (int)Position.Y - GlobalVars.cellSize / 2;
+            rotation = (float)Math.Atan2(Velocity.Y, Velocity.X);
             gameWorld.GridLogic.UpdateEntity(this);
 
             
