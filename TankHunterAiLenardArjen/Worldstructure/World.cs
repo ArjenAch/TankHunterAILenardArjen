@@ -16,10 +16,14 @@ namespace TankHunterAiLenardArjen
         private Player player;
         public CellSpacePartition GridLogic { get; }
         public Texture2D TileTexture { get; set; }
+        public int WorldHeight { get; }
+        public int WorldWidth { get; }
 
         public World(int levelWidth, int levelHeight, Player player)
         {
-            GridLogic = new CellSpacePartition(600, 600, GlobalVars.cellSize);
+            WorldHeight = levelHeight;
+            WorldWidth = levelWidth;
+            GridLogic = new CellSpacePartition(WorldWidth, WorldHeight , GlobalVars.cellSize);
             this.player = player;
         }
 

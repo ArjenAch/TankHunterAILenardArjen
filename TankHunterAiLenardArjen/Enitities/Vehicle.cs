@@ -67,6 +67,7 @@ namespace TankHunterAiLenardArjen
             destinationSize.Y = (int)Position.Y - GlobalVars.cellSize / 2;
             rotation = (float)Math.Atan2(Velocity.Y, Velocity.X);
             gameWorld.GridLogic.UpdateEntity(this);
+            Position.WrapAround(gameWorld.WorldWidth, gameWorld.WorldHeight);
 
             
             //Vector steeringForce = steering.Calculate(this);

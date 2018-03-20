@@ -87,6 +87,14 @@ namespace TankHunterAiLenardArjen
             }
         }
 
+        public void WrapAround(double maxX, double maxY)
+        {
+            if(X > maxX) { X = 0.0f; }
+            if(X < 0) { X = (float)maxX; }
+            if (Y > maxY) { Y = 0.0f; }
+            if (Y < 0) { Y = (float)maxY; }
+        }
+
         #region operator overloaders TODO revisit
         public static Vector operator *(Vector vector, int t)
         {

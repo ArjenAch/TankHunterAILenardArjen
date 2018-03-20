@@ -45,15 +45,15 @@ namespace TankHunterAiLenardArjen
             tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 2, new Vector(400, 400),10);
             planes = new List<Airplane>();
 
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 1f, 2, 2, new Vector(200 + i * 5, 200 + i * 5),i));
-            //}
+            for (int i = 0; i < 10; i++)
+            {
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 1f, 2, 2, new Vector(200 + i * 5, 200 + i * 5), i));
+            }
 
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 1f, 2, 2, new Vector(30 + i * 5, 200 + i * 5),i));
-            //}
+            for (int i = 0; i < 10; i++)
+            {
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 1f, 2, 2, new Vector(30 + i * 5, 200 + i * 5), i));
+            }
 
 
             base.Initialize();
