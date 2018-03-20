@@ -33,7 +33,7 @@ namespace TankHunterAiLenardArjen.Enitities
         public override void Update(int timeElapsed)
         {
             base.Update(timeElapsed);
-            steeringForce = Calculate();
+            steeringForce = Calculate(timeElapsed);
             Vector acceleration = steeringForce / Mass;
             Velocity += acceleration * timeElapsed / 1000;
             Velocity.Truncate(MaxSpeed);
@@ -50,9 +50,9 @@ namespace TankHunterAiLenardArjen.Enitities
             destinationSize.Y = (int)Position.Y;
         }
 
-        public Vector Calculate()
+        public Vector Calculate(int timeElapsed)
         {
-            steeringForce = State.Execute(this);
+            steeringForce = State.Execute(this, timeElapsed);
 
             return steeringForce;
         }

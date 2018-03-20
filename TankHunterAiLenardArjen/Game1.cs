@@ -15,7 +15,7 @@ namespace TankHunterAiLenardArjen
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        SpriteFont font;
+        //SpriteFont font;
         World world;
         Player player;
         Tank tank;
@@ -35,14 +35,14 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
-            Support.GlobalVars.worldWidth = GraphicsDevice.Viewport.Width;
-            Support.GlobalVars.worldHeight = GraphicsDevice.Viewport.Height;
+            GlobalVars.worldWidth = GraphicsDevice.Viewport.Width;
+            GlobalVars.worldHeight = GraphicsDevice.Viewport.Height;
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25), world);
-            tank = new Tank(world, 1, new Vector(0, 0), 1500f, 4, 2, new Vector(100, 100));
+            tank = new Tank(world, 1, new Vector(0, 0), 150f, 4, 45, new Vector(250, 250));
             planes = new List<Airplane>();
 
-            //for(int i = 0; i < 10; i++)
+            //for (int i = 0; i < 10; i++)
             //{
             //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(200 + i * 5, 200 + i * 5)));
             //}
@@ -69,12 +69,12 @@ namespace TankHunterAiLenardArjen
 
             //Load player texture
             FileStream fileStream = new FileStream("Content/Sprites/Player.png", FileMode.Open);
-            Support.GlobalVars.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            GlobalVars.PlayerTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             player.PlayerTexture = Support.GlobalVars.PlayerTexture;
 
             // World
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
-            Support.GlobalVars.DefaultTileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            GlobalVars.DefaultTileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             world.TileTexture = Support.GlobalVars.DefaultTileTexture;
 
             //Load tank
@@ -85,14 +85,14 @@ namespace TankHunterAiLenardArjen
 
             //Load Planes
             fileStream = new FileStream("Content/Sprites/Airplane.png", FileMode.Open);
-           
+
             foreach (Airplane plane in planes)
             {
                 plane.PlaneTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             }
 
             //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
-            if (GlobalVars.debug ==true)
+            if (GlobalVars.debug == true)
             {
                 fileStream = new FileStream("Content/Sprites/DebugNeighbor.png", FileMode.Open);
                 tank.TileDebugNeighborTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
@@ -100,8 +100,6 @@ namespace TankHunterAiLenardArjen
                 tank.TileDebugCenterTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             }
             fileStream.Dispose();
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -127,7 +125,7 @@ namespace TankHunterAiLenardArjen
             world.Update(gameTime.ElapsedGameTime.Milliseconds);
             player.Update(gameTime.ElapsedGameTime.Milliseconds);
 
-            foreach(Airplane plane in planes)
+            foreach (Airplane plane in planes)
             {
                 plane.Update(gameTime.ElapsedGameTime.Milliseconds);
             }

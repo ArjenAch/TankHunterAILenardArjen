@@ -1,4 +1,5 @@
-﻿using TankHunterAiLenardArjen.BehaviourLogic;
+﻿using Microsoft.Xna.Framework;
+using TankHunterAiLenardArjen.BehaviourLogic;
 using TankHunterAiLenardArjen.States;
 
 namespace TankHunterAiLenardArjen.Enitities
@@ -24,16 +25,21 @@ namespace TankHunterAiLenardArjen.Enitities
             throw new System.NotImplementedException();
         }
 
-        public Vector Execute(Vehicle plane)
+        public Vector Execute(Vehicle plane, int timeElapsed)
         {
             
-            steeringForce = separationBehaviour.Execute(plane)  + alignmentBehaviour.Execute(plane) + cohesionBehaviour.Execute(plane) + wanderBehaviour.Execute(plane);
+            steeringForce = separationBehaviour.Execute(plane)  + alignmentBehaviour.Execute(plane) + cohesionBehaviour.Execute(plane) + wanderBehaviour.Execute(plane, timeElapsed);
              
             return steeringForce;
 
         }
 
         public void Exit(Vehicle plane)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Color GetColor()
         {
             throw new System.NotImplementedException();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace TankHunterAiLenardArjen.States
 {
@@ -13,12 +14,12 @@ namespace TankHunterAiLenardArjen.States
             // IDEA: tank shows signs of panic
         }
 
-        public Vector Execute(Vehicle vehicle)
+        public Vector Execute(Vehicle vehicle, int timeElapsed)
         {
-            return Execute((Tank)vehicle);
+            return Execute((Tank)vehicle, timeElapsed);
         }
 
-        public Vector Execute(Tank tank)
+        public Vector Execute(Tank tank, int timeElapsed)
         {
             Vector steeringForce = new Vector(0, 0);
             if (tank.PlayerInAttackZone())
@@ -36,6 +37,11 @@ namespace TankHunterAiLenardArjen.States
         public void Exit(Vehicle tank)
         {
 
+        }
+
+        public Color GetColor()
+        {
+            return Color.Green;
         }
     }
 }

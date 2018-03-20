@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -182,7 +183,6 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
         //Shoud be called only once
         public void RenderAllCells(Texture2D texture, SpriteBatch spriteBatch)
-
         {
             for (int i = 0; i < totalNumberOfCells - 1; i++)
             {

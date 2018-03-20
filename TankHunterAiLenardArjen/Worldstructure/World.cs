@@ -18,7 +18,7 @@ namespace TankHunterAiLenardArjen
 
         public World(int levelWidth, int levelHeight)
         {
-            GridLogic = new CellSpacePartition(600, 600, GlobalVars.cellSize);
+            GridLogic = new CellSpacePartition(levelWidth, levelWidth, GlobalVars.cellSize);
         }
 
         public void Render(SpriteBatch spriteBatch, GraphicsDevice graphics)
