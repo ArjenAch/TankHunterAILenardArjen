@@ -12,7 +12,35 @@ namespace TankHunterAiLenardArjen
 {
     public class Tank : Vehicle
     {
-        public Texture2D TankTopTexture { get; set; }
+        // Base tank texture
+        private float spriteAngle;
+        private Vector2 origin;
+        private Texture2D _texture;
+        public Texture2D Texture
+        {
+            get { return _texture; }
+            set
+            {
+                _texture = value;
+                origin.X = _texture.Width / 2;
+                origin.Y = _texture.Height / 2;
+            }
+        }
+
+        private Vector2 tankTopOrigin;
+        private Texture2D _tankTopTexture;
+
+        public Texture2D TankTopTexture
+        {
+            get { return _tankTopTexture; }
+            set
+            {
+                _tankTopTexture = value;
+                tankTopOrigin.X = _tankTopTexture.Width / 2;
+                tankTopOrigin.Y = _tankTopTexture.Height / 2;
+            }
+        }
+
         public float MaxTurnRateTurret { get; set; }
         private float angleTankTurret { get; set; }
         private ITankState State { get; set; }
@@ -22,18 +50,25 @@ namespace TankHunterAiLenardArjen
         public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
             this.angleTankTurret = 0;
+
             // Tank starts default with patrolling
             this.State = new TankPatrol();
-            destinationSize = new Rectangle((int)Position.X, (int)Position.Y, GlobalVars.cellSize, GlobalVars.cellSize);
         }
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            base.Render(spriteBatch);
-            //Render top of the tank
-            //The bottom is rendered in vehicle
+            // Color of the underlying tile shows the current state of the Tank
+            // Blue: Patrol, Red: Attack enemy, Yellow: Search player, Green: Create Distance
+            InCell.TileColor = State.GetColor();
+            InCell.Render(spriteBatch);
+            InCell.TileColor = Color.White;
+
+            // Render base of the Tank
             spriteBatch.Begin();
-            spriteBatch.Draw(TankTopTexture, destinationSize,null, Color.White);
+            spriteBatch.Draw(_texture, Position.ToVector2(), null, Color.White, spriteAngle, origin, 1.0f, SpriteEffects.None, 0f);
+
+            //Render top of the Tank
+            spriteBatch.Draw(_tankTopTexture, Position.ToVector2(), null, Color.White, angleTankTurret, tankTopOrigin, 1.0f, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
 
@@ -44,27 +79,30 @@ namespace TankHunterAiLenardArjen
 
         public override void Update(int timeElapsed)
         {
-            steeringForce = Calculate();
+            steeringForce = Calculate(timeElapsed);
             Vector acceleration = steeringForce / Mass;
-            Velocity += acceleration * timeElapsed;
+            Velocity += acceleration * timeElapsed / 1000;
             Velocity.Truncate(MaxSpeed);
-            Position += Velocity * timeElapsed;
+            Position += Velocity;
 
             if (Velocity.LengthSq() > 0.00000001)
             {
-                Heading = Vector.Normalize(Velocity);
+                Heading = Velocity.Normalize();
                 Side = Heading.Perp();
             }
 
-            destinationSize.X = (int) Position.X;
-            destinationSize.Y = (int) Position.Y;
+            spriteAngle = (float)Math.Atan2(Velocity.Y, Velocity.X);
+
+            destinationSize.X = (int)Position.X;
+            destinationSize.Y = (int)Position.Y;
+
             base.Update(timeElapsed);
         }
 
-        public Vector Calculate()
+        public Vector Calculate(int timeElapsed)
         {
-            steeringForce = State.Execute(this);
-           
+            steeringForce = State.Execute(this, timeElapsed);
+
             return steeringForce;
         }
 

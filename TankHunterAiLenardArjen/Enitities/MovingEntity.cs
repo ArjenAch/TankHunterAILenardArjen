@@ -14,7 +14,7 @@ namespace TankHunterAiLenardArjen
         {
             Velocity = new Vector(0, 0);
             Mass = mass;
-            Heading = new Vector(0, 0);
+            Heading = new Vector(1, 1);
             Side = side;
             MaxSpeed = maxSpeed;
             MaxForce = maxForce;
