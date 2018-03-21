@@ -11,7 +11,7 @@ namespace TankHunterAiLenardArjen.Support
     {
         public static int cellSize = 40;
         public static bool debug = true;
-        public static bool playerDebug = true;
+        public static bool playerDebug = false;
         public static double worldWidth = 400;
         public static double worldHeight = 400;
 

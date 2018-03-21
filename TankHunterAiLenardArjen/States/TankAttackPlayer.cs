@@ -30,6 +30,10 @@ namespace TankHunterAiLenardArjen.States
             {
                 tank.ChangeState(new TankCreateDistanceBetweenPlayer());
             }
+            else if(tank.PlayerIsOutOfSeight())
+            {
+                tank.ChangeState(new TankPatrol());
+            }
             else
             {
                 // tank.AttackPlayer();

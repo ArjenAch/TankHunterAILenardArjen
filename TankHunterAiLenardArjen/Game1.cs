@@ -44,7 +44,6 @@ namespace TankHunterAiLenardArjen
             tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 45, new Vector(250, 250));
             planes = new List<Airplane>();
 
-
             for (int i = 0; i < 20; i++)
             {
                 planes.Add(new Airplane(world, 1, new Vector(0, 0), 3.2f, 5, 2, new Vector(200 + i * 5, 200 + i * 5)));

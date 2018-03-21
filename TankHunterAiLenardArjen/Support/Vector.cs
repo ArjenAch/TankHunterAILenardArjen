@@ -127,9 +127,10 @@ namespace TankHunterAiLenardArjen
 
         public static Vector operator -(Vector vector, Vector vector2)
         {
-            vector.X = vector.X - vector2.X;
-            vector.Y = vector.Y - vector2.Y;
-            return vector;
+            Vector result = new Vector(0,0);
+            result.X = vector.X - vector2.X;
+            result.Y = vector.Y - vector2.Y;
+            return result;
         }
 
         public static Vector operator -(Vector vector, int t)

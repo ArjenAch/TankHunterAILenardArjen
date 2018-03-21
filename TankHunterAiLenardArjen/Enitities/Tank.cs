@@ -48,11 +48,20 @@ namespace TankHunterAiLenardArjen
         private Rectangle destinationSize;
         Vector steeringForce;
 
+        // Player interaction variables
+        private const int maxRadiusOfTankSeight = 188 * 2;
+        private const int tankIsInDangerDistance = 76 * 2;
+        private const int tankAttackDistance = 132 * 2;
+        private bool playerInSight;
+        public float distanceToPlayer;
+
 
         public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
             this.angleTankTurret = 0;
             destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize *1.4), (int)(GlobalVars.cellSize * 1.4));
+            distanceToPlayer = 400;
+            playerInSight = false;
             // Tank starts default with patrolling
             this.State = new TankPatrol();
         }
@@ -93,6 +102,8 @@ namespace TankHunterAiLenardArjen
                 Side = Heading.Perp();
             }
 
+            CalculateDistanceToPlayer(maxRadiusOfTankSeight);
+
             spriteAngle = (float)Math.Atan2(Velocity.Y, Velocity.X);
 
             destinationSize.X = (int)Position.X;
@@ -115,25 +126,51 @@ namespace TankHunterAiLenardArjen
             State.Enter(this);
         }
 
+        // Tries to find a player Object in Cells in a given radius
+        private void CalculateDistanceToPlayer(int radius)
+        {
+            gameWorld.GridLogic.CalculateNeighborsEntities(this, radius);
+            foreach (MovingEntity entity in gameWorld.GridLogic.EntitiesInRange)
+            {
+                if (entity is Player)
+                {
+                    distanceToPlayer = Math.Abs((entity.Position - this.Position).Length());
+                    playerInSight = false;
+                    // If player is found, loop can stop
+                    break;
+                }
+                else
+                {
+                    playerInSight = true;
+                }
+            }
+        }
+
         public bool PlayerInAttackZone()
         {
-            return false;
+            return (distanceToPlayer > tankIsInDangerDistance && distanceToPlayer < tankAttackDistance);
         }
 
         // Player is in the inner danger circle, tank should avoid player till attack circle
         public bool PlayerInDangerZone()
         {
-            return false;
+            return (distanceToPlayer < tankIsInDangerDistance);
         }
 
+        // TODO: implement A* check
         public bool PlayerNotSeenAtLastLocation()
         {
-            return false;
+            return (distanceToPlayer > 360);
         }
 
         public bool PlayerInSearchZone()
         {
-            return false;
+            return (distanceToPlayer > tankAttackDistance && distanceToPlayer < maxRadiusOfTankSeight);
+        }
+
+        public bool PlayerIsOutOfSeight()
+        {
+            return playerInSight;
         }
     }
 }

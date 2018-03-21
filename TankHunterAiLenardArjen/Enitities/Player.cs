@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TankHunterAiLenardArjen.PlayerInput;
+using TankHunterAiLenardArjen.Support;
 using TankHunterAiLenardArjen.Worldstructure;
 
 namespace TankHunterAiLenardArjen
@@ -62,21 +63,6 @@ namespace TankHunterAiLenardArjen
             Velocity.Truncate(MaxSpeed);
         }
 
-        private bool NextPositionIsPossible()
-        {
-            bool result = false;
-            int n;
-
-                try
-                {
-                    n = gameWorld.GridLogic.CalculateCell(Position + Velocity);
-                    result = true;
-                }
-                catch (ArgumentOutOfRangeException) { result = false; };
-
-            return result;
-        }
-
         public override void Render(SpriteBatch spriteBatch)
         {
             if (Support.GlobalVars.playerDebug)
@@ -104,17 +90,9 @@ namespace TankHunterAiLenardArjen
         {
             PlayerInputController.Update(timeElapsed);
             playerAngle = (float)Math.Atan2(Velocity.Y, Velocity.X);
-            if (!NextPositionIsPossible())
-            {
-                Velocity.X = Velocity.Y = 0;
-                Position = InCell.Position;
-            }
-            else
-            {
-                Position += Velocity;
-            }
-
+            Position += Velocity;
             gameWorld.GridLogic.UpdateEntity(this);
+            Position.WrapAround(GlobalVars.worldWidth, GlobalVars.worldHeight);
         }
     }
 }
