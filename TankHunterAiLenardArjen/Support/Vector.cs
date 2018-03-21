@@ -87,12 +87,13 @@ namespace TankHunterAiLenardArjen
             }
         }
 
+        // Function that keeps the vectors in their cage
         public void WrapAround(double maxX, double maxY)
         {
-            if(X > maxX) { X = 0.0f; }
-            if(X < 0) { X = (float)maxX; }
-            if (Y > maxY) { Y = 0.0f; }
+            if (X > maxX) { X = 0.0f; }
+            if (X < 0) { X = (float)maxX; }
             if (Y < 0) { Y = (float)maxY; }
+            if (Y > maxY) { Y = 0.0f; }
         }
 
         #region operator overloaders TODO revisit
@@ -140,7 +141,7 @@ namespace TankHunterAiLenardArjen
 
         public static Vector operator /(Vector vector, float t)
         {
-            if(t != 0)
+            if (t != 0)
             {
                 vector.X = vector.X / t;
                 vector.Y = vector.Y / t;

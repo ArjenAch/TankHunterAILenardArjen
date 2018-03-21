@@ -13,44 +13,64 @@ namespace TankHunterAiLenardArjen
 {
     public class Tank : Vehicle
     {
-        public Texture2D TankTopTexture { get; set; }
-        public Texture2D TargetTexture { get; set; }
+        // Base tank texture
+        private float spriteAngle;
+        private Vector2 origin;
+        private Texture2D _texture;
+        public Texture2D Texture
+        {
+            get { return _texture; }
+            set
+            {
+                _texture = value;
+                origin.X = _texture.Width / 2;
+                origin.Y = _texture.Height / 2;
+            }
+        }
+
+        private Vector2 tankTopOrigin;
+        private Texture2D _tankTopTexture;
+
+        public Texture2D TankTopTexture
+        {
+            get { return _tankTopTexture; }
+            set
+            {
+                _tankTopTexture = value;
+                tankTopOrigin.X = _tankTopTexture.Width / 2;
+                tankTopOrigin.Y = _tankTopTexture.Height / 2;
+            }
+        }
+
         public float MaxTurnRateTurret { get; set; }
         private float angleTankTurret { get; set; }
         private ITankState State { get; set; }
         private Rectangle destinationSize;
-        private Rectangle destinationSizeTarget;
         Vector steeringForce;
-        private double wanderRad;
-        private double wanderDist;
-        private double wanderJitter;
 
-        public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, double rotation) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position,rotation)
+
+        public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
             this.angleTankTurret = 0;
-            wanderRad = 60;
-            wanderDist = 2;
-            wanderJitter = 40;
+            destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize *1.4), (int)(GlobalVars.cellSize * 1.4));
             // Tank starts default with patrolling
-            this.State = new TankPatrol(wanderRad, wanderDist, wanderJitter);
-            ChangeState(new TankPatrol(wanderRad, wanderDist, wanderJitter));
-           
-            destinationSize = new Rectangle((int)Position.X - GlobalVars.cellSize / 2, (int)Position.Y - GlobalVars.cellSize / 2, GlobalVars.cellSize, GlobalVars.cellSize);
-            destinationSizeTarget = new Rectangle (0, 0, GlobalVars.cellSize/2, GlobalVars.cellSize/2);
+            this.State = new TankPatrol();
         }
 
         public override void Render(SpriteBatch spriteBatch)
         {
-            base.Render(spriteBatch);
-            //Render top of the tank
-            //The bottom is rendered in vehicle
+            // Color of the underlying tile shows the current state of the Tank
+            // Blue: Patrol, Red: Attack enemy, Yellow: Search player, Green: Create Distance
+            InCell.TileColor = State.GetColor();
+            InCell.Render(spriteBatch);
+            InCell.TileColor = Color.White;
+
+            // Render base of the Tank
             spriteBatch.Begin();
-            spriteBatch.Draw(TankTopTexture, destinationSize, null, Color.White, (float)rotation, Vector2.Zero, SpriteEffects.None, 0);
-            //spriteBatch.Draw(TankTopTexture, destinationSize,null, Color.White);
-            if (GlobalVars.debug == true)
-            {
-                spriteBatch.Draw(TargetTexture, destinationSizeTarget, null, Color.DarkBlue);
-            }
+            spriteBatch.Draw(_texture, destinationSize, null, Color.White, spriteAngle, origin,  SpriteEffects.None, 0f);
+
+            //Render top of the Tank
+            spriteBatch.Draw(_tankTopTexture, destinationSize, null, Color.White, angleTankTurret, tankTopOrigin, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
 
@@ -61,12 +81,11 @@ namespace TankHunterAiLenardArjen
 
         public override void Update(int timeElapsed)
         {
-            TimeElapsed = timeElapsed;
             steeringForce = Calculate(timeElapsed);
             Vector acceleration = steeringForce / Mass;
-            Velocity += acceleration * (timeElapsed / 10);
+            Velocity += acceleration * timeElapsed / 1000;
             Velocity.Truncate(MaxSpeed);
-            Position += Velocity * (timeElapsed /10);
+            Position += Velocity;
 
             if (Velocity.LengthSq() > 0.00000001)
             {
@@ -74,20 +93,18 @@ namespace TankHunterAiLenardArjen
                 Side = Heading.Perp();
             }
 
-            //TODO CEHCK TANKTEXTURE POS WITH REAL POS
-            destinationSize.X = (int) Position.X - GlobalVars.cellSize / 2;
-            destinationSize.Y = (int) Position.Y - GlobalVars.cellSize / 2;
-            Vector vector = new Vector(HelpMethods.ToWorldSpace( new Vector((float)wanderDist, 0) + steeringForce, Heading, Side, Position));
-            destinationSizeTarget.X = (int)vector.X;
-            destinationSizeTarget.Y = (int)vector.Y;
-            Debug.WriteLine(" x:" + vector.X + " y:" + vector.Y);
+            spriteAngle = (float)Math.Atan2(Velocity.Y, Velocity.X);
+
+            destinationSize.X = (int)Position.X;
+            destinationSize.Y = (int)Position.Y;
+
             base.Update(timeElapsed);
         }
 
         public Vector Calculate(int timeElapsed)
         {
-             steeringForce = State.Execute(this);
-           
+            steeringForce = State.Execute(this, timeElapsed);
+
             return steeringForce;
         }
 

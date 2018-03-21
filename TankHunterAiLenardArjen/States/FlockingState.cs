@@ -1,5 +1,7 @@
-﻿using TankHunterAiLenardArjen.BehaviourLogic;
+﻿using Microsoft.Xna.Framework;
+using TankHunterAiLenardArjen.BehaviourLogic;
 using TankHunterAiLenardArjen.States;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.Enitities
 {
@@ -16,7 +18,7 @@ namespace TankHunterAiLenardArjen.Enitities
             cohesionBehaviour = new CohesionBehaviour();
             separationBehaviour = new SeparationBehaviour();
             alignmentBehaviour = new AlignmentBehaviour();
-            wanderBehaviour = new WanderBehaviour(1.2, 2, 10);
+            wanderBehaviour = new WanderBehaviour(1.2, 2, 40);
         }
 
         public void Enter(Vehicle plane)
@@ -24,19 +26,22 @@ namespace TankHunterAiLenardArjen.Enitities
             throw new System.NotImplementedException();
         }
 
-        public Vector Execute(Vehicle plane)
+        public Vector Execute(Vehicle plane, int timeElapsed)
         {
-
-            steeringForce = separationBehaviour.Execute(plane);
-            steeringForce += alignmentBehaviour.Execute(plane);
-            steeringForce += cohesionBehaviour.Execute(plane);
+            steeringForce = separationBehaviour.Execute(plane) * GlobalVars.SeperationWeight;
+            steeringForce += alignmentBehaviour.Execute(plane) * GlobalVars.AllignmentWeight;
+            steeringForce += cohesionBehaviour.Execute(plane) * GlobalVars.CohesionWeight;
             //steeringForce += wanderBehaviour.Execute(plane);
-
             return steeringForce;
 
         }
 
         public void Exit(Vehicle plane)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Color GetColor()
         {
             throw new System.NotImplementedException();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,11 @@ namespace TankHunterAiLenardArjen.States
         void Enter(Vehicle tank);
 
         // Called in the update function
-        Vector Execute(Vehicle tank);
+        Vector Execute(Vehicle tank, int timeElapsed);
 
         // Called before ChangeState is called
         void Exit(Vehicle tank);
+
+        Color GetColor();
     }
 }

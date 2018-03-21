@@ -22,7 +22,6 @@ namespace TankHunterAiLenardArjen.Support
                 {m11, m12, m13},
                 {m21, m22, m23},
                 {m31, m32, m33 }
-
             };
         }
 
@@ -76,9 +75,12 @@ namespace TankHunterAiLenardArjen.Support
             return new Vector(m.matrix[0, 0], m.matrix[1, 0]);
         }
 
+  
         public static Vector TransformVector(Matrix m, Vector vector)
         {
-            float tempX = (m.matrix[0,0] * vector.X) + (m.matrix[0,1] * vector.Y) + (m.matrix[0,2]);
+
+            //float tempX = (m.matrix[0,0] * vector.X) + (m.matrix[0,1] * vector.Y) + (m.matrix[0,2]);
+            float tempX = (m.matrix[0, 0] * vector.X) + (m.matrix[1, 0] * vector.Y) + (m.matrix[2, 0]);
 
             float tempY = (m.matrix[1, 0] * vector.X) + (m.matrix[1, 1] * vector.Y) + (m.matrix[1, 2]);
 

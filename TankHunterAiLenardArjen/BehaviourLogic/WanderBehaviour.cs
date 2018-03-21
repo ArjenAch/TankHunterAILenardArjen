@@ -16,7 +16,7 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
         private double theta;
 
         //create a vector to a target position on the wander circle
-        private Vector WanderTarget ;
+        private Vector WanderTarget;
 
         public WanderBehaviour(double wanderRadius, double wanderDistance, double wanderJitter)
         {
@@ -30,14 +30,15 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
 
         public Vector Execute(Vehicle vehicle)
         {
-            double JitterThisTimeSlice = wanderJitter * vehicle.TimeElapsed;
-            WanderTarget += new Vector((float)(RandomClamped() * JitterThisTimeSlice), (float)(RandomClamped() * JitterThisTimeSlice));
+            float wanderJitterTimeSliced = (float)wanderJitter;
+
+            WanderTarget += new Vector((float)(RandomClamped() * wanderJitterTimeSliced), (float)(RandomClamped() * wanderJitterTimeSliced));
             WanderTarget.Normalize();
             WanderTarget = WanderTarget * wanderRadius;
 
             Vector targetLocal = WanderTarget + new Vector((float)wanderDistance, 0);
             Vector targetWorld = HelpMethods.ToWorldSpace(targetLocal, vehicle.Heading, vehicle.Side, vehicle.Position);
-           
+
             return targetWorld - vehicle.Position;
         }
 

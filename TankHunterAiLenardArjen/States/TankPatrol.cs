@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.BehaviourLogic;
 using TankHunterAiLenardArjen.Support;
 
@@ -11,37 +12,29 @@ namespace TankHunterAiLenardArjen.States
     public class TankPatrol : ITankState
     {
         private WanderBehaviour wanderBehaviour;
-        private SeekBehaviour seekBehaviour;
         private Vector steeringForce;
-
-        public TankPatrol(double wanderRad, double wanderDist, double wanderJitter)
-        {
-            wanderBehaviour = new WanderBehaviour(wanderRad,wanderDist,wanderJitter);
-            seekBehaviour = new SeekBehaviour();
-            
-        }
+        private int TimeElapsed;
 
         public TankPatrol()
         {
-            wanderBehaviour = new WanderBehaviour(40,20,2);
-            seekBehaviour = new SeekBehaviour();
-
+            wanderBehaviour = new WanderBehaviour(1.2, 2, 40);
+            steeringForce = new Vector(2, 2);
+            TimeElapsed = GlobalVars.BehaviourDelay;
         }
 
         public void Enter(Vehicle tank)
         {
             // IDEA: Tank is in a good mood
-            steeringForce = new Vector(tank.Position);
-
         }
 
-        public Vector Execute(Vehicle vehicle)
+        public Vector Execute(Vehicle vehicle, int timeElapsed)
         {
-            return Execute((Tank)vehicle);
+            return Execute((Tank)vehicle, timeElapsed);
         }
 
-        public Vector Execute(Tank tank)
+        public Vector Execute(Tank tank, int timeElapsed)
         {
+            TimeElapsed += timeElapsed;
             if (tank.PlayerInAttackZone())
             {
                 tank.ChangeState(new TankAttackPlayer());
@@ -52,19 +45,23 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-                if(GlobalVars.TimeElapsed >=1000)
+                if (TimeElapsed >= GlobalVars.BehaviourDelay)
                 {
-                    steeringForce = wanderBehaviour.Execute(tank); //seekBehaviour.Execute(
-                    GlobalVars.TimeElapsed = 0;
+                    steeringForce = wanderBehaviour.Execute(tank);
+                    TimeElapsed = 0;
                 }
-               
             }
-            return steeringForce ;
+            return steeringForce;
         }
 
         public void Exit(Vehicle tank)
         {
 
+        }
+
+        public Color GetColor()
+        {
+            return Color.Blue;
         }
     }
 }
