@@ -61,9 +61,12 @@ namespace TankHunterAiLenardArjen
         {
             // Color of the underlying tile shows the current state of the Tank
             // Blue: Patrol, Red: Attack enemy, Yellow: Search player, Green: Create Distance
-            InCell.TileColor = State.GetColor();
-            InCell.Render(spriteBatch);
-            InCell.TileColor = Color.White;
+            if (GlobalVars.debug == true)
+            {
+                InCell.TileColor = State.GetColor();
+                InCell.Render(spriteBatch);
+                InCell.TileColor = Color.White;
+            }
 
             // Render base of the Tank
             spriteBatch.Begin();

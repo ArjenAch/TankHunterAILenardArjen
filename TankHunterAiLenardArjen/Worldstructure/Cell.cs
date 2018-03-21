@@ -16,9 +16,12 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public List<BaseGameEntity> Members { get; set; }
         public List<Edge> Adjecent { get; set; }
         public bool Visited { get; set; }
-        public Texture2D DefaultTileTexture { get; set; }
         public Color TileColor { get; set; }
         private Rectangle destinationSize;
+        private Rectangle graphLine;
+        private float rotation;
+        private Vector2 origin;
+      //  public bool IsDrawn;
 
         public Cell(Vector pos, int id)
         {
@@ -27,20 +30,40 @@ namespace TankHunterAiLenardArjen.Worldstructure
             Position = pos;
             ID = id;
             destinationSize = new Rectangle((int)Position.X - (GlobalVars.cellSize / 2), (int)Position.Y - (GlobalVars.cellSize / 2), GlobalVars.cellSize, GlobalVars.cellSize);
+            graphLine = new Rectangle((int)Position.X, (int)Position.Y, GlobalVars.cellSize * 2, 1);
             TileColor = Color.White;
-            //destinationSize = new Rectangle((int)Position.X , (int)Position.Y , GlobalVars.cellSize, GlobalVars.cellSize);
+            rotation = 0;
+            origin = new Vector2(0.5f, 0.5f);
+          //  IsDrawn = false;
         }
 
-        public void Render(Texture2D texture, SpriteBatch spriteBatch, Color color)
+        private void Render(Texture2D texture, SpriteBatch spriteBatch, Color color)
         {
             spriteBatch.Begin();
             spriteBatch.Draw(texture, destinationSize, null, color);
+
+            //If debug is enabled draw the graph
+            if (GlobalVars.debug == true)
+            {
+                //spriteBatch.Draw(GlobalVars.GraphTexture, Position.ToVector2(), TileColor);
+                foreach (Edge adj in Adjecent)
+                {
+                  //  if (!adj.Cell2.IsDrawn)
+                  //  {
+                        rotation = (float)Math.Atan2(Position.Y - adj.Cell2.Position.Y, Position.X - adj.Cell2.Position.X);
+                        spriteBatch.Draw(GlobalVars.GraphTexture, graphLine, null, Color.OrangeRed, rotation, origin, SpriteEffects.None, 0);
+                        //IsDrawn = true;
+                   // }
+
+                }
+            }
             spriteBatch.End();
         }
 
         public void Render(Texture2D texture, SpriteBatch spriteBatch)
         {
             Render(texture, spriteBatch, TileColor);
+
         }
 
         public void Render(SpriteBatch spriteBatch)

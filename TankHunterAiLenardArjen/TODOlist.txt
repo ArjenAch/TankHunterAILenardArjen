@@ -1,6 +1,6 @@
 ﻿
 Eisen opdracht:
-Week 3:
+Week 3: 
 -An application with a GUI that displays the AI world DONE
  -A World-class that updates itself and can be rendered on the screen. The
 view is in 2d (3d is allowed at your own risk!!) from above, like in the images. 
@@ -28,7 +28,7 @@ something. Invent your own smart algorithm for this behaviour ???
 
 Week 4:
 -A Graph, Node and Edge class. You may of course use the graph you
-created in the ISAD course or use code from the book.
+created in the ISAD course or use code from the book. DONE
 -A new class deriving from BaseGameEntity for a static object, like a
 building, tree, lake etc.
 
@@ -38,7 +38,7 @@ for your game world, of course considering the obstacles. See the
 following pictures for an example:
 or
 - The underlying graph can be made visible or invisible through a key press
-or button.
+or button. DONE (button press must be optimized)
 
 - Implement the A* algorithm with a suitable heuristic.
 - If you click somewhere in the game world, your game character should

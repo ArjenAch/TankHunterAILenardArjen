@@ -17,6 +17,7 @@ namespace TankHunterAiLenardArjen.Support
 
         public static Texture2D DefaultTileTexture;
         public static Texture2D PlayerTexture;
+        public static Texture2D GraphTexture;
 
         //Tank
         // Delay before the new steeringforce is calculated (wanderbehaviour)

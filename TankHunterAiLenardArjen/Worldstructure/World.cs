@@ -21,7 +21,7 @@ namespace TankHunterAiLenardArjen
             GridLogic = new CellSpacePartition(levelWidth, levelWidth, GlobalVars.cellSize);
         }
 
-        public void Render(SpriteBatch spriteBatch, GraphicsDevice graphics)
+        public void Render(SpriteBatch spriteBatch)
         {
             GridLogic.RenderAllCells(TileTexture, spriteBatch);
         }
@@ -31,9 +31,5 @@ namespace TankHunterAiLenardArjen
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            GridLogic.RenderAllCells(TileTexture, spriteBatch);
-        }
     }
 }

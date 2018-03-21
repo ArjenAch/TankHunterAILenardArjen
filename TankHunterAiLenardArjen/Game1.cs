@@ -15,7 +15,6 @@ namespace TankHunterAiLenardArjen
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        //SpriteFont font;
         World world;
         Player player;
         Tank tank;
@@ -79,6 +78,9 @@ namespace TankHunterAiLenardArjen
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
             GlobalVars.DefaultTileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             world.TileTexture = Support.GlobalVars.DefaultTileTexture;
+            GlobalVars.GraphTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            GlobalVars.GraphTexture.SetData(new Color[] { Color.Blue });
+
 
             //Load tank
             fileStream = new FileStream("Content/Sprites/TankBottom.png", FileMode.Open);
@@ -126,6 +128,8 @@ namespace TankHunterAiLenardArjen
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                GlobalVars.debug = !GlobalVars.debug;
             // Entity's updated here
             tank.Update(gameTime.ElapsedGameTime.Milliseconds);
             world.Update(gameTime.ElapsedGameTime.Milliseconds);
@@ -148,7 +152,7 @@ namespace TankHunterAiLenardArjen
         {
             GraphicsDevice.Clear(Color.LawnGreen);
 
-            world.Draw(spriteBatch);
+            world.Render(spriteBatch);
             player.Render(spriteBatch);
             tank.Render(spriteBatch);
 
