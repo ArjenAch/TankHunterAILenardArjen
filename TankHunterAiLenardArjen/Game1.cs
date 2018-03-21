@@ -20,6 +20,7 @@ namespace TankHunterAiLenardArjen
         Player player;
         Tank tank;
         List<Airplane> planes;
+       
 
         public Game1()
         {
@@ -35,22 +36,24 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
+
             GlobalVars.worldWidth = GraphicsDevice.Viewport.Width;
             GlobalVars.worldHeight = GraphicsDevice.Viewport.Height;
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25), world);
-            tank = new Tank(world, 1, new Vector(0, 0), 150f, 4, 45, new Vector(250, 250));
+            tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 45, new Vector(250, 250));
             planes = new List<Airplane>();
 
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(200 + i * 5, 200 + i * 5)));
-            //}
 
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 1500f, 2, 2, new Vector(30 + i * 5, 200 + i * 5)));
-            //}
+            for (int i = 0; i < 20; i++)
+            {
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3.2f, 5, 2, new Vector(200 + i * 5, 200 + i * 5)));
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 4, 12, new Vector(30 + i * 5, 200 + i * 5)));
+            }
 
             base.Initialize();
         }
@@ -82,6 +85,8 @@ namespace TankHunterAiLenardArjen
             tank.Texture = Texture2D.FromStream(GraphicsDevice, fileStream);
             fileStream = new FileStream("Content/Sprites/TankTop.png", FileMode.Open);
             tank.TankTopTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            //fileStream = new FileStream("Content/Sprites/DebugTarget.png", FileMode.Open);
+            //tank. = Texture2D.FromStream(GraphicsDevice, fileStream);
 
             //Load Planes
             fileStream = new FileStream("Content/Sprites/Airplane.png", FileMode.Open);
@@ -117,7 +122,8 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {
+        {      
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // Entity's updated here
@@ -131,6 +137,7 @@ namespace TankHunterAiLenardArjen
             }
 
             base.Update(gameTime);
+
         }
 
         /// <summary>

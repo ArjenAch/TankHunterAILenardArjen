@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.States;
 using TankHunterAiLenardArjen.Support;
+using System.Diagnostics;
 
 namespace TankHunterAiLenardArjen
 {
@@ -47,10 +48,11 @@ namespace TankHunterAiLenardArjen
         private Rectangle destinationSize;
         Vector steeringForce;
 
-        public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
+
+        public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
             this.angleTankTurret = 0;
-
+            destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize *1.4), (int)(GlobalVars.cellSize * 1.4));
             // Tank starts default with patrolling
             this.State = new TankPatrol();
         }
@@ -65,10 +67,10 @@ namespace TankHunterAiLenardArjen
 
             // Render base of the Tank
             spriteBatch.Begin();
-            spriteBatch.Draw(_texture, Position.ToVector2(), null, Color.White, spriteAngle, origin, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture, destinationSize, null, Color.White, spriteAngle, origin,  SpriteEffects.None, 0f);
 
             //Render top of the Tank
-            spriteBatch.Draw(_tankTopTexture, Position.ToVector2(), null, Color.White, angleTankTurret, tankTopOrigin, 1.0f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_tankTopTexture, destinationSize, null, Color.White, angleTankTurret, tankTopOrigin, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
 

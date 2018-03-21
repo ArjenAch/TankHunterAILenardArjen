@@ -28,9 +28,9 @@ namespace TankHunterAiLenardArjen.Support
         public static Matrix Rotate(Vector heading, Vector side)
         {
             Matrix mat = new Matrix(
-              heading.X, heading.Y, 0,
-              side.X, side.Y, 0,
-              0, 0, 1);
+              heading.X, heading.Y,  0,
+              side.X,    side.Y,     0,
+              0,         0,          1);
             //and multiply
 
             return mat;
@@ -78,9 +78,11 @@ namespace TankHunterAiLenardArjen.Support
   
         public static Vector TransformVector(Matrix m, Vector vector)
         {
+
+            //float tempX = (m.matrix[0,0] * vector.X) + (m.matrix[0,1] * vector.Y) + (m.matrix[0,2]);
             float tempX = (m.matrix[0, 0] * vector.X) + (m.matrix[1, 0] * vector.Y) + (m.matrix[2, 0]);
 
-            float tempY = (m.matrix[0, 1] * vector.X) + (m.matrix[1, 1] * vector.Y) + (m.matrix[2, 1]);
+            float tempY = (m.matrix[1, 0] * vector.X) + (m.matrix[1, 1] * vector.Y) + (m.matrix[1, 2]);
 
             vector.X = tempX;
             vector.Y = tempY;
@@ -88,11 +90,10 @@ namespace TankHunterAiLenardArjen.Support
             return vector;
         }
 
-        public static Matrix Translate(Vector vector)
+        public static Matrix Translate(Vector vector, Matrix tmp)
         {
-            Matrix tmp = new Matrix();
-            tmp.matrix[2, 0] = vector.X;
-            tmp.matrix[2, 1] = vector.Y;
+            tmp.matrix[0, 2] = vector.X;
+            tmp.matrix[1, 2] = vector.Y;
             return tmp;
         }
 

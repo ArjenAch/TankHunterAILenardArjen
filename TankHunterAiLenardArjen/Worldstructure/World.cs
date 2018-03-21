@@ -34,16 +34,6 @@ namespace TankHunterAiLenardArjen
         public void Draw(SpriteBatch spriteBatch)
         {
             GridLogic.RenderAllCells(TileTexture, spriteBatch);
-            //if (GlobalVars.debug == true)
-            //{
-            //    GridLogic.CalculateNeighborCells(GridLogic.Grid[40], 40);
-
-            //    foreach (Cell cell in GridLogic.Neighbors)
-            //    {
-            //        cell.Render(TileDebugNeighborTexture, spriteBatch, graphics);
-            //    }
-            //    GridLogic.Grid[40].Render(TileDebugCenterTexture, spriteBatch, graphics);
-            //}
         }
     }
 }

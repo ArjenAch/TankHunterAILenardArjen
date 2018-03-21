@@ -19,7 +19,7 @@ namespace TankHunterAiLenardArjen.Support
             matTransform *= Matrix.Rotate(heading, side);
 
             ////and translate
-            matTransform *= Matrix.Translate(position);
+            Matrix.Translate(position, matTransform);
 
             ////now transform the vertices
            Vector vector = Matrix.TransformVector(matTransform, targetLocal);

@@ -17,11 +17,14 @@ namespace TankHunterAiLenardArjen
         public Texture2D TileDebugCenterTexture { get; set; }
 
         public int Radius { get; }
+        public int TimeElapsed { get; set; }
+        protected double rotation;
+       // private Vector2 origin;
 
         public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
             this.gameWorld = gameWorld;
-            Radius = 80; //TODO 
+            Radius = 40; //TODO 
         }
         public override void Render(SpriteBatch spriteBatch)
         {
@@ -31,21 +34,7 @@ namespace TankHunterAiLenardArjen
         public override void Update(int timeElapsed)
         {
             gameWorld.GridLogic.UpdateEntity(this);
-
             Position.WrapAround(GlobalVars.worldWidth, GlobalVars.worldHeight);
-
-            //Vector steeringForce = steering.Calculate(this);
-            //Vector acceleration = steeringForce / Mass;
-            //Velocity += acceleration * timeElapsed;
-            //Velocity.Truncate(MaxSpeed);
-            //Position += Velocity * timeElapsed;
-
-            //if(Velocity.LengthSq() > 0.00000001)
-            //{
-            //    Heading = Vector.Normalize(Velocity);
-            //    Side = Heading.Perp();
-            //}
-
         }
     }
 }

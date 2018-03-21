@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.BehaviourLogic;
 using TankHunterAiLenardArjen.States;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.Enitities
 {
@@ -17,7 +18,7 @@ namespace TankHunterAiLenardArjen.Enitities
             cohesionBehaviour = new CohesionBehaviour();
             separationBehaviour = new SeparationBehaviour();
             alignmentBehaviour = new AlignmentBehaviour();
-            wanderBehaviour = new WanderBehaviour(500, 500, 50);
+            wanderBehaviour = new WanderBehaviour(1.2, 2, 40);
         }
 
         public void Enter(Vehicle plane)
@@ -27,9 +28,10 @@ namespace TankHunterAiLenardArjen.Enitities
 
         public Vector Execute(Vehicle plane, int timeElapsed)
         {
-            
-            steeringForce = separationBehaviour.Execute(plane)  + alignmentBehaviour.Execute(plane) + cohesionBehaviour.Execute(plane) + wanderBehaviour.Execute(plane, timeElapsed);
-             
+            steeringForce = separationBehaviour.Execute(plane) * GlobalVars.SeperationWeight;
+            steeringForce += alignmentBehaviour.Execute(plane) * GlobalVars.AllignmentWeight;
+            steeringForce += cohesionBehaviour.Execute(plane) * GlobalVars.CohesionWeight;
+            //steeringForce += wanderBehaviour.Execute(plane);
             return steeringForce;
 
         }

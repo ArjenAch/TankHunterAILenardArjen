@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.BehaviourLogic;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.States
 {
@@ -12,11 +13,13 @@ namespace TankHunterAiLenardArjen.States
     {
         private WanderBehaviour wanderBehaviour;
         private Vector steeringForce;
+        private int TimeElapsed;
 
         public TankPatrol()
         {
-            wanderBehaviour = new WanderBehaviour(1.20, 2, 40);
+            wanderBehaviour = new WanderBehaviour(1.2, 2, 40);
             steeringForce = new Vector(2, 2);
+            TimeElapsed = GlobalVars.BehaviourDelay;
         }
 
         public void Enter(Vehicle tank)
@@ -31,6 +34,7 @@ namespace TankHunterAiLenardArjen.States
 
         public Vector Execute(Tank tank, int timeElapsed)
         {
+            TimeElapsed += timeElapsed;
             if (tank.PlayerInAttackZone())
             {
                 tank.ChangeState(new TankAttackPlayer());
@@ -41,9 +45,12 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-                steeringForce = wanderBehaviour.Execute(tank, timeElapsed); 
+                if (TimeElapsed >= GlobalVars.BehaviourDelay)
+                {
+                    steeringForce = wanderBehaviour.Execute(tank);
+                    TimeElapsed = 0;
+                }
             }
-
             return steeringForce;
         }
 
