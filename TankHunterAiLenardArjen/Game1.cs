@@ -148,8 +148,6 @@ namespace TankHunterAiLenardArjen
         {
             GraphicsDevice.Clear(Color.LawnGreen);
 
-            //world should only be drawed once with its elements
-            // The entities should update themselfs and draw/render
             world.Draw(spriteBatch);
             player.Render(spriteBatch);
             tank.Render(spriteBatch);
