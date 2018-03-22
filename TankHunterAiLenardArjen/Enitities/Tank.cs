@@ -43,7 +43,7 @@ namespace TankHunterAiLenardArjen
         }
 
         public float MaxTurnRateTurret { get; set; }
-        private float angleTankTurret { get; set; }
+        public float angleTankTurret { get; set; }
         private ITankState State { get; set; }
         private Rectangle destinationSize;
         Vector steeringForce;
@@ -62,17 +62,21 @@ namespace TankHunterAiLenardArjen
             destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize *1.4), (int)(GlobalVars.cellSize * 1.4));
             distanceToPlayer = 400;
             playerInSight = false;
+            angleTankTurret = 359;
             // Tank starts default with patrolling
-            this.State = new TankPatrol();
+            this.State = new TankPatrol(this);
         }
 
         public override void Render(SpriteBatch spriteBatch)
         {
             // Color of the underlying tile shows the current state of the Tank
             // Blue: Patrol, Red: Attack enemy, Yellow: Search player, Green: Create Distance
-            InCell.TileColor = State.GetColor();
-            InCell.Render(spriteBatch);
-            InCell.TileColor = Color.White;
+            if(GlobalVars.debug)
+            {
+                InCell.TileColor = State.GetColor();
+                InCell.Render(spriteBatch);
+                InCell.TileColor = Color.White;
+            }
 
             // Render base of the Tank
             spriteBatch.Begin();

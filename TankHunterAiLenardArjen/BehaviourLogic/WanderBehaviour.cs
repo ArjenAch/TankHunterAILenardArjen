@@ -28,18 +28,19 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
             WanderTarget = new Vector((float)(wanderRadius * Math.Cos(theta)), (float)(wanderRadius * Math.Sin(theta)));
         }
 
-        public Vector Execute(Vehicle vehicle)
+        public Vector Execute(Vehicle vehicle, int timeElapsed)
         {
-            float wanderJitterTimeSliced = (float)wanderJitter;
-
-            WanderTarget += new Vector((float)(RandomClamped() * wanderJitterTimeSliced), (float)(RandomClamped() * wanderJitterTimeSliced));
+            float wanderJitterTimeSliced = (float)wanderJitter * timeElapsed / 1000;
+            float randomX = RandomClamped();
+            float randomY = RandomClamped();
+            WanderTarget = WanderTarget + new Vector(randomX * wanderJitterTimeSliced, randomY * wanderJitterTimeSliced);
             WanderTarget.Normalize();
             WanderTarget = WanderTarget * wanderRadius;
 
             Vector targetLocal = WanderTarget + new Vector((float)wanderDistance, 0);
             Vector targetWorld = HelpMethods.ToWorldSpace(targetLocal, vehicle.Heading, vehicle.Side, vehicle.Position);
 
-            return targetWorld - vehicle.Position;
+            return (targetWorld - vehicle.Position).Normalize() * vehicle.MaxForce;
         }
 
 
@@ -47,9 +48,10 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
         private float RandomClamped()
         {
             //should return value between -1 and 1
-            float x = ((float)random.NextDouble() * 2) - 1;
+            //double x = (random.NextDouble() * 2) - 1;
 
-            return x;
+            //return (float)x;
+            return (float)(random.NextDouble() - random.NextDouble());
         }
     }
 }

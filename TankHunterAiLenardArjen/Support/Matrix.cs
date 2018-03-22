@@ -78,26 +78,25 @@ namespace TankHunterAiLenardArjen.Support
   
         public static Vector TransformVector(Matrix m, Vector vector)
         {
-
-            //float tempX = (m.matrix[0,0] * vector.X) + (m.matrix[0,1] * vector.Y) + (m.matrix[0,2]);
-            float tempX = (m.matrix[0, 0] * vector.X) + (m.matrix[1, 0] * vector.Y) + (m.matrix[2, 0]);
+            Vector result = new Vector();
+            float tempX = (m.matrix[0,0] * vector.X) + (m.matrix[0,1] * vector.Y) + (m.matrix[0,2]);
+            //float tempX = (m.matrix[0, 0] * vector.X) + (m.matrix[1, 0] * vector.Y) + (m.matrix[2, 0]);
 
             float tempY = (m.matrix[1, 0] * vector.X) + (m.matrix[1, 1] * vector.Y) + (m.matrix[1, 2]);
+            //float tempY = (m.matrix[0, 1] * vector.X) + (m.matrix[1, 1] * vector.Y) + (m.matrix[2, 1]);
 
-            vector.X = tempX;
-            vector.Y = tempY;
+            result.X = tempX;
+            result.Y = tempY;
 
-            return vector;
+            return result;
         }
 
         public static Matrix Translate(Vector vector, Matrix tmp)
         {
-            tmp.matrix[0, 2] = vector.X;
-            tmp.matrix[1, 2] = vector.Y;
-            return tmp;
+            Matrix result = tmp;
+            result.matrix[0, 2] = vector.X;
+            result.matrix[1, 2] = vector.Y;
+            return result;
         }
-
-
-
     }
 }
