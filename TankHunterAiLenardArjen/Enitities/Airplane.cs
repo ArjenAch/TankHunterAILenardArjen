@@ -17,7 +17,7 @@ namespace TankHunterAiLenardArjen.Enitities
         private Texture2D _planeTexture;
         private Vector2 origin;
         private float spriteAngle;
-        private ITankState State { get; set; }
+        private FlockingState State { get; set; }
         public Texture2D PlaneTexture
         {
             get { return _planeTexture; }

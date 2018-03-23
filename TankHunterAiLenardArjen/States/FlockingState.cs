@@ -5,7 +5,7 @@ using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.Enitities
 {
-    public class FlockingState : ITankState
+    public class FlockingState 
     {
         private Vector steeringForce;
         private CohesionBehaviour cohesionBehaviour;

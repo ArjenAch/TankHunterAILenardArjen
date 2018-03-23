@@ -4,19 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using TankHunterAiLenardArjen.BehaviourLogic;
 
 namespace TankHunterAiLenardArjen.States
 {
     public class TankCreateDistanceBetweenPlayer : ITankState
     {
-        public void Enter(Vehicle tank)
-        {
-            // IDEA: tank shows signs of panic
-        }
+        private FleeBehaviour Flee { get; set; }
 
-        public Vector Execute(Vehicle vehicle, int timeElapsed)
+        public void Enter(Tank tank)
         {
-            return Execute((Tank)vehicle, timeElapsed);
+            Flee = new FleeBehaviour();
         }
 
         public Vector Execute(Tank tank, int timeElapsed)
@@ -26,15 +24,26 @@ namespace TankHunterAiLenardArjen.States
             {
                 tank.ChangeState(new TankAttackPlayer());
             }
+            else if (tank.PlayerIsOutOfSeight())
+            {
+                tank.ChangeState(new TankPatrol(tank));
+            }
             else
             {
-                // tank.Flee();
+                tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.TankIsInDangerDistance); 
+                foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
+                {
+                    if(entity is Player)
+                    {
+                        return Flee.Execute(tank, entity.Position);
+                    }
+                }
             }
 
             return steeringForce;
         }
 
-        public void Exit(Vehicle tank)
+        public void Exit(Tank tank)
         {
 
         }

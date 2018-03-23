@@ -15,21 +15,16 @@ namespace TankHunterAiLenardArjen.States
         private Vector steeringForce;
         private int TimeElapsed;
 
-        public TankPatrol()
+        public TankPatrol(Tank tank)
         {
-            wanderBehaviour = new WanderBehaviour(1.2, 2, 40);
+            wanderBehaviour = new WanderBehaviour(210, 250, 200);
             steeringForce = new Vector(2, 2);
             TimeElapsed = GlobalVars.BehaviourDelay;
         }
 
-        public void Enter(Vehicle tank)
+        public void Enter(Tank tank)
         {
             // IDEA: Tank is in a good mood
-        }
-
-        public Vector Execute(Vehicle vehicle, int timeElapsed)
-        {
-            return Execute((Tank)vehicle, timeElapsed);
         }
 
         public Vector Execute(Tank tank, int timeElapsed)
@@ -47,14 +42,14 @@ namespace TankHunterAiLenardArjen.States
             {
                 if (TimeElapsed >= GlobalVars.BehaviourDelay)
                 {
-                    steeringForce = wanderBehaviour.Execute(tank);
+                    steeringForce = wanderBehaviour.Execute(tank, timeElapsed);
                     TimeElapsed = 0;
                 }
             }
             return steeringForce;
         }
 
-        public void Exit(Vehicle tank)
+        public void Exit(Tank tank)
         {
 
         }

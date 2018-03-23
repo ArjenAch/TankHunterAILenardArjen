@@ -13,6 +13,19 @@ namespace TankHunterAiLenardArjen
 {
     public class Tank : Vehicle
     {
+        public float MaxTurnRateTurret { get; set; }
+        public float angleTankTurret { get; set; }
+        private ITankState State { get; set; }
+        private Rectangle destinationSize;
+        Vector steeringForce;
+
+        // Player interaction variables
+        public const int MaxRadiusOfTankSeight = 188 * 2;
+        public const int TankIsInDangerDistance = 76 * 2;
+        public const int TankAttackDistance = 132 * 2;
+        private bool playerInSight;
+        public float distanceToPlayer;
+
         // Base tank texture
         private float spriteAngle;
         private Vector2 origin;
@@ -42,26 +55,23 @@ namespace TankHunterAiLenardArjen
             }
         }
 
-        public float MaxTurnRateTurret { get; set; }
-        private float angleTankTurret { get; set; }
-        private ITankState State { get; set; }
-        private Rectangle destinationSize;
-        Vector steeringForce;
 
-
-        public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position ) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Tank(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
         {
             this.angleTankTurret = 0;
-            destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize *1.4), (int)(GlobalVars.cellSize * 1.4));
+            destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize * 1.4), (int)(GlobalVars.cellSize * 1.4));
+            distanceToPlayer = 400;
+            playerInSight = false;
+            angleTankTurret = 359;
             // Tank starts default with patrolling
-            this.State = new TankPatrol();
+            this.State = new TankPatrol(this);
         }
 
         public override void Render(SpriteBatch spriteBatch)
         {
             // Color of the underlying tile shows the current state of the Tank
             // Blue: Patrol, Red: Attack enemy, Yellow: Search player, Green: Create Distance
-            if (GlobalVars.debug == true)
+            if (GlobalVars.debug)
             {
                 InCell.TileColor = State.GetColor();
                 InCell.Render(spriteBatch);
@@ -70,7 +80,7 @@ namespace TankHunterAiLenardArjen
 
             // Render base of the Tank
             spriteBatch.Begin();
-            spriteBatch.Draw(_texture, destinationSize, null, Color.White, spriteAngle, origin,  SpriteEffects.None, 0f);
+            spriteBatch.Draw(_texture, destinationSize, null, Color.White, spriteAngle, origin, SpriteEffects.None, 0f);
 
             //Render top of the Tank
             spriteBatch.Draw(_tankTopTexture, destinationSize, null, Color.White, angleTankTurret, tankTopOrigin, SpriteEffects.None, 0f);
@@ -96,6 +106,8 @@ namespace TankHunterAiLenardArjen
                 Side = Heading.Perp();
             }
 
+            CalculateDistanceToPlayer(MaxRadiusOfTankSeight);
+
             spriteAngle = (float)Math.Atan2(Velocity.Y, Velocity.X);
 
             destinationSize.X = (int)Position.X;
@@ -118,25 +130,51 @@ namespace TankHunterAiLenardArjen
             State.Enter(this);
         }
 
+        // Tries to find a player Object in Cells in a given radius
+        private void CalculateDistanceToPlayer(int radius)
+        {
+            gameWorld.GridLogic.CalculateNeighborsEntities(this, radius);
+            foreach (MovingEntity entity in gameWorld.GridLogic.EntitiesInRange)
+            {
+                if (entity is Player)
+                {
+                    distanceToPlayer = Math.Abs((entity.Position - this.Position).Length());
+                    playerInSight = false;
+                    // If player is found, loop can stop
+                    break;
+                }
+                else
+                {
+                    playerInSight = true;
+                }
+            }
+        }
+
         public bool PlayerInAttackZone()
         {
-            return false;
+            return (distanceToPlayer > TankIsInDangerDistance && distanceToPlayer < TankAttackDistance);
         }
 
         // Player is in the inner danger circle, tank should avoid player till attack circle
         public bool PlayerInDangerZone()
         {
-            return false;
+            return (distanceToPlayer < TankIsInDangerDistance);
         }
 
+        // TODO: implement A* check
         public bool PlayerNotSeenAtLastLocation()
         {
-            return false;
+            return (distanceToPlayer > 360);
         }
 
         public bool PlayerInSearchZone()
         {
-            return false;
+            return (distanceToPlayer > TankAttackDistance && distanceToPlayer < MaxRadiusOfTankSeight);
+        }
+
+        public bool PlayerIsOutOfSeight()
+        {
+            return playerInSight;
         }
     }
 }

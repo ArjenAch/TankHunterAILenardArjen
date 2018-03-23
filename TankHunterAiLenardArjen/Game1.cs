@@ -36,14 +36,12 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
-
             GlobalVars.worldWidth = GraphicsDevice.Viewport.Width;
             GlobalVars.worldHeight = GraphicsDevice.Viewport.Height;
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25), world);
             tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 45, new Vector(250, 250));
             planes = new List<Airplane>();
-
 
             for (int i = 0; i <20; i++)
             {

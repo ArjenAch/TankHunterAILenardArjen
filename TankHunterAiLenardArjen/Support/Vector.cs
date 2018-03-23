@@ -12,6 +12,11 @@ namespace TankHunterAiLenardArjen
         public float X { get; set; }
         public float Y { get; set; }
 
+        public Vector()
+        {
+
+        }
+
         public Vector(float x, float y)
         {
             X = x;
@@ -72,7 +77,7 @@ namespace TankHunterAiLenardArjen
             {
                 X = maxSpeed;
             }
-            else if (X < -maxSpeed)
+            else  if (X < -maxSpeed)
             {
                 X = -maxSpeed;
             }
@@ -96,57 +101,72 @@ namespace TankHunterAiLenardArjen
             if (Y > maxY) { Y = 0.0f; }
         }
 
-        #region operator overloaders TODO revisit
+        #region operator overloaders 
         public static Vector operator *(Vector vector, int t)
         {
-            vector.X = vector.X * t;
-            vector.Y = vector.Y * t;
-            return vector;
+            Vector result = new Vector();
+            result.X = vector.X * t;
+            result.Y = vector.Y * t;
+            return result;
         }
 
         public static Vector operator *(Vector vector, float t)
         {
-            vector.X = vector.X * t;
-            vector.Y = vector.Y * t;
-            return vector;
+            Vector result = new Vector();
+            result.X = vector.X * t;
+            result.Y = vector.Y * t;
+            return result;
         }
 
         public static Vector operator *(Vector vector, double t)
         {
-            vector.X = vector.X * (float)t;
-            vector.Y = vector.Y * (float)t;
-            return vector;
+            Vector result = new Vector();
+            result.X = vector.X * (float)t;
+            result.Y = vector.Y * (float)t;
+            return result;
         }
 
         public static Vector operator +(Vector vector, Vector vector2)
         {
-            vector.X = vector.X + vector2.X;
-            vector.Y = vector.Y + vector2.Y;
-            return vector;
+            Vector result = new Vector();
+            result.X = vector.X + vector2.X;
+            result.Y = vector.Y + vector2.Y;
+            return result;
         }
 
         public static Vector operator -(Vector vector, Vector vector2)
         {
-            vector.X = vector.X - vector2.X;
-            vector.Y = vector.Y - vector2.Y;
-            return vector;
+            Vector result = new Vector();
+            result.X = vector.X - vector2.X;
+            result.Y = vector.Y - vector2.Y;
+            return result;
         }
 
         public static Vector operator -(Vector vector, int t)
         {
-            vector.X = vector.X - t;
-            vector.Y = vector.Y - t;
-            return vector;
+            Vector result = new Vector();
+            result.X = vector.X - t;
+            result.Y = vector.Y - t;
+            return result;
+        }
+
+        public static Vector operator -(Vector vector, float t)
+        {
+            Vector result = new Vector();
+            result.X = vector.X - t;
+            result.Y = vector.Y - t;
+            return result;
         }
 
         public static Vector operator /(Vector vector, float t)
         {
+            Vector result = new Vector();
             if (t != 0)
             {
-                vector.X = vector.X / t;
-                vector.Y = vector.Y / t;
+                result.X = vector.X / t;
+                result.Y = vector.Y / t;
             }
-            return vector;
+            return result;
         }
 
 
