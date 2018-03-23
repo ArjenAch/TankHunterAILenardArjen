@@ -16,15 +16,13 @@ namespace TankHunterAiLenardArjen.Support
             Matrix matTransform = new Matrix();
 
             ////rotate
-            matTransform *= Matrix.Rotate(heading, side);
+            matTransform = matTransform * Matrix.Rotate(heading, side);
 
             ////and translate
-            Matrix.Translate(position, matTransform);
+            matTransform = matTransform * Matrix.Translate(position, matTransform);
 
             ////now transform the vertices
-           Vector vector = Matrix.TransformVector(matTransform, targetLocal);
-
-            return vector;
+            return Matrix.TransformVector(matTransform, targetLocal);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace TankHunterAiLenardArjen
         public Vector Heading { get; set; }
         public Vector Side { get; set; }
         public float MaxSpeed { get; set; }
-        protected float MaxForce { get; }
+        public float MaxForce { get; }
         protected float MaxTurnRate { get; }
     }
 }

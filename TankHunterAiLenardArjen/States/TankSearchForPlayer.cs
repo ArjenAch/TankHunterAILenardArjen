@@ -4,14 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using TankHunterAiLenardArjen.BehaviourLogic;
 
 namespace TankHunterAiLenardArjen.States
 {
     public class TankSearchForPlayer : ITankState
     {
+        private SeekBehaviour Seek { get; set; }
+
         public void Enter(Vehicle tank)
         {
-            // IDEA: show question mark on tank
+            Seek = new SeekBehaviour();
         }
 
         public Vector Execute(Vehicle vehicle, int timeElapsed)
@@ -28,11 +31,17 @@ namespace TankHunterAiLenardArjen.States
             }
             else if (tank.PlayerNotSeenAtLastLocation())
             {
-                tank.ChangeState(new TankPatrol());
+                tank.ChangeState(new TankPatrol(tank));
             }
             else
             {
-                // tank.A* to last seen location
+                foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
+                {
+                    if (entity is Player)
+                    {
+                        steeringForce = Seek.Execute(tank, entity.Position);
+                    }
+                }
             }
 
             return steeringForce;
