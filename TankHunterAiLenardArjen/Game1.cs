@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using TankHunterAiLenardArjen.Enitities;
 using TankHunterAiLenardArjen.Support;
@@ -44,14 +45,14 @@ namespace TankHunterAiLenardArjen
             planes = new List<Airplane>();
 
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i <20; i++)
             {
-                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3.2f, 5, 2, new Vector(200 + i * 5, 200 + i * 5)));
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3.2f, 5, 5, new Vector(200 + i, 200)));
             }
 
             for (int i = 0; i < 10; i++)
             {
-                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 4, 12, new Vector(30 + i * 5, 200 + i * 5)));
+                planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 4, 12, new Vector(30 + i, 200 )));
             }
 
             base.Initialize();
@@ -141,7 +142,7 @@ namespace TankHunterAiLenardArjen
             }
 
             base.Update(gameTime);
-
+            Debug.WriteLine((1 / gameTime.ElapsedGameTime.TotalSeconds));
         }
 
         /// <summary>

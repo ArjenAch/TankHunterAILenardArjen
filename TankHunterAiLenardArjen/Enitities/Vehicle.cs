@@ -34,7 +34,6 @@ namespace TankHunterAiLenardArjen
         public override void Update(int timeElapsed)
         {
             gameWorld.GridLogic.UpdateEntity(this);
-            Position.WrapAround(GlobalVars.worldWidth, GlobalVars.worldHeight);
         }
     }
 }

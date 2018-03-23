@@ -45,15 +45,15 @@ namespace TankHunterAiLenardArjen.Worldstructure
             //If debug is enabled draw the graph
             if (GlobalVars.debug == true)
             {
-                //spriteBatch.Draw(GlobalVars.GraphTexture, Position.ToVector2(), TileColor);
+                spriteBatch.Draw(GlobalVars.GraphTexture, Position.ToVector2(), TileColor);
                 foreach (Edge adj in Adjecent)
                 {
-                  //  if (!adj.Cell2.IsDrawn)
-                  //  {
+                    //TODO dirty fix !(ID > 300 && adj.Cell2.Position.X == 20 || adj.Cell2.Position.Y == 20)
+                    if (!(ID > 50 && adj.Cell2.Position.X == 20 || adj.Cell2.Position.Y == 20))
+                    {
                         rotation = (float)Math.Atan2(Position.Y - adj.Cell2.Position.Y, Position.X - adj.Cell2.Position.X);
                         spriteBatch.Draw(GlobalVars.GraphTexture, graphLine, null, Color.OrangeRed, rotation, origin, SpriteEffects.None, 0);
-                        //IsDrawn = true;
-                   // }
+                    }
 
                 }
             }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,6 +70,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
                 Neighbors.Remove(Grid[i]);
                 foreach (Cell cell in Neighbors)
                 {
+                    
                     Grid[i].Adjecent.Add(new Edge(Grid[i], cell));
                 }
             }
@@ -87,7 +89,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
         //Calculates cell id based on entity position
         public int CalculateCell(Vector position)
-        {
+        { 
+            position.WrapAround(GlobalVars.worldWidth, GlobalVars.worldHeight);
             if (EntityIsOutOfWorld(position))
             {
                 int cellDiv = (int)position.X / cellSize;
@@ -96,6 +99,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             }
             else
             {
+                Debug.WriteLine("Posx: " + position.X + " Posy: " + position.Y);
                 throw new ArgumentOutOfRangeException("Vector position is out of the playing field");
             }
         }
@@ -156,7 +160,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
                                 Neighbors.Add(Grid[cellValue]);
                             }
                         }
-                        catch (ArgumentOutOfRangeException) { }
+                        catch (ArgumentOutOfRangeException) {
+                        }
                     }
                 }
                 if (i > worldWidth)
