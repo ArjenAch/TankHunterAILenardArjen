@@ -21,7 +21,7 @@ namespace TankHunterAiLenardArjen.Support
 
         //Tank
         // Delay before the new steeringforce is calculated (wanderbehaviour)
-        public static int BehaviourDelay = 0;
+        public static int BehaviourDelay = 1000;
 
         //Flocking plane
         public static double SeperationWeight = 3.0;

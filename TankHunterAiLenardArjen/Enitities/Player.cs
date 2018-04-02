@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -93,6 +94,7 @@ namespace TankHunterAiLenardArjen
             Position += Velocity;
             gameWorld.GridLogic.UpdateEntity(this);
             Position.WrapAround(GlobalVars.worldWidth, GlobalVars.worldHeight);
+            Debug.WriteLine("cellID: " + InCell.ID);
         }
     }
 }

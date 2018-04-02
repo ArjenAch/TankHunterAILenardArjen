@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TankHunterAiLenardArjen.Enitities;
 using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.Worldstructure
@@ -39,13 +40,14 @@ namespace TankHunterAiLenardArjen.Worldstructure
         /// [0][3][6]
         /// [1][4][7]
         /// [2][5][8]      
+        /// TODO KNOWN BUG: outer cells rigth en downside get cells from opposite side as neighbors something todo with wrap around or calculate neighbors
         /// </summary>
         private void GenerateGrid()
         {
             int incrementId = 0;
-            for (int i = (cellSize / 2); i < worldWidth; i += cellSize)
+            for (int i = (cellSize / 2); i <= (worldWidth - (cellSize / 2 )); i += cellSize)
             {
-                for (int j = (cellSize / 2); j < worldHeight; j += cellSize)
+                for (int j = (cellSize / 2); j <= (worldHeight - (cellSize / 2)); j += cellSize)
                 {
                     Cell cell = new Cell(new Vector(i, j), incrementId);
                     Grid.Add(incrementId, cell);
@@ -70,7 +72,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
                 Neighbors.Remove(Grid[i]);
                 foreach (Cell cell in Neighbors)
                 {
-                    
+
                     Grid[i].Adjecent.Add(new Edge(Grid[i], cell));
                 }
             }
@@ -82,14 +84,31 @@ namespace TankHunterAiLenardArjen.Worldstructure
             Cell value;
             if (Grid.TryGetValue(id, out value))
             {
+                if (entity is Obstacle)
+                {
+                    value.ContainstObstacle = true;
+                    DeleteEdges(value);
+                }
+
                 value.Members.Add(entity);
                 entity.InCell = value;
             }
         }
 
+        private void DeleteEdges(Cell value)
+        {
+            foreach (Edge adjecent in value.Adjecent)
+            {
+                adjecent.Cell2.Adjecent.RemoveAll((x) => x.Cell2 == value);
+            }
+            value.Adjecent.Clear();
+        }
+
+
+
         //Calculates cell id based on entity position
         public int CalculateCell(Vector position)
-        { 
+        {
             position.WrapAround(GlobalVars.worldWidth, GlobalVars.worldHeight);
             if (EntityIsOutOfWorld(position))
             {
@@ -99,7 +118,6 @@ namespace TankHunterAiLenardArjen.Worldstructure
             }
             else
             {
-                Debug.WriteLine("Posx: " + position.X + " Posy: " + position.Y);
                 throw new ArgumentOutOfRangeException("Vector position is out of the playing field");
             }
         }
@@ -107,7 +125,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         private bool EntityIsOutOfWorld(Vector position) => !(position.X < 0 || position.X > worldWidth || position.Y < 0 || position.Y > worldHeight);
 
         //Updates Entity cell if needed
-        public void UpdateEntity(MovingEntity entity) // basegame entities don't move so no update is needed
+        public void UpdateEntity(BaseGameEntity entity)
         {
             try
             {
@@ -121,7 +139,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     AddEntity(entity, id);
                 }
 
-            } catch (ArgumentOutOfRangeException) {}
+            }
+            catch (ArgumentOutOfRangeException) { }
 
         }
 
@@ -160,7 +179,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
                                 Neighbors.Add(Grid[cellValue]);
                             }
                         }
-                        catch (ArgumentOutOfRangeException) {
+                        catch (ArgumentOutOfRangeException)
+                        {
                         }
                     }
                 }
@@ -178,11 +198,11 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
             foreach (Cell cell in Neighbors)
             {
-                foreach (MovingEntity member in cell.Members)
+                foreach (BaseGameEntity member in cell.Members)
                 {
                     //TODO: Check correctness if statement
-                    if (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y)
-                        EntitiesInRange.Add(member);
+                    if (member is MovingEntity && (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y))
+                        EntitiesInRange.Add((MovingEntity)member);
                 }
             }
         }

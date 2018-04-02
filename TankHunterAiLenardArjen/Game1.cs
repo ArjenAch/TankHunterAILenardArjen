@@ -20,6 +20,7 @@ namespace TankHunterAiLenardArjen
         Player player;
         Tank tank;
         List<Airplane> planes;
+        List<Obstacle> obstacles;
        
 
         public Game1()
@@ -42,6 +43,7 @@ namespace TankHunterAiLenardArjen
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25), world);
             tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 45, new Vector(250, 250));
             planes = new List<Airplane>();
+            obstacles = new List<Obstacle>();
 
             for (int i = 0; i <20; i++)
             {
@@ -51,6 +53,11 @@ namespace TankHunterAiLenardArjen
             for (int i = 0; i < 10; i++)
             {
                 planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 4, 12, new Vector(30 + i, 200 )));
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                obstacles.Add(new Obstacle(new Vector(200 + i * GlobalVars.cellSize, 200),world));
             }
 
             base.Initialize();
@@ -91,10 +98,16 @@ namespace TankHunterAiLenardArjen
 
             //Load Planes
             fileStream = new FileStream("Content/Sprites/Airplane.png", FileMode.Open);
-
             foreach (Airplane plane in planes)
             {
                 plane.PlaneTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            }
+
+            //Load obstacles
+            fileStream = new FileStream("Content/Sprites/Tower.png", FileMode.Open);
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.Texture = Texture2D.FromStream(GraphicsDevice, fileStream);
             }
 
             //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
@@ -155,10 +168,17 @@ namespace TankHunterAiLenardArjen
             player.Render(spriteBatch);
             tank.Render(spriteBatch);
 
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.Render(spriteBatch);
+            }
+
             foreach (Airplane plane in planes)
             {
                 plane.Render(spriteBatch);
             }
+
+
 
             // TODO pipeline doest work for me
             //spriteBatch.Begin();

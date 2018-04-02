@@ -11,9 +11,9 @@ character (superhero, dragon, frog, car, wizard, student, of course fitting
 your theme). Use sprites to graphically show your character. DONE
 
 -Implement the necessary steering-classes (and Vector2d!) needed to
-implement two simple steering behaviour of choice from: 1 DONE
-o Seek 
-o Flee 
+implement two simple steering behaviour of choice from: 2 DONE
+o Seek DONE
+o Flee DONE
 o Arrive
 o Wander DONE
 -Implement another more advanced steering behaviour of choice from: DONE

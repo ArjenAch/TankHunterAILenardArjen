@@ -17,11 +17,11 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public List<Edge> Adjecent { get; set; }
         public bool Visited { get; set; }
         public Color TileColor { get; set; }
+        public bool ContainstObstacle { get; set; }
         private Rectangle destinationSize;
         private Rectangle graphLine;
         private float rotation;
         private Vector2 origin;
-      //  public bool IsDrawn;
 
         public Cell(Vector pos, int id)
         {
@@ -30,11 +30,15 @@ namespace TankHunterAiLenardArjen.Worldstructure
             Position = pos;
             ID = id;
             destinationSize = new Rectangle((int)Position.X - (GlobalVars.cellSize / 2), (int)Position.Y - (GlobalVars.cellSize / 2), GlobalVars.cellSize, GlobalVars.cellSize);
-            graphLine = new Rectangle((int)Position.X, (int)Position.Y, GlobalVars.cellSize * 2, 1);
+            graphLine = new Rectangle((int)Position.X, (int)Position.Y, GlobalVars.cellSize / 2, 1);
             TileColor = Color.White;
             rotation = 0;
-            origin = new Vector2(0.5f, 0.5f);
-          //  IsDrawn = false;
+            origin = new Vector2(1, 1);
+        }
+
+        private void ChangeOrigin(float rotation)
+        {
+
         }
 
         private void Render(Texture2D texture, SpriteBatch spriteBatch, Color color)
@@ -45,16 +49,15 @@ namespace TankHunterAiLenardArjen.Worldstructure
             //If debug is enabled draw the graph
             if (GlobalVars.debug == true)
             {
-                spriteBatch.Draw(GlobalVars.GraphTexture, Position.ToVector2(), TileColor);
+               // spriteBatch.Draw(GlobalVars.GraphTexture, graphPoint, TileColor);
                 foreach (Edge adj in Adjecent)
                 {
                     //TODO dirty fix !(ID > 300 && adj.Cell2.Position.X == 20 || adj.Cell2.Position.Y == 20)
-                    if (!(ID > 50 && adj.Cell2.Position.X == 20 || adj.Cell2.Position.Y == 20))
-                    {
+                    //  if (!(ID > 50 && adj.Cell2.Position.X == 20 && adj.Cell2.Position.Y == 20))
+                    
                         rotation = (float)Math.Atan2(Position.Y - adj.Cell2.Position.Y, Position.X - adj.Cell2.Position.X);
+                        ChangeOrigin(rotation);
                         spriteBatch.Draw(GlobalVars.GraphTexture, graphLine, null, Color.OrangeRed, rotation, origin, SpriteEffects.None, 0);
-                    }
-
                 }
             }
             spriteBatch.End();
