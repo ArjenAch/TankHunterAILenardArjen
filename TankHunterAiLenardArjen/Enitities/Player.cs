@@ -20,6 +20,7 @@ namespace TankHunterAiLenardArjen
         private Vector2 origin;
         public Cell Target { get; set; }
         private SearchAStar aStar;
+        private List<Cell> pathCellIds;
 
         float playerAngle;
 
@@ -36,6 +37,7 @@ namespace TankHunterAiLenardArjen
 
         public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
+            pathCellIds = new List<Cell>();
             PlayerInputController = new InputController(this);
         }
 
@@ -66,6 +68,8 @@ namespace TankHunterAiLenardArjen
             {
                 aStar = new SearchAStar(this, Target);
                 aStar.Search();
+                pathCellIds = aStar.GetPathToTarget();
+                
             }
                
         }
@@ -93,6 +97,14 @@ namespace TankHunterAiLenardArjen
                 {
                     //Target.TileColor = Color.Red;
                     Target.Render(spriteBatch);
+                }
+
+                if(pathCellIds.Count != 0)
+                {
+                    foreach(Cell cell in pathCellIds)
+                    {
+                        cell.TileColor = Color.Pink;
+                    }
                 }
                 InCell.TileColor = Color.Red;
                 InCell.Render(spriteBatch);

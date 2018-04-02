@@ -15,8 +15,8 @@ namespace TankHunterAiLenardArjen.GraphLogic
         CellSpacePartition graph;
         Dictionary<int, double> m_GCosts;
         Dictionary<int, double> m_FCosts;
-        Dictionary<int, Cell> m_shortestPathTree;
-        Dictionary<int, Cell> m_searchFrontier;
+        Dictionary<int, Edge> m_shortestPathTree;
+        Dictionary<int, Edge> m_searchFrontier;
         Calculate calculate;
 
         public SearchAStar(MovingEntity entity, Cell goal)
@@ -26,8 +26,8 @@ namespace TankHunterAiLenardArjen.GraphLogic
             to = goal;
             m_GCosts = new Dictionary<int, double>(graph.TotalNumberOfCells);
             m_FCosts = new Dictionary<int, double>(graph.TotalNumberOfCells);
-            m_shortestPathTree = new Dictionary<int, Cell>(graph.TotalNumberOfCells);
-            m_searchFrontier = new Dictionary<int, Cell>(graph.TotalNumberOfCells);
+            m_shortestPathTree = new Dictionary<int, Edge>(graph.TotalNumberOfCells);
+            m_searchFrontier = new Dictionary<int, Edge>(graph.TotalNumberOfCells);
             for(int i =0; i < graph.TotalNumberOfCells; i++)
             {
                 m_GCosts[i] = 0.0;
@@ -43,9 +43,23 @@ namespace TankHunterAiLenardArjen.GraphLogic
             return new List<Edge>();
         }
 
-        List<int> GetPathToTarget()
+        public List<Cell> GetPathToTarget()
         {
-            return new List<int>();
+            List<Cell> path = new List<Cell>();
+            //just return an empty path if no target or no path found
+          
+            Cell nd = to;
+                
+            path.Add(nd);
+
+            while ((nd != from) && (m_shortestPathTree[nd.ID] != null))
+            {
+                nd = m_shortestPathTree[nd.ID].Cell1;
+
+                path.Add(nd);
+            }
+
+            return path;
         }
 
         double GetCostToTarget()
@@ -76,10 +90,10 @@ namespace TankHunterAiLenardArjen.GraphLogic
 
                     try
                     {
-                        Cell oldValue;
+                        Edge oldValue;
                         m_searchFrontier.TryGetValue(edge.Cell2.ID, out oldValue);
 
-                        Cell value;
+                        Edge value;
                         m_shortestPathTree.TryGetValue(edge.Cell2.ID, out value);
 
                         if (oldValue == null)
@@ -88,7 +102,7 @@ namespace TankHunterAiLenardArjen.GraphLogic
                             m_GCosts[edge.Cell2.ID] = gCost;
 
                             prioQueu.Enqueue(edge.Cell2, 1);
-                            m_searchFrontier[edge.Cell2.ID] = edge.Cell1; // Cell2?
+                            m_searchFrontier[edge.Cell2.ID] = edge; // Cell2?
 
                         }
                         else if (gCost < m_GCosts[edge.Cell2.ID] && value == null)
@@ -98,7 +112,7 @@ namespace TankHunterAiLenardArjen.GraphLogic
 
                             prioQueu.UpdatePriority(edge.Cell2, 2);
 
-                            m_searchFrontier[edge.Cell2.ID] = edge.Cell1; // Cell2?
+                            m_searchFrontier[edge.Cell2.ID] = edge; // Cell2?
                         }
 
                     }
