@@ -35,7 +35,7 @@ namespace TankHunterAiLenardArjen
             return vector;
         }
 
-        public Vector ToVector(Vector2 v)
+        public static Vector ToVector(Vector2 v)
         {
             Vector vector = new Vector(v.X, v.Y);
             return vector;

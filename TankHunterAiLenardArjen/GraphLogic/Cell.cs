@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TankHunterAiLenardArjen.Support;
+using Priority_Queue;
 
 namespace TankHunterAiLenardArjen.Worldstructure
 {
-    public class Cell // Chapter 3 pg 127
+    public class Cell : FastPriorityQueueNode// Chapter 3 pg 127
     {
         public int ID { get; }
         public Vector Position { get; set; } // Middle of the cell
@@ -34,6 +35,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             TileColor = Color.White;
             rotation = 0;
             origin = new Vector2(1, 1);
+            Priority = 1;
         }
 
         private void ChangeOrigin(float rotation)

@@ -12,18 +12,15 @@ namespace TankHunterAiLenardArjen
 {
     public class Vehicle : MovingEntity //Chapter 3 pg 89
     {
-        public World gameWorld { get; }
         public Texture2D TileDebugNeighborTexture { get; set; }
         public Texture2D TileDebugCenterTexture { get; set; }
 
         public int Radius { get; }
         public int TimeElapsed { get; set; }
         protected double rotation;
-       // private Vector2 origin;
 
-        public Vehicle(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Vehicle(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
-            this.gameWorld = gameWorld;
             Radius = 40; //TODO 
         }
         public override void Render(SpriteBatch spriteBatch)

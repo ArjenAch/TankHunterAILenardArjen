@@ -48,6 +48,9 @@
     <Compile Include="BehaviourLogic\AlignmentBehaviour.cs" />
     <Compile Include="BehaviourLogic\CohesionBehaviour.cs" />
     <Compile Include="Enitities\Obstacle.cs" />
+    <Compile Include="GraphLogic\ManhattanHeuristic.cs" />
+    <Compile Include="GraphLogic\SearchAStar.cs" />
+    <Compile Include="PlayerInput\MovePlayerToPoint.cs" />
     <Compile Include="States\FlockingState.cs" />
     <Compile Include="Enitities\Airplane.cs" />
     <Compile Include="Enitities\Player.cs" />
@@ -66,9 +69,9 @@
     <Compile Include="Support\HelpMethods.cs" />
     <Compile Include="Support\Matrix.cs" />
     <Compile Include="Support\Vector.cs" />
-    <Compile Include="Worldstructure\Cell.cs" />
-    <Compile Include="Worldstructure\CellSpacePartition.cs" />
-    <Compile Include="Worldstructure\Edge.cs" />
+    <Compile Include="GraphLogic\Cell.cs" />
+    <Compile Include="GraphLogic\CellSpacePartition.cs" />
+    <Compile Include="GraphLogic\Edge.cs" />
     <Compile Include="Worldstructure\World.cs" />
     <Compile Include="PlayerInput\InputController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +84,9 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Priority Queue, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OptimizedPriorityQueue.4.1.1\lib\net45\Priority Queue.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -119,6 +125,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

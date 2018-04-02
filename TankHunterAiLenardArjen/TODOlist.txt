@@ -30,13 +30,12 @@ Week 4:
 -A Graph, Node and Edge class. You may of course use the graph you
 created in the ISAD course or use code from the book. DONE
 -A new class deriving from BaseGameEntity for a static object, like a
-building, tree, lake etc.
+building, tree, lake etc. DONE
 
 -Place a number of these objects in your game world.
 - Create a method in your World class that generates an underlying graph
 for your game world, of course considering the obstacles. See the
-following pictures for an example:
-or
+following pictures for an example: DONE
 - The underlying graph can be made visible or invisible through a key press
 or button. DONE (button press must be optimized)
 

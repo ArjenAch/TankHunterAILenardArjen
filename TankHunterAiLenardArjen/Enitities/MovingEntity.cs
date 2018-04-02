@@ -10,7 +10,7 @@ namespace TankHunterAiLenardArjen
 {
     public abstract class MovingEntity : BaseGameEntity //Chapter 3 pg 89
     {
-        protected MovingEntity(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(position)
+        protected MovingEntity(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(position)
         {
             Velocity = new Vector(0, 0);
             Mass = mass;
@@ -19,8 +19,9 @@ namespace TankHunterAiLenardArjen
             MaxSpeed = maxSpeed;
             MaxForce = maxForce;
             MaxTurnRate = maxTurnRate;
+            gameWorld = world;
         }
-
+        public World gameWorld { get; }
         public override abstract void Update(int timeElapsed);
         public override abstract void Render(SpriteBatch spriteBatch);
         public Vector Velocity { get; set; }

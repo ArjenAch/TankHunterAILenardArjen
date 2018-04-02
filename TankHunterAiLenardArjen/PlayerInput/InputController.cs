@@ -14,6 +14,7 @@ namespace TankHunterAiLenardArjen.PlayerInput
         Command DownArrowKey;
         Command LeftArrowKey;
         Command RightArrowKey;
+        Command LeftMouseButtonKey;
 
         public InputController(Player player)
         {
@@ -22,7 +23,9 @@ namespace TankHunterAiLenardArjen.PlayerInput
             RightArrowKey = new MovePlayerRightCommand(this.player);
             UpArrowKey = new MovePlayerUpCommand(this.player);
             DownArrowKey = new MovePlayerDownCommand(this.player);
-            
+            LeftMouseButtonKey = new MovePlayerToPoint(this.player);
+
+
         }
 
         public void Update(int timeElapsed)
@@ -42,6 +45,11 @@ namespace TankHunterAiLenardArjen.PlayerInput
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 RightArrowKey.Execute(timeElapsed);
+            }
+            if( Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                LeftMouseButtonKey.Execute(timeElapsed);
+                player.Target = player.gameWorld.GridLogic.GetCellBasedOnPosition(Vector.ToVector(Mouse.GetState().Position.ToVector2()));
             }
         }
     }

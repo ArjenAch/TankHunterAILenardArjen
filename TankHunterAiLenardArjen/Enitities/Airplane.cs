@@ -29,7 +29,7 @@ namespace TankHunterAiLenardArjen.Enitities
             }
         }
 
-        public Airplane(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Airplane(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
             State = new FlockingState();
             spriteAngle = 0;

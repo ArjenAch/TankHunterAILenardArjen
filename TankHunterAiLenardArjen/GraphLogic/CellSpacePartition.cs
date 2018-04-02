@@ -20,8 +20,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
         private double worldWidth;
         private double worldHeight;
         private int cellSize;
-        private int numberOfCellsHeight;
-        private int totalNumberOfCells;
+        public int NumberOfCellsHeight;
+        public int TotalNumberOfCells;
 
         public CellSpacePartition(double worldWidth, double worldHeight, int cellSize)
         {
@@ -56,16 +56,16 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
                 if (i == (cellSize / 2))
                 {
-                    numberOfCellsHeight = incrementId;
+                    NumberOfCellsHeight = incrementId;
                 }
             }
 
-            totalNumberOfCells = incrementId + 1;
+            TotalNumberOfCells = incrementId + 1;
         }
 
         private void GenerateEdges()
         {
-            for (int i = 0; i < totalNumberOfCells - 1; i++)
+            for (int i = 0; i < TotalNumberOfCells - 1; i++)
             {
                 CalculateNeighborCells(Grid[i], cellSize); // calculate direct neighbors
 
@@ -104,6 +104,12 @@ namespace TankHunterAiLenardArjen.Worldstructure
             value.Adjecent.Clear();
         }
 
+        public Cell GetCellBasedOnPosition(Vector position)
+        {
+            int id = CalculateCell(position);
+            return Grid[id];
+        }
+
 
 
         //Calculates cell id based on entity position
@@ -113,7 +119,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             if (EntityIsOutOfWorld(position))
             {
                 int cellDiv = (int)position.X / cellSize;
-                int cellValue = (int)((cellDiv * numberOfCellsHeight) + (position.Y / cellSize));
+                int cellValue = (int)((cellDiv * NumberOfCellsHeight) + (position.Y / cellSize));
                 return cellValue;
             }
             else
@@ -174,7 +180,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
                         {
                             // CalculateCell throws exception when a position is out side the game World
                             cellValue = CalculateCell(tmp);
-                            if (!(cellValue < 0 || cellValue >= totalNumberOfCells - 1))
+                            if (!(cellValue < 0 || cellValue >= TotalNumberOfCells - 1))
                             {
                                 Neighbors.Add(Grid[cellValue]);
                             }
@@ -210,7 +216,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         //Shoud be called only once
         public void RenderAllCells(Texture2D texture, SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < totalNumberOfCells - 1; i++)
+            for (int i = 0; i < TotalNumberOfCells - 1; i++)
             {
                 Grid[i].Render(texture, spriteBatch);
             }
