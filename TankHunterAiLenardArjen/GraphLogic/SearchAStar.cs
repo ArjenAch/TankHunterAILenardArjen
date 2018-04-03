@@ -101,7 +101,7 @@ namespace TankHunterAiLenardArjen.GraphLogic
                             m_FCosts[edge.Cell2.ID] = gCost + hCost;
                             m_GCosts[edge.Cell2.ID] = gCost;
 
-                            prioQueu.Enqueue(edge.Cell2, 1);
+                            prioQueu.Enqueue(edge.Cell2, (float)m_FCosts[edge.Cell2.ID]);
                             m_searchFrontier[edge.Cell2.ID] = edge; // Cell2?
 
                         }
@@ -110,7 +110,7 @@ namespace TankHunterAiLenardArjen.GraphLogic
                             m_FCosts[edge.Cell2.ID] = gCost + hCost;
                             m_GCosts[edge.Cell2.ID] = gCost;
 
-                            prioQueu.UpdatePriority(edge.Cell2, 2);
+                            prioQueu.UpdatePriority(edge.Cell2, (float)m_FCosts[edge.Cell2.ID]);
 
                             m_searchFrontier[edge.Cell2.ID] = edge; // Cell2?
                         }
