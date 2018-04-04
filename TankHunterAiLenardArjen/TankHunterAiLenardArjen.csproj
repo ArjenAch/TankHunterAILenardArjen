@@ -50,7 +50,7 @@
     <Compile Include="Enitities\Obstacle.cs" />
     <Compile Include="GraphLogic\ManhattanHeuristic.cs" />
     <Compile Include="GraphLogic\SearchAStar.cs" />
-    <Compile Include="PlayerInput\MovePlayerToPoint.cs" />
+    <Compile Include="PlayerInput\MovePlayerLeftCommand.cs" />
     <Compile Include="States\FlockingState.cs" />
     <Compile Include="Enitities\Airplane.cs" />
     <Compile Include="Enitities\Player.cs" />
@@ -58,7 +58,6 @@
     <Compile Include="Enitities\MovingEntity.cs" />
     <Compile Include="PlayerInput\Command.cs" />
     <Compile Include="PlayerInput\MovePlayerDownCommand.cs" />
-    <Compile Include="PlayerInput\MovePlayerLeftCommand.cs" />
     <Compile Include="PlayerInput\MovePlayerRightCommand.cs" />
     <Compile Include="PlayerInput\MovePlayerUpCommand.cs" />
     <Compile Include="Program.cs" />

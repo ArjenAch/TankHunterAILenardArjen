@@ -150,6 +150,11 @@ namespace TankHunterAiLenardArjen
             }
         }
 
+        public float DistanceToPosition(Vector position)
+        {
+                 return Math.Abs((Position - position).Length());
+        }
+
         public bool PlayerInAttackZone()
         {
             return (distanceToPlayer > TankIsInDangerDistance && distanceToPlayer < TankAttackDistance);

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using TankHunterAiLenardArjen.Worldstructure;
 using Priority_Queue;
+using Microsoft.Xna.Framework;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.GraphLogic
 {
@@ -18,9 +20,11 @@ namespace TankHunterAiLenardArjen.GraphLogic
         Dictionary<int, Edge> m_shortestPathTree;
         Dictionary<int, Edge> m_searchFrontier;
         Calculate calculate;
+        public List<Cell> ConsideredCells { get;}
 
         public SearchAStar(MovingEntity entity, Cell goal)
         {
+            ConsideredCells = new List<Cell>();
             graph = entity.gameWorld.GridLogic;
             from = entity.InCell;
             to = goal;
@@ -38,15 +42,10 @@ namespace TankHunterAiLenardArjen.GraphLogic
             calculate = ManhattanHeuristic.Calculate;
         }
 
-        List<Edge> GetSPT()
-        {
-            return new List<Edge>();
-        }
 
         public List<Cell> GetPathToTarget()
         {
             List<Cell> path = new List<Cell>();
-            //just return an empty path if no target or no path found
           
             Cell nd = to;
                 
@@ -62,11 +61,6 @@ namespace TankHunterAiLenardArjen.GraphLogic
             return path;
         }
 
-        double GetCostToTarget()
-        {
-            return 0.0;
-        }
-
         public delegate double Calculate(CellSpacePartition graph, Cell from, Cell to);
 
         public void Search()
@@ -77,6 +71,14 @@ namespace TankHunterAiLenardArjen.GraphLogic
             while (prioQueu.Count != 0)
             {
                 Cell nextCloseNode = prioQueu.Dequeue();
+                
+                //if debug info is enabled the considered cells must be shown
+                //Adding them to a list makes it possible to clear the cells again
+                if(GlobalVars.debug)
+                {
+                    nextCloseNode.TileColor = Color.Black;
+                    ConsideredCells.Add(nextCloseNode);
+                }
 
                 m_shortestPathTree[nextCloseNode.ID] = m_searchFrontier[nextCloseNode.ID];
 
@@ -101,9 +103,15 @@ namespace TankHunterAiLenardArjen.GraphLogic
                             m_FCosts[edge.Cell2.ID] = gCost + hCost;
                             m_GCosts[edge.Cell2.ID] = gCost;
 
+                            //Give priority based on the cost
                             prioQueu.Enqueue(edge.Cell2, (float)m_FCosts[edge.Cell2.ID]);
-                            m_searchFrontier[edge.Cell2.ID] = edge; // Cell2?
+                            m_searchFrontier[edge.Cell2.ID] = edge; 
 
+                            if (GlobalVars.debug)
+                            {
+                                edge.Cell2.TileColor = Color.Gold;
+                                ConsideredCells.Add(edge.Cell2);
+                            }
                         }
                         else if (gCost < m_GCosts[edge.Cell2.ID] && value == null)
                         {
@@ -112,7 +120,12 @@ namespace TankHunterAiLenardArjen.GraphLogic
 
                             prioQueu.UpdatePriority(edge.Cell2, (float)m_FCosts[edge.Cell2.ID]);
 
-                            m_searchFrontier[edge.Cell2.ID] = edge; // Cell2?
+                            m_searchFrontier[edge.Cell2.ID] = edge; 
+                            if (GlobalVars.debug)
+                            {
+                                edge.Cell2.TileColor = Color.Gold;
+                                ConsideredCells.Add(edge.Cell2);
+                            }
                         }
 
                     }

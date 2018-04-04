@@ -61,19 +61,6 @@ namespace TankHunterAiLenardArjen
             Accelerate(new Vector(0, -MaxForce / Mass), timeElapsed);
         }
 
-        internal void MoveToPoint(int timeElapsed)
-        {
-
-            if(Target != null)
-            {
-                aStar = new SearchAStar(this, Target);
-                aStar.Search();
-                pathCellIds = aStar.GetPathToTarget();
-                
-            }
-               
-        }
-
         private void Accelerate(Vector acceleration, int timeElapsed)
         {
             Velocity += acceleration * timeElapsed / 1000;
@@ -95,17 +82,10 @@ namespace TankHunterAiLenardArjen
 
                 if (Target != null)
                 {
-                    //Target.TileColor = Color.Red;
+                    Target.TileColor = Color.Red;
                     Target.Render(spriteBatch);
                 }
 
-                if(pathCellIds.Count != 0)
-                {
-                    foreach(Cell cell in pathCellIds)
-                    {
-                        cell.TileColor = Color.Pink;
-                    }
-                }
                 InCell.TileColor = Color.Red;
                 InCell.Render(spriteBatch);
                 InCell.TileColor = Color.White;

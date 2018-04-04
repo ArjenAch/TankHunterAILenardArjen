@@ -38,10 +38,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             Priority = 1;
         }
 
-        private void ChangeOrigin(float rotation)
-        {
 
-        }
 
         private void Render(Texture2D texture, SpriteBatch spriteBatch, Color color)
         {
@@ -58,7 +55,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     //  if (!(ID > 50 && adj.Cell2.Position.X == 20 && adj.Cell2.Position.Y == 20))
                     
                         rotation = (float)Math.Atan2(Position.Y - adj.Cell2.Position.Y, Position.X - adj.Cell2.Position.X);
-                        ChangeOrigin(rotation);
+                       
                         spriteBatch.Draw(GlobalVars.GraphTexture, graphLine, null, Color.OrangeRed, rotation, origin, SpriteEffects.None, 0);
                 }
             }
@@ -67,8 +64,16 @@ namespace TankHunterAiLenardArjen.Worldstructure
 
         public void Render(Texture2D texture, SpriteBatch spriteBatch)
         {
-            Render(texture, spriteBatch, TileColor);
+            if(GlobalVars.debug == true)
+                Render(texture, spriteBatch, TileColor);
+            else
+            Render(texture, spriteBatch, Color.White);
 
+        }
+
+        public void ClearColor()
+        {
+            TileColor = Color.White;
         }
 
         public void Render(SpriteBatch spriteBatch)

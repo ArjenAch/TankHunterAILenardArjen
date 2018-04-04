@@ -61,7 +61,7 @@ namespace TankHunterAiLenardArjen
             {
                 obstacles.Add(new Obstacle(new Vector(200 + i * GlobalVars.cellSize, 200),world));
             }
-            this.IsMouseVisible = true;
+           // this.IsMouseVisible = true;
             base.Initialize();
         }
 
