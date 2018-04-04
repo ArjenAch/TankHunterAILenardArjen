@@ -17,14 +17,16 @@ namespace TankHunterAiLenardArjen.Support
 
         public static Texture2D DefaultTileTexture;
         public static Texture2D PlayerTexture;
+        public static Texture2D GraphTexture;
 
         //Tank
         // Delay before the new steeringforce is calculated (wanderbehaviour)
-        public static int BehaviourDelay = 0;
+        public static int BehaviourDelay = 1000;
 
         //Flocking plane
         public static double SeperationWeight = 3.0;
         public static double CohesionWeight = 6.8;
         public static double AllignmentWeight = 5.5;
+        public static double SeekingWeight = 3;
     }
 }

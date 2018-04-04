@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using TankHunterAiLenardArjen.Enitities;
 using TankHunterAiLenardArjen.Support;
@@ -15,12 +16,13 @@ namespace TankHunterAiLenardArjen
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        //SpriteFont font;
         World world;
         Player player;
         Tank tank;
         List<Airplane> planes;
-       
+        List<Obstacle> obstacles;
+        int keyDelay;
+        int TimePassed;
 
         public Game1()
         {
@@ -36,23 +38,30 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         protected override void Initialize()
         {
+            keyDelay = 0;
             GlobalVars.worldWidth = GraphicsDevice.Viewport.Width;
             GlobalVars.worldHeight = GraphicsDevice.Viewport.Height;
             world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25), world);
-            tank = new Tank(world, 1, new Vector(0, 0), 1f, 4, 45, new Vector(250, 250));
+            tank = new Tank(1, new Vector(0, 0), 1f, 4, 45, new Vector(250, 250), world);
             planes = new List<Airplane>();
+            obstacles = new List<Obstacle>();
 
-            //for (int i = 0; i < 20; i++)
-            //{
-            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 3.2f, 5, 2, new Vector(200 + i * 5, 200 + i * 5)));
-            //}
+            for (int i = 0; i <20; i++)
+            {
+                planes.Add(new Airplane(1, new Vector(0, 0), 3.2f, 5, 5, new Vector(200 + i, 200), world));
+            }
 
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    planes.Add(new Airplane(world, 1, new Vector(0, 0), 3f, 4, 12, new Vector(30 + i * 5, 200 + i * 5)));
-            //}
+            for (int i = 0; i < 10; i++)
+            {
+                planes.Add(new Airplane(1, new Vector(0, 0), 3f, 4, 12, new Vector(30 + i, 200 ), world));
+            }
 
+            for (int i = 0; i < 5; i++)
+            {
+                obstacles.Add(new Obstacle(new Vector(200 + i * GlobalVars.cellSize, 200),world));
+            }
+           // this.IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -77,6 +86,9 @@ namespace TankHunterAiLenardArjen
             fileStream = new FileStream("Content/Sprites/SandTile.png", FileMode.Open);
             GlobalVars.DefaultTileTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
             world.TileTexture = Support.GlobalVars.DefaultTileTexture;
+            GlobalVars.GraphTexture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            GlobalVars.GraphTexture.SetData(new Color[] { Color.Blue });
+
 
             //Load tank
             fileStream = new FileStream("Content/Sprites/TankBottom.png", FileMode.Open);
@@ -88,10 +100,16 @@ namespace TankHunterAiLenardArjen
 
             //Load Planes
             fileStream = new FileStream("Content/Sprites/Airplane.png", FileMode.Open);
-
             foreach (Airplane plane in planes)
             {
                 plane.PlaneTexture = Texture2D.FromStream(GraphicsDevice, fileStream);
+            }
+
+            //Load obstacles
+            fileStream = new FileStream("Content/Sprites/Tower.png", FileMode.Open);
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.Texture = Texture2D.FromStream(GraphicsDevice, fileStream);
             }
 
             //If debugging is enabled load the textures (maybe this should always be done in case debugging can be enabled in runtime)
@@ -120,22 +138,29 @@ namespace TankHunterAiLenardArjen
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {      
-
+        {
+            TimePassed += gameTime.ElapsedGameTime.Milliseconds;
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.Q) && TimePassed > keyDelay)
+            {
+                GlobalVars.debug = !GlobalVars.debug;
+                keyDelay = 150;
+                TimePassed = 0;
+            }
+
             // Entity's updated here
             tank.Update(gameTime.ElapsedGameTime.Milliseconds);
             world.Update(gameTime.ElapsedGameTime.Milliseconds);
             player.Update(gameTime.ElapsedGameTime.Milliseconds);
 
-            //foreach (Airplane plane in planes)
-            //{
-            //    plane.Update(gameTime.ElapsedGameTime.Milliseconds);
-            //}
+            foreach (Airplane plane in planes)
+            {
+                plane.Update(gameTime.ElapsedGameTime.Milliseconds);
+            }
 
             base.Update(gameTime);
-
+            Debug.WriteLine((1 / gameTime.ElapsedGameTime.TotalSeconds));
         }
 
         /// <summary>
@@ -146,16 +171,21 @@ namespace TankHunterAiLenardArjen
         {
             GraphicsDevice.Clear(Color.LawnGreen);
 
-            //world should only be drawed once with its elements
-            // The entities should update themselfs and draw/render
-            world.Draw(spriteBatch);
+            world.Render(spriteBatch);
             player.Render(spriteBatch);
             tank.Render(spriteBatch);
+
+            foreach (Obstacle obstacle in obstacles)
+            {
+                obstacle.Render(spriteBatch);
+            }
 
             foreach (Airplane plane in planes)
             {
                 plane.Render(spriteBatch);
             }
+
+
 
             // TODO pipeline doest work for me
             //spriteBatch.Begin();

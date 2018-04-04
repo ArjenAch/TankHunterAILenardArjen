@@ -22,14 +22,9 @@ namespace TankHunterAiLenardArjen.States
             TimeElapsed = GlobalVars.BehaviourDelay;
         }
 
-        public void Enter(Vehicle tank)
+        public void Enter(Tank tank)
         {
             // IDEA: Tank is in a good mood
-        }
-
-        public Vector Execute(Vehicle vehicle, int timeElapsed)
-        {
-            return Execute((Tank)vehicle, timeElapsed);
         }
 
         public Vector Execute(Tank tank, int timeElapsed)
@@ -54,7 +49,7 @@ namespace TankHunterAiLenardArjen.States
             return steeringForce;
         }
 
-        public void Exit(Vehicle tank)
+        public void Exit(Tank tank)
         {
 
         }

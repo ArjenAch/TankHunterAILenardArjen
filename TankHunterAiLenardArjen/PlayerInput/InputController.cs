@@ -22,6 +22,7 @@ namespace TankHunterAiLenardArjen.PlayerInput
             RightArrowKey = new MovePlayerRightCommand(this.player);
             UpArrowKey = new MovePlayerUpCommand(this.player);
             DownArrowKey = new MovePlayerDownCommand(this.player);
+
         }
 
         public void Update(int timeElapsed)
@@ -42,6 +43,7 @@ namespace TankHunterAiLenardArjen.PlayerInput
             {
                 RightArrowKey.Execute(timeElapsed);
             }
+
         }
     }
 }

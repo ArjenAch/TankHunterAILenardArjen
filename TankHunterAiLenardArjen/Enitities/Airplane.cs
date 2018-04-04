@@ -17,7 +17,7 @@ namespace TankHunterAiLenardArjen.Enitities
         private Texture2D _planeTexture;
         private Vector2 origin;
         private float spriteAngle;
-        private ITankState State { get; set; }
+        private FlockingState State { get; set; }
         public Texture2D PlaneTexture
         {
             get { return _planeTexture; }
@@ -29,7 +29,7 @@ namespace TankHunterAiLenardArjen.Enitities
             }
         }
 
-        public Airplane(World gameWorld, float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position) : base(gameWorld, mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Airplane(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
             State = new FlockingState();
             spriteAngle = 0;

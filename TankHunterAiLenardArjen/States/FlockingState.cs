@@ -5,7 +5,7 @@ using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.Enitities
 {
-    public class FlockingState : ITankState
+    public class FlockingState 
     {
         private Vector steeringForce;
         private CohesionBehaviour cohesionBehaviour;
@@ -18,7 +18,7 @@ namespace TankHunterAiLenardArjen.Enitities
             cohesionBehaviour = new CohesionBehaviour();
             separationBehaviour = new SeparationBehaviour();
             alignmentBehaviour = new AlignmentBehaviour();
-            wanderBehaviour = new WanderBehaviour(1.2, 2, 40);
+            wanderBehaviour = new WanderBehaviour(10, 80, 40);
         }
 
         public void Enter(Vehicle plane)
@@ -31,7 +31,6 @@ namespace TankHunterAiLenardArjen.Enitities
             steeringForce = separationBehaviour.Execute(plane) * GlobalVars.SeperationWeight;
             steeringForce += alignmentBehaviour.Execute(plane) * GlobalVars.AllignmentWeight;
             steeringForce += cohesionBehaviour.Execute(plane) * GlobalVars.CohesionWeight;
-            //steeringForce += wanderBehaviour.Execute(plane);
             return steeringForce;
 
         }

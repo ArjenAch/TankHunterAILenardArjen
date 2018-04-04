@@ -35,7 +35,7 @@ namespace TankHunterAiLenardArjen
             return vector;
         }
 
-        public Vector ToVector(Vector2 v)
+        public static Vector ToVector(Vector2 v)
         {
             Vector vector = new Vector(v.X, v.Y);
             return vector;
@@ -77,7 +77,7 @@ namespace TankHunterAiLenardArjen
             {
                 X = maxSpeed;
             }
-            else if (X < -maxSpeed)
+            else  if (X < -maxSpeed)
             {
                 X = -maxSpeed;
             }
@@ -101,7 +101,7 @@ namespace TankHunterAiLenardArjen
             if (Y > maxY) { Y = 0.0f; }
         }
 
-        #region operator overloaders TODO revisit
+        #region operator overloaders 
         public static Vector operator *(Vector vector, int t)
         {
             Vector result = new Vector();
@@ -143,6 +143,14 @@ namespace TankHunterAiLenardArjen
         }
 
         public static Vector operator -(Vector vector, int t)
+        {
+            Vector result = new Vector();
+            result.X = vector.X - t;
+            result.Y = vector.Y - t;
+            return result;
+        }
+
+        public static Vector operator -(Vector vector, float t)
         {
             Vector result = new Vector();
             result.X = vector.X - t;

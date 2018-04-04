@@ -17,13 +17,8 @@ namespace TankHunterAiLenardArjen.States
             Seek = new SeekBehaviour();
         }
 
-        public void Enter(Vehicle tank)
+        public void Enter(Tank tank)
         {
-        }
-
-        public Vector Execute(Vehicle vehicle, int timeElapsed)
-        {
-            return Execute((Tank)vehicle, timeElapsed);
         }
 
         public Vector Execute(Tank tank, int timeElapsed)
@@ -43,6 +38,7 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
+                tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.TankAttackDistance);
                 foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                 {
                     if (entity is Player)
@@ -58,7 +54,7 @@ namespace TankHunterAiLenardArjen.States
             return steeringForce / 4;
         }
 
-        public void Exit(Vehicle tank)
+        public void Exit(Tank tank)
         {
         }
 

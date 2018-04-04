@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TankHunterAiLenardArjen.GraphLogic;
 using TankHunterAiLenardArjen.PlayerInput;
 using TankHunterAiLenardArjen.Support;
 using TankHunterAiLenardArjen.Worldstructure;
@@ -16,7 +18,9 @@ namespace TankHunterAiLenardArjen
         private Texture2D _playerTexture;
         private InputController PlayerInputController;
         private Vector2 origin;
-        private World gameWorld;
+        public Cell Target { get; set; }
+        private SearchAStar aStar;
+        private List<Cell> pathCellIds;
 
         float playerAngle;
 
@@ -31,10 +35,10 @@ namespace TankHunterAiLenardArjen
             }
         }
 
-        public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position)
+        public Player(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
+            pathCellIds = new List<Cell>();
             PlayerInputController = new InputController(this);
-            gameWorld = world;
         }
 
         internal void MoveRight(int timeElapsed)
@@ -76,6 +80,12 @@ namespace TankHunterAiLenardArjen
                     edge.Cell1.TileColor = edge.Cell2.TileColor = Color.White;
                 }
 
+                if (Target != null)
+                {
+                    Target.TileColor = Color.Red;
+                    Target.Render(spriteBatch);
+                }
+
                 InCell.TileColor = Color.Red;
                 InCell.Render(spriteBatch);
                 InCell.TileColor = Color.White;
@@ -93,6 +103,7 @@ namespace TankHunterAiLenardArjen
             Position += Velocity;
             gameWorld.GridLogic.UpdateEntity(this);
             Position.WrapAround(GlobalVars.worldWidth, GlobalVars.worldHeight);
+            Debug.WriteLine("cellID: " + InCell.ID);
         }
     }
 }

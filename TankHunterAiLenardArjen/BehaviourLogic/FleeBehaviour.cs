@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TankHunterAiLenardArjen.BehaviourLogic
 {
-    public class FleeBehavior
+    public class FleeBehaviour
     {
         public Vector Execute(Vehicle vehicle, Vector target)
         {

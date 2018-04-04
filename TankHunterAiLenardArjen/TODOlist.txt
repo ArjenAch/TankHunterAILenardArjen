@@ -1,0 +1,97 @@
+﻿
+Eisen opdracht:
+Week 3: 
+-An application with a GUI that displays the AI world DONE
+ -A World-class that updates itself and can be rendered on the screen. The
+view is in 2d (3d is allowed at your own risk!!) from above, like in the images. 
+-Abstract classes BaseGameEntity and MovingEntity based on the C++-code
+from Buckland DONE
+-Create one concrete subclass of MovingEntity. You may choose your own
+character (superhero, dragon, frog, car, wizard, student, of course fitting 
+your theme). Use sprites to graphically show your character. DONE
+
+-Implement the necessary steering-classes (and Vector2d!) needed to
+implement two simple steering behaviour of choice from: 2 DONE
+o Seek DONE
+o Flee DONE
+o Arrive
+o Wander DONE
+-Implement another more advanced steering behaviour of choice from: DONE
+o Leader following
+o Flocking DONE
+o Obstacle avoidance TODO?!
+o Hide
+- Implement a new steering behaviour ‘Explore’. This behaviour shows a
+character exploring a certain area (your game world) in a systematic way. For
+instance, this behaviour can be used to show a character searching for
+something. Invent your own smart algorithm for this behaviour ??? Gaan we dit doen...
+
+Week 4:
+-A Graph, Node and Edge class. You may of course use the graph you
+created in the ISAD course or use code from the book. DONE
+-A new class deriving from BaseGameEntity for a static object, like a
+building, tree, lake etc. DONE
+
+-Place a number of these objects in your game world.
+- Create a method in your World class that generates an underlying graph
+for your game world, of course considering the obstacles. See the
+following pictures for an example: DONE
+- The underlying graph can be made visible or invisible through a key press
+or button. DONE (button press must be optimized)
+
+- Implement the A* algorithm with a suitable heuristic.
+- If you click somewhere in the game world, your game character should
+be able to go there using the shortest path calculated by A*. Show the
+edges that are considered in your algorithm with a special color/style.
+- EXTRA (for a higher final grade): implement path smoothing
+
+WEEK 5:
+You are going to extend the game environment you created with behaviour and
+decision making. You may CHOOSE between 3 assignments:
+ Implement goal-driven behaviour based on the implementation from the
+book:
+
+1.
+- Create and implement the abstract class Goal and its subclass
+CompositeGoal (message handling is an extra)
+- Implement one atomic goal, using a simple steering behaviour like
+‘Seek’ or ‘Wander’
+-Let one of your MovingEntity-classes have this goal-driven
+behaviour
+-Design the behaviour for one of your game agents (superhero, car,
+monster, ...). Think of at least three different strategy-level
+(composite) goals, for example ‘attack enemy’, ‘get money’, ‘go to
+the movies’, be creative! If necessary, create other agents or objects
+you need to implement this behaviour.
+- At think-level, one of these goals is chosen randomly (or invent a
+more advanced algorithm).
+- The goals of your agent can be shown and hidden on the screen by
+pushing a particular key or button, like in the following image:
+
+2. 
+Implement a state machine (in your core language) for a game character
+with scripting (in Lua or another scripting language) for the states. Create
+at least three different states with transitions between them. Choosing
+this assignment can get you a higher grade but it is at your own risk!
+Consult chapter 2 and 6 and the sources from the ELO. Show the current
+state of the character by pushing a particular key or button.
+
+3.
+Create behaviour for one character based on goals (at least three) and
+actions (at least three), using the last part of the powerpoint sheets and
+chapter 5.6 from the book ‘Artificial Intelligence for games’ by Ian
+Millington (http://lecturer.ukdw.ac.id/~mahas/dossier/gameng_AIFG.pdf
+). As an extra you can create scripts and parse the script files yourself.
+Always show the goals and their values together with the current action
+next to the character.
+
+WEEK 6:
+
+- Implement the necessary base classes for fuzzy logic based on the 
+PART 4 code of the book. You may omit the classes that you do not need.
+- Design three fuzzy variables for your game world: two antecedents
+and one consequent. Design a set of fuzzy rules and use these in your
+game world.
+- Tip: To test if your fuzzy designs work correctly, create unit tests for
+some test cases in which you compare the output of your
+implementation to your own calculation.
