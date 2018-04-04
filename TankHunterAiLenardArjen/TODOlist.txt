@@ -19,12 +19,12 @@ o Wander DONE
 -Implement another more advanced steering behaviour of choice from: DONE
 o Leader following
 o Flocking DONE
-o Obstacle avoidance
+o Obstacle avoidance TODO?!
 o Hide
 - Implement a new steering behaviour ‘Explore’. This behaviour shows a
 character exploring a certain area (your game world) in a systematic way. For
 instance, this behaviour can be used to show a character searching for
-something. Invent your own smart algorithm for this behaviour ???
+something. Invent your own smart algorithm for this behaviour ??? Gaan we dit doen...
 
 Week 4:
 -A Graph, Node and Edge class. You may of course use the graph you
