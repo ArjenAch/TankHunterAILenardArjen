@@ -37,7 +37,7 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-                steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
+               // steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                 tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.TankIsInDangerDistance); 
                 foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                 {

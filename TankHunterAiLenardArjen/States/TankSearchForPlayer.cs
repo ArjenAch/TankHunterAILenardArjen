@@ -38,59 +38,54 @@ namespace TankHunterAiLenardArjen.States
             Vector steeringForce = new Vector(0, 0);
 
             //Keep following path until finished
-            if (path.Count == 0 )
-            {
 
-                if (tank.PlayerInAttackZone())
+            if (tank.PlayerInAttackZone())
+            {
+                ClearPath();
+                tank.ChangeState(new TankAttackPlayer());
+            }
+            else if (tank.PlayerNotSeenAtLastLocation())
+            {
+                ClearPath();
+                tank.ChangeState(new TankPatrol(tank));
+            }
+            else if (path.Count == 0)
+            {
+                //steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
+                tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.MaxRadiusOfTankSeight);
+                foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                 {
-                    tank.ChangeState(new TankAttackPlayer());
-                }
-                else if (tank.PlayerNotSeenAtLastLocation())
-                {
-                    tank.ChangeState(new TankPatrol(tank));
-                }
-                else
-                {
-                    //steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
-                    tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.MaxRadiusOfTankSeight);
-                    foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
+                    if (entity is Player)
                     {
-                        if (entity is Player)
-                        {
-                            searchAStar = new SearchAStar(tank, entity.InCell);
-                            searchAStar.Search();
-                            path = searchAStar.GetPathToTarget();
-                            //Path starts from end of list so the path following needs to be started at the end of the list
-                            i = path.Count -1;
-                            steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight;
-                            if (path.Count == 0)
-                        }
+                        searchAStar = new SearchAStar(tank, entity.InCell);
+                        searchAStar.Search();
+                        path = searchAStar.GetPathToTarget();
+                        if (path.Count == 0)
+                            return steeringForce;
+                        //Path starts from end of list so the path following needs to be started at the end of the list
+                        i = path.Count - 1;
+                        steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight;
                     }
                 }
             }
+
             else
             {
                 if (i > 0)
                 {
                     //Seek current cell in path
-                    steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight ;
-                    steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight; 
-                    
+                    steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight;
+                    steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
+
                     //go to next step in path if the tank approximatly reached the cell
-                    if (tank.DistanceToPosition(path[i].Position) <= GlobalVars.cellSize /2)
+                    if (tank.DistanceToPosition(path[i].Position) <= GlobalVars.cellSize / 2)
                     {
                         i--;
                     }
                 }
                 else
                 {
-                    //Last location in path has been reached so the path is cleared and the cell collors are set to white
-                    path.Clear();
-                    foreach(Cell cell in searchAStar.ConsideredCells)
-                    {
-                        cell.TileColor = Color.White;
-                    }
-                    i = 0;
+                    ClearPath();
                 }
             }
 
@@ -106,6 +101,17 @@ namespace TankHunterAiLenardArjen.States
         public Color GetColor()
         {
             return Color.Yellow;
+        }
+
+        public void ClearPath()
+        {
+            //Last location in path has been reached so the path is cleared and the cell collors are set to white
+            path.Clear();
+            foreach (Cell cell in searchAStar.ConsideredCells)
+            {
+                cell.TileColor = Color.White;
+            }
+            i = 0;
         }
     }
 }
