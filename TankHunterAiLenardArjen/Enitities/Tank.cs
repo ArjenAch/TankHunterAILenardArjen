@@ -63,6 +63,7 @@ namespace TankHunterAiLenardArjen
             distanceToPlayer = 400;
             playerInSight = false;
             angleTankTurret = 359;
+            Bradius = GlobalVars.cellSize;
             // Tank starts default with patrolling
             this.State = new TankPatrol(this);
         }

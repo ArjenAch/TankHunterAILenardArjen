@@ -41,6 +41,7 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
+                steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                 tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.TankAttackDistance);
                 foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                 {
@@ -52,7 +53,6 @@ namespace TankHunterAiLenardArjen.States
                         tank.angleTankTurret = (float)Math.Atan2(playerTank.Y, playerTank.X);
                     }
                 }
-                steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
             }
 
             return steeringForce / 4;

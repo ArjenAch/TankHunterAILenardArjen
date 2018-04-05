@@ -30,7 +30,7 @@ namespace TankHunterAiLenardArjen.Support
         public static double SeekingWeight = 3;
 
         //Obstacle avoidance
-        public static double MinDetectionBoxLength = 80;
-        public static double ObstacleAvoidanceWeight = 10;
+        public static double MinDetectionBoxLength = 40;
+        public static double ObstacleAvoidanceWeight = 2;
     }
 }

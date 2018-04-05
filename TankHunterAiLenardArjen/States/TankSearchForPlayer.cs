@@ -38,7 +38,7 @@ namespace TankHunterAiLenardArjen.States
             Vector steeringForce = new Vector(0, 0);
 
             //Keep following path until finished
-            if (path.Count == 0)
+            if (path.Count == 0 )
             {
 
                 if (tank.PlayerInAttackZone())
@@ -51,6 +51,7 @@ namespace TankHunterAiLenardArjen.States
                 }
                 else
                 {
+                    //steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                     tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.MaxRadiusOfTankSeight);
                     foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                     {
@@ -62,7 +63,7 @@ namespace TankHunterAiLenardArjen.States
                             //Path starts from end of list so the path following needs to be started at the end of the list
                             i = path.Count -1;
                             steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight;
-                            steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
+                            if (path.Count == 0)
                         }
                     }
                 }
