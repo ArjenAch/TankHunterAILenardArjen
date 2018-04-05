@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.States;
 using TankHunterAiLenardArjen.Support;
 using System.Diagnostics;
+using TankHunterAiLenardArjen.FuzzyLogic;
 
 namespace TankHunterAiLenardArjen
 {
@@ -48,6 +49,14 @@ namespace TankHunterAiLenardArjen
         private Rectangle destinationSize;
         Vector steeringForce;
 
+        // Fuzy props
+        private FuzzyModule fm { get; set; }
+        private FuzzyVariable DistToPlayer { get; set; }
+        private FuzzyVariable RangeOfSeight { get; set; }
+        private FuzzyVariable PlayerDistance { get; set; }
+        // Add Fuzzy sets
+
+
         // Player interaction variables
         private const int maxRadiusOfTankSeight = 188 * 2;
         private const int tankIsInDangerDistance = 76 * 2;
@@ -65,6 +74,27 @@ namespace TankHunterAiLenardArjen
             angleTankTurret = 359;
             // Tank starts default with patrolling
             this.State = new TankPatrol(this);
+            InitFuzzySets();
+        }
+
+        private void InitFuzzySets()
+        {
+            fm = new FuzzyModule();
+            DistToPlayer = fm.CreateFLV("DistanceToPlayer");
+            DistToPlayer.AddLeftShoulderSet("Close", 0, 40, 200);
+            DistToPlayer.AddTriangularSet("Medium", 40, 200, 300);
+            DistToPlayer.AddRightShoulderSet("Far", 200, 300, 400);
+
+            RangeOfSeight = fm.CreateFLV("RangeOfSeight");
+            RangeOfSeight.AddLeftShoulderSet("Foggy", 0, 1, 5);
+            RangeOfSeight.AddTriangularSet("Dusty", 1, 5, 9);
+            RangeOfSeight.AddRightShoulderSet("Clear", 5, 9, 10);
+
+            PlayerDistance = fm.CreateFLV("PlayerDistance");
+            PlayerDistance.AddLeftShoulderSet("ToClose", 0, 40, 200);
+            PlayerDistance.AddTriangularSet("Perfect", 40, 200, 360);
+            PlayerDistance.AddRightShoulderSet("Far", 200, 360, 400);
+            // add fuzzy sets 
         }
 
         public override void Render(SpriteBatch spriteBatch)

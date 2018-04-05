@@ -47,6 +47,11 @@
     <Compile Include="Enitities\BaseGameEntity.cs" />
     <Compile Include="BehaviourLogic\AlignmentBehaviour.cs" />
     <Compile Include="BehaviourLogic\CohesionBehaviour.cs" />
+    <Compile Include="FuzzyLogic\FuzzyModule.cs" />
+    <Compile Include="FuzzyLogic\FuzzyRule.cs" />
+    <Compile Include="FuzzyLogic\FuzzySet.cs" />
+    <Compile Include="FuzzyLogic\FuzzyTerm.cs" />
+    <Compile Include="FuzzyLogic\FuzzyVariable.cs" />
     <Compile Include="States\FlockingState.cs" />
     <Compile Include="Enitities\Airplane.cs" />
     <Compile Include="Enitities\Player.cs" />
