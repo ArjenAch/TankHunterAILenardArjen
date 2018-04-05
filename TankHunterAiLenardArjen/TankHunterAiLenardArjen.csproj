@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BehaviourLogic\FleeBehaviour.cs" />
+    <Compile Include="BehaviourLogic\ObstacleAvoidanceBehaviour.cs" />
     <Compile Include="BehaviourLogic\SeekBehaviour.cs" />
     <Compile Include="BehaviourLogic\WanderBehaviour.cs" />
     <Compile Include="Enitities\BaseGameEntity.cs" />

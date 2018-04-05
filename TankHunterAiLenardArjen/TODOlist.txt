@@ -42,7 +42,7 @@ or button. DONE (button press must be optimized)
 - Implement the A* algorithm with a suitable heuristic.
 - If you click somewhere in the game world, your game character should
 be able to go there using the shortest path calculated by A*. Show the
-edges that are considered in your algorithm with a special color/style.
+edges that are considered in your algorithm with a special color/style. DONE
 - EXTRA (for a higher final grade): implement path smoothing
 
 WEEK 5:
@@ -51,7 +51,7 @@ decision making. You may CHOOSE between 3 assignments:
  Implement goal-driven behaviour based on the implementation from the
 book:
 
-1.
+1. Doen we dit?
 - Create and implement the abstract class Goal and its subclass
 CompositeGoal (message handling is an extra)
 - Implement one atomic goal, using a simple steering behaviour like

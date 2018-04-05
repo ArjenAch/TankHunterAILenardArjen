@@ -12,6 +12,7 @@ namespace TankHunterAiLenardArjen.States
     public class TankPatrol : ITankState
     {
         private WanderBehaviour wanderBehaviour;
+        private ObstacleAvoidanceBehaviour avoid;
         private Vector steeringForce;
         private int TimeElapsed;
 
@@ -20,6 +21,7 @@ namespace TankHunterAiLenardArjen.States
             wanderBehaviour = new WanderBehaviour(210, 250, 200);
             steeringForce = new Vector(2, 2);
             TimeElapsed = GlobalVars.BehaviourDelay;
+            avoid = new ObstacleAvoidanceBehaviour();
         }
 
         public void Enter(Tank tank)
@@ -42,9 +44,10 @@ namespace TankHunterAiLenardArjen.States
             {
                 if (TimeElapsed >= GlobalVars.BehaviourDelay)
                 {
-                    steeringForce = wanderBehaviour.Execute(tank, timeElapsed);
+                    steeringForce += wanderBehaviour.Execute(tank, timeElapsed);
                     TimeElapsed = 0;
                 }
+                steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
             }
             return steeringForce;
         }

@@ -38,7 +38,7 @@ namespace TankHunterAiLenardArjen.BehaviourLogic
             WanderTarget = WanderTarget * wanderRadius;
 
             Vector targetLocal = WanderTarget + new Vector((float)wanderDistance, 0);
-            Vector targetWorld = HelpMethods.ToWorldSpace(targetLocal, vehicle.Heading, vehicle.Side, vehicle.Position);
+            Vector targetWorld = HelpMethods.PointToWorldSpace(targetLocal, vehicle.Heading, vehicle.Side, vehicle.Position);
 
             return (targetWorld - vehicle.Position).Normalize() * vehicle.MaxForce;
         }

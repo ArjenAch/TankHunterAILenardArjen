@@ -5,16 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.BehaviourLogic;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.States
 {
     public class TankCreateDistanceBetweenPlayer : ITankState
     {
-        private FleeBehaviour Flee { get; set; }
+        private FleeBehaviour flee;
+        private ObstacleAvoidanceBehaviour avoid;
+
+        public TankCreateDistanceBetweenPlayer ()
+        {
+            flee = new FleeBehaviour();
+            avoid = new ObstacleAvoidanceBehaviour();
+        }
 
         public void Enter(Tank tank)
         {
-            Flee = new FleeBehaviour();
         }
 
         public Vector Execute(Tank tank, int timeElapsed)
@@ -35,7 +42,8 @@ namespace TankHunterAiLenardArjen.States
                 {
                     if(entity is Player)
                     {
-                        return Flee.Execute(tank, entity.Position);
+                        steeringForce += flee.Execute(tank, entity.Position);
+                        steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                     }
                 }
             }

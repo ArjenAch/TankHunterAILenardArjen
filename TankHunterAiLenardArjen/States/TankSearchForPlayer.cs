@@ -13,16 +13,23 @@ namespace TankHunterAiLenardArjen.States
 {
     public class TankSearchForPlayer : ITankState
     {
-        private SeekBehaviour Seek { get; set; }
+        private SeekBehaviour seek;
+        private ObstacleAvoidanceBehaviour avoid;
         private SearchAStar searchAStar;
         private List<Cell> path;
         private int i;
 
-        public void Enter(Tank tank)
+
+        public TankSearchForPlayer()
         {
-            Seek = new SeekBehaviour();
+            seek = new SeekBehaviour();
+            avoid = new ObstacleAvoidanceBehaviour();
             path = new List<Cell>();
             i = 0;
+        }
+        public void Enter(Tank tank)
+        {
+
         }
 
         public Vector Execute(Tank tank, int timeElapsed)
@@ -54,7 +61,8 @@ namespace TankHunterAiLenardArjen.States
                             path = searchAStar.GetPathToTarget();
                             //Path starts from end of list so the path following needs to be started at the end of the list
                             i = path.Count -1;
-                            steeringForce = Seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight;
+                            steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight;
+                            steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                         }
                     }
                 }
@@ -64,7 +72,8 @@ namespace TankHunterAiLenardArjen.States
                 if (i > 0)
                 {
                     //Seek current cell in path
-                    steeringForce = Seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight ;
+                    steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight ;
+                    steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight; 
                     
                     //go to next step in path if the tank approximatly reached the cell
                     if (tank.DistanceToPosition(path[i].Position) <= GlobalVars.cellSize /2)

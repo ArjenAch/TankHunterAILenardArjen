@@ -5,16 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.BehaviourLogic;
+using TankHunterAiLenardArjen.Support;
 
 namespace TankHunterAiLenardArjen.States
 {
     public class TankAttackPlayer : ITankState
     {
-        private SeekBehaviour Seek;
+        private SeekBehaviour seek;
+        private ObstacleAvoidanceBehaviour avoid;
 
         public TankAttackPlayer()
         {
-            Seek = new SeekBehaviour();
+            seek = new SeekBehaviour();
+            avoid = new ObstacleAvoidanceBehaviour();
         }
 
         public void Enter(Tank tank)
@@ -43,12 +46,13 @@ namespace TankHunterAiLenardArjen.States
                 {
                     if (entity is Player)
                     {
-                        steeringForce = Seek.Execute(tank, entity.Position);
+                        steeringForce = seek.Execute(tank, entity.Position);
                         // Aim turret at player 
                         Vector playerTank = entity.Position - tank.Position;
                         tank.angleTankTurret = (float)Math.Atan2(playerTank.Y, playerTank.X);
                     }
                 }
+                steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
             }
 
             return steeringForce / 4;

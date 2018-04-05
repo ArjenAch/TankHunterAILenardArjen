@@ -28,5 +28,9 @@ namespace TankHunterAiLenardArjen.Support
         public static double CohesionWeight = 6.8;
         public static double AllignmentWeight = 5.5;
         public static double SeekingWeight = 3;
+
+        //Obstacle avoidance
+        public static double MinDetectionBoxLength = 80;
+        public static double ObstacleAvoidanceWeight = 10;
     }
 }

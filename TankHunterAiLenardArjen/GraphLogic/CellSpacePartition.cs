@@ -15,6 +15,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
     {
         public List<Cell> Neighbors { get; }
         public List<MovingEntity> EntitiesInRange { get; }
+        public List<Obstacle> ObstaclesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
         public Texture2D DefaultTileTexture { get; set; }
         private double worldWidth;
@@ -31,6 +32,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             Grid = new Dictionary<int, Cell>();
             Neighbors = new List<Cell>();
             EntitiesInRange = new List<MovingEntity>();
+            ObstaclesInRange = new List<Obstacle>();
             GenerateGrid();
             GenerateEdges();
         }
@@ -45,7 +47,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
         private void GenerateGrid()
         {
             int incrementId = 0;
-            for (int i = (cellSize / 2); i <= (worldWidth - (cellSize / 2 )); i += cellSize)
+            for (int i = (cellSize / 2); i <= (worldWidth - (cellSize / 2)); i += cellSize)
             {
                 for (int j = (cellSize / 2); j <= (worldHeight - (cellSize / 2)); j += cellSize)
                 {
@@ -209,6 +211,32 @@ namespace TankHunterAiLenardArjen.Worldstructure
                     //TODO: Check correctness if statement
                     if (member is MovingEntity && (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y))
                         EntitiesInRange.Add((MovingEntity)member);
+                }
+            }
+        }
+
+
+        public void CalculateObstaclesWithinRadius(MovingEntity entity, int radius)
+        {
+            CalculateNeighborCells(entity.InCell, radius);
+            ObstaclesInRange.Clear();
+
+            foreach (Cell cell in Neighbors)
+            {
+                foreach (BaseGameEntity member in cell.Members)
+                {
+                    //TODO: Check correctness if statement
+                    if (member is Obstacle && (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y))
+                    {
+                        double range = radius + member.Bradius;
+                        Vector to = member.Position - entity.Position;
+
+                        //if entity within range, tag for further consideration.
+                        if (to.LengthSq() < range * range)
+                        {
+                            ObstaclesInRange.Add((Obstacle)member);
+                        }
+                    }
                 }
             }
         }

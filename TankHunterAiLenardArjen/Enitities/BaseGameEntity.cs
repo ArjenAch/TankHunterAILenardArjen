@@ -16,7 +16,7 @@ namespace TankHunterAiLenardArjen
         public int ID { get; }
         public Vector Position { get; set; }
         public float Scale { get; }
-        public float Bradius { get; }
+        public float Bradius { get; set; }
         public Cell InCell { get; set; }
         
 
