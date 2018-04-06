@@ -25,7 +25,7 @@ namespace TankHunterAiLenardArjen.FuzzyLogic
         //-----------------------------------------------------------------------------
         internal void Fuzzify(float val)
         {
-            if (val >= _minRange && val <= _maxRange)
+            if ((val >= _minRange) && (val <= _maxRange))
             {
                 foreach (KeyValuePair<String, FuzzySet> set in _memberSets)
                 {
@@ -65,42 +65,42 @@ namespace TankHunterAiLenardArjen.FuzzyLogic
         //
         //  adds a triangular shaped fuzzy set to the variable
         //-----------------------------------------------------------------------------
-        public FuzzySet AddTriangularSet(string name, float minBound, float peak, float maxBound)
+        public FzSet AddTriangularSet(string name, float minBound, float peak, float maxBound)
         {
             _memberSets.Add(name, new Triangle(peak, peak - minBound, maxBound - peak));
 
             // Adjust range if necessary
             AdjustRangeToFit(minBound, maxBound);
 
-            return _memberSets[name];
+            return new FzSet(_memberSets[name]);
         }
 
         //--------------------------- AddLeftShoulder ---------------------------------
         //
         //  adds a left shoulder type set
         //-----------------------------------------------------------------------------
-        public FuzzySet AddLeftShoulderSet(string name, float minBound, float peak, float maxBound)
+        public FzSet AddLeftShoulderSet(string name, float minBound, float peak, float maxBound)
         {
             _memberSets.Add(name, new LeftShoulder(peak, peak - minBound, maxBound - peak));
 
             // Adjust range if necessary
             AdjustRangeToFit(minBound, maxBound);
 
-            return _memberSets[name];
+            return new FzSet(_memberSets[name]);
         }
 
         //--------------------------- AddRightShoulder ---------------------------------
         //
         //  adds a left shoulder type set
         //-----------------------------------------------------------------------------
-        public FuzzySet AddRightShoulderSet(string name, float minBound, float peak, float maxBound)
+        public FzSet AddRightShoulderSet(string name, float minBound, float peak, float maxBound)
         {
             _memberSets.Add(name, new RightShoulder(peak, peak - minBound, maxBound - peak));
 
             // Adjust range if necessary
             AdjustRangeToFit(minBound, maxBound);
 
-            return _memberSets[name];
+            return new FzSet (_memberSets[name]);
         }
 
         //---------------------------- AdjustRangeToFit -------------------------------

@@ -26,5 +26,7 @@ namespace TankHunterAiLenardArjen.Support
         public static double SeperationWeight = 3.0;
         public static double CohesionWeight = 6.8;
         public static double AllignmentWeight = 5.5;
+
+        public static string DarkSkyWeatherKey= "def0f7cc12d41bb9a782c25894b2068d";
     }
 }

@@ -9,13 +9,16 @@ namespace TankHunterAiLenardArjen.FuzzyLogic
     public abstract class FuzzySet
     {
         // Degree of membership
-        public float DOM {
-            get { return DOM; }
+        private float _dom;
+
+        public float DOM
+        {
+            get { return _dom; }
             set
             {
-                if(value <= 1 && value >= 0)
+                if (value <= 1 && value >= 0)
                 {
-                    DOM = value;
+                    _dom = value;
                 }
                 else
                 {
@@ -35,7 +38,7 @@ namespace TankHunterAiLenardArjen.FuzzyLogic
         public FuzzySet(float RepVal)
         {
             RepresentativeValue = RepVal;
-            DOM = 0.0f;
+            _dom = 0.0f;
         }
 
         // Functions
@@ -50,9 +53,9 @@ namespace TankHunterAiLenardArjen.FuzzyLogic
         //then this method sets the DOM (in this context, the DOM represents a
         //confidence level)to the maximum of the parameter value or the set's 
         //existing m_dDOM value
-        void ORwithDOM(float val) { if (val > DOM) DOM = val; }
+        public void ORwithDOM(float val) { if (val > DOM) DOM = val; }
 
-        void ClearDom() { DOM = 0.0f; }
+        public void ClearDom() { DOM = 0.0f; }
 
     }
 }

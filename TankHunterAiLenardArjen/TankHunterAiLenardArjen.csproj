@@ -48,10 +48,15 @@
     <Compile Include="BehaviourLogic\AlignmentBehaviour.cs" />
     <Compile Include="BehaviourLogic\CohesionBehaviour.cs" />
     <Compile Include="FuzzyLogic\FuzzyModule.cs" />
+    <Compile Include="FuzzyLogic\FuzzyOperators.cs" />
     <Compile Include="FuzzyLogic\FuzzyRule.cs" />
     <Compile Include="FuzzyLogic\FuzzySet.cs" />
     <Compile Include="FuzzyLogic\FuzzyTerm.cs" />
     <Compile Include="FuzzyLogic\FuzzyVariable.cs" />
+    <Compile Include="FuzzyLogic\FzSet.cs" />
+    <Compile Include="FuzzyLogic\LeftShoulder.cs" />
+    <Compile Include="FuzzyLogic\RightShoulder.cs" />
+    <Compile Include="FuzzyLogic\Triangle.cs" />
     <Compile Include="States\FlockingState.cs" />
     <Compile Include="Enitities\Airplane.cs" />
     <Compile Include="Enitities\Player.cs" />
@@ -83,6 +88,9 @@
     <Compile Include="States\TankState.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="DarkSkyApi, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DarkSkyApi.3.3\lib\netstandard1.1\DarkSkyApi.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -119,6 +127,7 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

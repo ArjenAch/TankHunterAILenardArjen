@@ -37,7 +37,7 @@ namespace TankHunterAiLenardArjen.FuzzyLogic
             FuzzyVariable result;
             if (_varMap.TryGetValue(nameOfFLV, out result))
             {
-                result.Fuzzify();
+                result.Fuzzify(val);
             } 
             else
             {

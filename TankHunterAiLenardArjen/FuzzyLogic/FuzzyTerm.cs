@@ -2,7 +2,7 @@
 {
     public interface FuzzyTerm
     {
-        FuzzyTerm Clone();
+        FuzzyTerm CloneFz();
         float GetDom();
         void ClearnDom();
         void ORwithDom(float val);
