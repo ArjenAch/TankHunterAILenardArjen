@@ -13,8 +13,7 @@ namespace TankHunterAiLenardArjen
 {
     public class Tank : Vehicle
     {
-        public float MaxTurnRateTurret { get; set; }
-        public float angleTankTurret { get; set; }
+        public float AngleTankTurret { get; set; }
         private ITankState State { get; set; }
         private Rectangle destinationSize;
         Vector steeringForce;
@@ -24,7 +23,7 @@ namespace TankHunterAiLenardArjen
         public const int TankIsInDangerDistance = 76 * 2;
         public const int TankAttackDistance = 132 * 2;
         private bool playerInSight;
-        public float distanceToPlayer;
+        public float DistanceToPlayer;
 
         // Base tank texture
         private float spriteAngle;
@@ -58,11 +57,11 @@ namespace TankHunterAiLenardArjen
 
         public Tank(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
-            this.angleTankTurret = 0;
+            this.AngleTankTurret = 0;
             destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize * 1.4), (int)(GlobalVars.cellSize * 1.4));
-            distanceToPlayer = 400;
+            DistanceToPlayer = 400;
             playerInSight = false;
-            angleTankTurret = 359;
+            AngleTankTurret = 359;
             Bradius = GlobalVars.cellSize;
             // Tank starts default with patrolling
             this.State = new TankPatrol(this);
@@ -84,7 +83,7 @@ namespace TankHunterAiLenardArjen
             spriteBatch.Draw(_texture, destinationSize, null, Color.White, spriteAngle, origin, SpriteEffects.None, 0f);
 
             //Render top of the Tank
-            spriteBatch.Draw(_tankTopTexture, destinationSize, null, Color.White, angleTankTurret, tankTopOrigin, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_tankTopTexture, destinationSize, null, Color.White, AngleTankTurret, tankTopOrigin, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
 
@@ -139,7 +138,7 @@ namespace TankHunterAiLenardArjen
             {
                 if (entity is Player)
                 {
-                    distanceToPlayer = Math.Abs((entity.Position - this.Position).Length());
+                    DistanceToPlayer = Math.Abs((entity.Position - this.Position).Length());
                     playerInSight = false;
                     // If player is found, loop can stop
                     break;
@@ -158,24 +157,23 @@ namespace TankHunterAiLenardArjen
 
         public bool PlayerInAttackZone()
         {
-            return (distanceToPlayer > TankIsInDangerDistance && distanceToPlayer < TankAttackDistance);
+            return (DistanceToPlayer > TankIsInDangerDistance && DistanceToPlayer < TankAttackDistance);
         }
 
         // Player is in the inner danger circle, tank should avoid player till attack circle
         public bool PlayerInDangerZone()
         {
-            return (distanceToPlayer < TankIsInDangerDistance);
+            return (DistanceToPlayer < TankIsInDangerDistance);
         }
 
-        // TODO: implement A* check
         public bool PlayerNotSeenAtLastLocation()
         {
-            return (distanceToPlayer > 360);
+            return (DistanceToPlayer > 360);
         }
 
         public bool PlayerInSearchZone()
         {
-            return (distanceToPlayer > TankAttackDistance && distanceToPlayer < MaxRadiusOfTankSeight);
+            return (DistanceToPlayer > TankAttackDistance && DistanceToPlayer < MaxRadiusOfTankSeight);
         }
 
         public bool PlayerIsOutOfSeight()

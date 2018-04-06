@@ -12,12 +12,10 @@ namespace TankHunterAiLenardArjen.States
     public class TankAttackPlayer : ITankState
     {
         private SeekBehaviour seek;
-        private ObstacleAvoidanceBehaviour avoid;
 
         public TankAttackPlayer()
         {
             seek = new SeekBehaviour();
-            avoid = new ObstacleAvoidanceBehaviour();
         }
 
         public void Enter(Tank tank)
@@ -41,7 +39,6 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-               // steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                 tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.TankAttackDistance);
                 foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                 {
@@ -50,7 +47,7 @@ namespace TankHunterAiLenardArjen.States
                         steeringForce = seek.Execute(tank, entity.Position);
                         // Aim turret at player 
                         Vector playerTank = entity.Position - tank.Position;
-                        tank.angleTankTurret = (float)Math.Atan2(playerTank.Y, playerTank.X);
+                        tank.AngleTankTurret = (float)Math.Atan2(playerTank.Y, playerTank.X);
                     }
                 }
             }

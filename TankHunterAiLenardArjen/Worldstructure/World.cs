@@ -16,9 +16,9 @@ namespace TankHunterAiLenardArjen
         public CellSpacePartition GridLogic { get; }
         public Texture2D TileTexture { get; set; }
 
-        public World(int levelWidth, int levelHeight)
+        public World()
         {
-            GridLogic = new CellSpacePartition(levelWidth, levelHeight, GlobalVars.cellSize);
+            GridLogic = new CellSpacePartition(GlobalVars.cellSize);
         }
 
         public void Render(SpriteBatch spriteBatch)

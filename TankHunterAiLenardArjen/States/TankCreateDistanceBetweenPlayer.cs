@@ -12,12 +12,10 @@ namespace TankHunterAiLenardArjen.States
     public class TankCreateDistanceBetweenPlayer : ITankState
     {
         private FleeBehaviour flee;
-        private ObstacleAvoidanceBehaviour avoid;
 
         public TankCreateDistanceBetweenPlayer ()
         {
             flee = new FleeBehaviour();
-            avoid = new ObstacleAvoidanceBehaviour();
         }
 
         public void Enter(Tank tank)
@@ -37,7 +35,6 @@ namespace TankHunterAiLenardArjen.States
             }
             else
             {
-               // steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                 tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.TankIsInDangerDistance); 
                 foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                 {

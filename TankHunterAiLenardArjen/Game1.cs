@@ -41,7 +41,7 @@ namespace TankHunterAiLenardArjen
             keyDelay = 0;
             GlobalVars.worldWidth = GraphicsDevice.Viewport.Width;
             GlobalVars.worldHeight = GraphicsDevice.Viewport.Height;
-            world = new World(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+            world = new World();
             player = new Player(1, new Vector(0, 0), 1.5f, 4, 2, new Vector(25, 25), world);
             tank = new Tank(1, new Vector(0, 0), 1f, 4, 45, new Vector(250, 250), world);
             planes = new List<Airplane>();

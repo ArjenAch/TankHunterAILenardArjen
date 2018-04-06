@@ -21,7 +21,7 @@ namespace TankHunterAiLenardArjen
 
         public Vehicle(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
-            Radius = 40; //TODO 
+            Radius = 40; 
         }
         public override void Render(SpriteBatch spriteBatch)
         {
