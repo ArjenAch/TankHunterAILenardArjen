@@ -32,6 +32,7 @@ namespace TankHunterAiLenardArjen.Enitities
             gameWorld = world;
             //Add obstacle to grid
             gameWorld.GridLogic.UpdateEntity(this);
+            Bradius = GlobalVars.cellSize;
         }
 
         public override void Render(SpriteBatch spriteBatch)

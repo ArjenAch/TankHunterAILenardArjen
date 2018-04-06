@@ -7,11 +7,11 @@ namespace TankHunterAiLenardArjen.Enitities
     public class CohesionBehaviour
     {
         private List<MovingEntity> vehicles;
-        private SeekBehaviour seekBehaviour;
+        private SeekBehaviour seek;
 
         public CohesionBehaviour ()
         {
-            seekBehaviour = new SeekBehaviour();
+            seek = new SeekBehaviour();
         }
 
         public Vector Execute(Vehicle vehicle)
@@ -44,7 +44,7 @@ namespace TankHunterAiLenardArjen.Enitities
                 CenterOfMass /= NeighborCount;
 
                 //now seek towards that position
-                SteeringForce = seekBehaviour.Execute(vehicle, CenterOfMass);
+                SteeringForce = seek.Execute(vehicle, CenterOfMass);
 
                 //the magnitude of cohesion is usually much larger than separation or
                 //allignment so it usually helps to normalize it.

@@ -16,7 +16,6 @@ namespace TankHunterAiLenardArjen.Worldstructure
         public Vector Position { get; set; } // Middle of the cell
         public List<BaseGameEntity> Members { get; set; }
         public List<Edge> Adjecent { get; set; }
-        public bool Visited { get; set; }
         public Color TileColor { get; set; }
         public bool ContainstObstacle { get; set; }
         private Rectangle destinationSize;
@@ -48,12 +47,8 @@ namespace TankHunterAiLenardArjen.Worldstructure
             //If debug is enabled draw the graph
             if (GlobalVars.debug == true)
             {
-               // spriteBatch.Draw(GlobalVars.GraphTexture, graphPoint, TileColor);
                 foreach (Edge adj in Adjecent)
                 {
-                    //TODO dirty fix !(ID > 300 && adj.Cell2.Position.X == 20 || adj.Cell2.Position.Y == 20)
-                    //  if (!(ID > 50 && adj.Cell2.Position.X == 20 && adj.Cell2.Position.Y == 20))
-                    
                         rotation = (float)Math.Atan2(Position.Y - adj.Cell2.Position.Y, Position.X - adj.Cell2.Position.X);
                        
                         spriteBatch.Draw(GlobalVars.GraphTexture, graphLine, null, Color.OrangeRed, rotation, origin, SpriteEffects.None, 0);

@@ -17,9 +17,9 @@ namespace TankHunterAiLenardArjen.States
 
         public TankPatrol(Tank tank)
         {
-            wanderBehaviour = new WanderBehaviour(210, 250, 200);
-            steeringForce = new Vector(2, 2);
+            wanderBehaviour = new WanderBehaviour(210, 250, 50);
             TimeElapsed = GlobalVars.BehaviourDelay;
+            steeringForce = new Vector(2, 2);
         }
 
         public void Enter(Tank tank)
@@ -42,9 +42,11 @@ namespace TankHunterAiLenardArjen.States
             {
                 if (TimeElapsed >= GlobalVars.BehaviourDelay)
                 {
+                    
                     steeringForce = wanderBehaviour.Execute(tank, timeElapsed);
                     TimeElapsed = 0;
                 }
+               
             }
             return steeringForce;
         }

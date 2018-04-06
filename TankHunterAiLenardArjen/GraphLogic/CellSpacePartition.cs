@@ -15,22 +15,20 @@ namespace TankHunterAiLenardArjen.Worldstructure
     {
         public List<Cell> Neighbors { get; }
         public List<MovingEntity> EntitiesInRange { get; }
+        public List<Obstacle> ObstaclesInRange { get; }
         public Dictionary<int, Cell> Grid { get; }
         public Texture2D DefaultTileTexture { get; set; }
-        private double worldWidth;
-        private double worldHeight;
         private int cellSize;
         public int NumberOfCellsHeight;
         public int TotalNumberOfCells;
 
-        public CellSpacePartition(double worldWidth, double worldHeight, int cellSize)
+        public CellSpacePartition( int cellSize)
         {
-            this.worldWidth = worldWidth;
-            this.worldHeight = worldHeight;
             this.cellSize = cellSize;
             Grid = new Dictionary<int, Cell>();
             Neighbors = new List<Cell>();
             EntitiesInRange = new List<MovingEntity>();
+            ObstaclesInRange = new List<Obstacle>();
             GenerateGrid();
             GenerateEdges();
         }
@@ -45,9 +43,9 @@ namespace TankHunterAiLenardArjen.Worldstructure
         private void GenerateGrid()
         {
             int incrementId = 0;
-            for (int i = (cellSize / 2); i <= (worldWidth - (cellSize / 2 )); i += cellSize)
+            for (int i = (cellSize / 2); i <= (GlobalVars.worldWidth - (cellSize / 2)); i += cellSize)
             {
-                for (int j = (cellSize / 2); j <= (worldHeight - (cellSize / 2)); j += cellSize)
+                for (int j = (cellSize / 2); j <= (GlobalVars.worldHeight - (cellSize / 2)); j += cellSize)
                 {
                     Cell cell = new Cell(new Vector(i, j), incrementId);
                     Grid.Add(incrementId, cell);
@@ -128,7 +126,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             }
         }
 
-        private bool EntityIsOutOfWorld(Vector position) => !(position.X < 0 || position.X > worldWidth || position.Y < 0 || position.Y > worldHeight);
+        private bool EntityIsOutOfWorld(Vector position) => !(position.X < 0 || position.X > GlobalVars.worldWidth || position.Y < 0 || position.Y > GlobalVars.worldHeight);
 
         //Updates Entity cell if needed
         public void UpdateEntity(BaseGameEntity entity)
@@ -168,7 +166,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
             {
                 for (float j = currentVector.Y; j <= finishVector.Y; j += cellSize)
                 {
-                    if (j > worldHeight)
+                    if (j > GlobalVars.worldHeight)
                     {
                         break;
                     }
@@ -190,7 +188,7 @@ namespace TankHunterAiLenardArjen.Worldstructure
                         }
                     }
                 }
-                if (i > worldWidth)
+                if (i > GlobalVars.worldWidth)
                 {
                     break;
                 }
@@ -206,9 +204,34 @@ namespace TankHunterAiLenardArjen.Worldstructure
             {
                 foreach (BaseGameEntity member in cell.Members)
                 {
-                    //TODO: Check correctness if statement
                     if (member is MovingEntity && (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y))
                         EntitiesInRange.Add((MovingEntity)member);
+                }
+            }
+        }
+
+
+        public void CalculateObstaclesWithinRadius(MovingEntity entity, int radius)
+        {
+            CalculateNeighborCells(entity.InCell, radius);
+            ObstaclesInRange.Clear();
+
+            foreach (Cell cell in Neighbors)
+            {
+                foreach (BaseGameEntity member in cell.Members)
+                {
+                    //TODO: Check correctness if statement
+                    if (member is Obstacle && (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y))
+                    {
+                        double range = radius + member.Bradius;
+                        Vector to = member.Position - entity.Position;
+
+                        //if entity within range, tag for further consideration.
+                        if (to.LengthSq() < range * range)
+                        {
+                            ObstaclesInRange.Add((Obstacle)member);
+                        }
+                    }
                 }
             }
         }

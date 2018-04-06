@@ -10,7 +10,7 @@ namespace TankHunterAiLenardArjen.Support
     public static class HelpMethods
     {
 
-        public static Vector ToWorldSpace(Vector targetLocal, Vector heading, Vector side, Vector position)
+        public static Vector PointToWorldSpace(Vector targetLocal, Vector heading, Vector side, Vector position)
         {
             //create a transformation matrix
             Matrix matTransform = new Matrix();
@@ -24,5 +24,18 @@ namespace TankHunterAiLenardArjen.Support
             ////now transform the vertices
             return Matrix.TransformVector(matTransform, targetLocal);
         }
+
+        public static Vector VectorToWorldSpace(Vector targetLocal, Vector heading, Vector side)
+        {
+            //create a transformation matrix
+            Matrix matTransform = new Matrix();
+
+            ////rotate
+            matTransform = matTransform * Matrix.Rotate(heading, side);
+
+            ////now transform the vertices
+            return Matrix.TransformVector(matTransform, targetLocal);
+        }
+
     }
 }
