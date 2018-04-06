@@ -14,7 +14,6 @@ namespace TankHunterAiLenardArjen.States
     public class TankSearchForPlayer : ITankState
     {
         private SeekBehaviour seek;
-        private ObstacleAvoidanceBehaviour avoid;
         private SearchAStar searchAStar;
         private List<Cell> path;
         private int i;
@@ -23,7 +22,6 @@ namespace TankHunterAiLenardArjen.States
         public TankSearchForPlayer()
         {
             seek = new SeekBehaviour();
-            avoid = new ObstacleAvoidanceBehaviour();
             path = new List<Cell>();
             i = 0;
         }
@@ -51,7 +49,6 @@ namespace TankHunterAiLenardArjen.States
             }
             else if (path.Count == 0)
             {
-                //steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
                 tank.gameWorld.GridLogic.CalculateNeighborsEntities(tank, Tank.MaxRadiusOfTankSeight);
                 foreach (MovingEntity entity in tank.gameWorld.GridLogic.EntitiesInRange)
                 {
