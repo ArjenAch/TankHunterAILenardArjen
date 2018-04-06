@@ -204,7 +204,6 @@ namespace TankHunterAiLenardArjen.Worldstructure
             {
                 foreach (BaseGameEntity member in cell.Members)
                 {
-                    //TODO: Check correctness if statement
                     if (member is MovingEntity && (member.Position.X - radius <= entity.Position.X && member.Position.Y - radius <= entity.Position.Y || member.Position.X + radius >= entity.Position.X && member.Position.Y + radius >= entity.Position.Y))
                         EntitiesInRange.Add((MovingEntity)member);
                 }

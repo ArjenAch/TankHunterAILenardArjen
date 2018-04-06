@@ -72,7 +72,7 @@ namespace TankHunterAiLenardArjen.States
                 {
                     //Seek current cell in path
                     steeringForce = seek.Execute(tank, path[i].Position) * GlobalVars.SeekingWeight;
-                    steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
+                   // steeringForce += avoid.Execute(tank) * GlobalVars.ObstacleAvoidanceWeight;
 
                     //go to next step in path if the tank approximatly reached the cell
                     if (tank.DistanceToPosition(path[i].Position) <= GlobalVars.cellSize / 2)

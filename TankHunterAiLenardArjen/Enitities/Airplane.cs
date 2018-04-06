@@ -68,7 +68,7 @@ namespace TankHunterAiLenardArjen.Enitities
 
         public Vector Calculate(int timeElapsed)
         {
-            steeringForce = State.Execute(this, timeElapsed);
+            steeringForce = State.Execute(this);
 
             return steeringForce;
         }
