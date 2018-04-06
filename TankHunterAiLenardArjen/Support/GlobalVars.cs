@@ -32,5 +32,7 @@ namespace TankHunterAiLenardArjen.Support
         //Obstacle avoidance
         public static double MinDetectionBoxLength = 40;
         public static double ObstacleAvoidanceWeight = 2;
+
+        public static string DarkSkyWeatherKey = "def0f7cc12d41bb9a782c25894b2068d";
     }
 }

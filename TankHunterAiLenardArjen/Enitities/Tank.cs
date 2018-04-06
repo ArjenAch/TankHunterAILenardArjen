@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using TankHunterAiLenardArjen.States;
 using TankHunterAiLenardArjen.Support;
 using System.Diagnostics;
+using TankHunterAiLenardArjen.FuzzyLogic;
 
 namespace TankHunterAiLenardArjen
 {
@@ -18,10 +19,22 @@ namespace TankHunterAiLenardArjen
         private Rectangle destinationSize;
         Vector steeringForce;
 
+        // Fuzy props
+        private FuzzyModule fm { get; set; }
+        private FuzzyVariable DistToPlayer { get; set; }
+        private FuzzyVariable RangeOfSeight { get; set; }
+        private FuzzyVariable PlayerDistance { get; set; }
+        private FzSet
+            Distance_Close, Distance_Medium, Distance_Far,
+            Seight_Foggy, Seight_Dusty, Seight_Clear,
+            Player_Is_ToClose, Player_Is_PerfectRange, Player_Is_FarAway;
+
+        public float fuzzyRangeOfSeight;
+
         // Player interaction variables
-        public const int MaxRadiusOfTankSeight = 188 * 2;
-        public const int TankIsInDangerDistance = 76 * 2;
-        public const int TankAttackDistance = 132 * 2;
+        public const int MaxRadiusOfTankSeight = 200;
+        public const int TankIsInDangerDistance = 76;
+        public const int TankAttackDistance = 132;
         private bool playerInSight;
         public float DistanceToPlayer;
 
@@ -54,16 +67,17 @@ namespace TankHunterAiLenardArjen
             }
         }
 
-
         public Tank(float mass, Vector side, float maxSpeed, float maxForce, float maxTurnRate, Vector position, World world) : base(mass, side, maxSpeed, maxForce, maxTurnRate, position, world)
         {
             this.AngleTankTurret = 0;
             destinationSize = new Rectangle((int)Position.X, (int)Position.Y, (int)(GlobalVars.cellSize * 1.4), (int)(GlobalVars.cellSize * 1.4));
             DistanceToPlayer = 400;
+            fuzzyRangeOfSeight = 400;
             playerInSight = false;
             AngleTankTurret = 359;
             Bradius = GlobalVars.cellSize;
             // Tank starts default with patrolling
+            InitFuzzySets();
             this.State = new TankPatrol(this);
         }
 
@@ -108,6 +122,18 @@ namespace TankHunterAiLenardArjen
 
             CalculateDistanceToPlayer(MaxRadiusOfTankSeight);
 
+            if(playerInSight)
+            {
+                fm.Fuzzify("DistanceToPlayer", DistanceToPlayer);
+                // Weather api distance can be called from the World class, set at 5 which is dusty for now for testing purposes
+                fm.Fuzzify("RangeOfSeight", 5.0f);
+
+                fuzzyRangeOfSeight = fm.DeFuzzify("PlayerDistance");
+            } else
+            {
+                fuzzyRangeOfSeight = MaxRadiusOfTankSeight * 2;
+            }
+
             spriteAngle = (float)Math.Atan2(Velocity.Y, Velocity.X);
 
             destinationSize.X = (int)Position.X;
@@ -139,46 +165,86 @@ namespace TankHunterAiLenardArjen
                 if (entity is Player)
                 {
                     DistanceToPlayer = Math.Abs((entity.Position - this.Position).Length());
-                    playerInSight = false;
+                    
+                    if(DistanceToPlayer <= 400)
+                    {
+                        playerInSight = true;
+                    } 
+                    else
+                    {
+                        playerInSight = false;
+                    }
                     // If player is found, loop can stop
                     break;
                 }
                 else
                 {
-                    playerInSight = true;
+                    playerInSight = false;
                 }
             }
         }
 
         public float DistanceToPosition(Vector position)
         {
-                 return Math.Abs((Position - position).Length());
+            return Math.Abs((Position - position).Length());
         }
 
         public bool PlayerInAttackZone()
         {
-            return (DistanceToPlayer > TankIsInDangerDistance && DistanceToPlayer < TankAttackDistance);
+            return (fuzzyRangeOfSeight > TankIsInDangerDistance && fuzzyRangeOfSeight < TankAttackDistance);
         }
 
         // Player is in the inner danger circle, tank should avoid player till attack circle
         public bool PlayerInDangerZone()
         {
-            return (DistanceToPlayer < TankIsInDangerDistance);
+            return (fuzzyRangeOfSeight < TankIsInDangerDistance);
         }
 
         public bool PlayerNotSeenAtLastLocation()
         {
-            return (DistanceToPlayer > 360);
+            return (fuzzyRangeOfSeight > 360);
         }
 
         public bool PlayerInSearchZone()
         {
-            return (DistanceToPlayer > TankAttackDistance && DistanceToPlayer < MaxRadiusOfTankSeight);
+            return (fuzzyRangeOfSeight > TankAttackDistance && fuzzyRangeOfSeight < MaxRadiusOfTankSeight * 2);
         }
 
         public bool PlayerIsOutOfSeight()
         {
-            return playerInSight;
+            return fuzzyRangeOfSeight > MaxRadiusOfTankSeight * 3;
+        }
+
+        private void InitFuzzySets()
+        {
+            fm = new FuzzyModule();
+            DistToPlayer = fm.CreateFLV("DistanceToPlayer");
+            Distance_Close = DistToPlayer.AddLeftShoulderSet("Close", 0, 40, 200);
+            Distance_Medium = DistToPlayer.AddTriangularSet("Medium", 40, 200, 300);
+            Distance_Far = DistToPlayer.AddRightShoulderSet("Far", 200, 300, 400);
+
+            RangeOfSeight = fm.CreateFLV("RangeOfSeight");
+            Seight_Foggy = RangeOfSeight.AddLeftShoulderSet("Foggy", 0, 1, 5);
+            Seight_Dusty = RangeOfSeight.AddTriangularSet("Dusty", 1, 5, 9);
+            Seight_Clear = RangeOfSeight.AddRightShoulderSet("Clear", 5, 9, 10);
+
+            PlayerDistance = fm.CreateFLV("PlayerDistance");
+            Player_Is_ToClose = PlayerDistance.AddLeftShoulderSet("ToClose", 0, 40, 200);
+            Player_Is_PerfectRange = PlayerDistance.AddTriangularSet("Perfect", 40, 200, 360);
+            Player_Is_FarAway = PlayerDistance.AddRightShoulderSet("Far", 200, 360, 400);
+
+            // Without Combs method, therefore: 3^2 = 9
+            fm.AddRule(new FzAND(Distance_Close, Seight_Foggy), Player_Is_ToClose);
+            fm.AddRule(new FzAND(Distance_Medium, Seight_Foggy), Player_Is_FarAway);
+            fm.AddRule(new FzAND(Distance_Far, Seight_Foggy), Player_Is_FarAway);
+
+            fm.AddRule(new FzAND(Distance_Close, Seight_Dusty), Player_Is_ToClose);
+            fm.AddRule(new FzAND(Distance_Medium, Seight_Dusty), Player_Is_PerfectRange);
+            fm.AddRule(new FzAND(Distance_Far, Seight_Dusty), Player_Is_FarAway);
+
+            fm.AddRule(new FzAND(Distance_Close, Seight_Clear), Player_Is_ToClose);
+            fm.AddRule(new FzAND(Distance_Medium, Seight_Clear), Player_Is_PerfectRange);
+            fm.AddRule(new FzAND(Distance_Far, Seight_Clear), Player_Is_PerfectRange);
         }
     }
 }
